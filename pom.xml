@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- project是pom文件的根元素，project下有modelVersion、groupId、artifactId、version、packaging等重要的元素。 -->
+<!-- groupId、artifactId、version三个元素用来定义一个项目的坐标，也就是说，一个maven仓库中，完全相同的一组groupId、artifactId、version，只能有一个项目 -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 模型版本   指定了当前POM模型的版本，对于Maven2及Maven 3来说，它只能是4.0.0-->
+    <modelVersion>4.0.0</modelVersion>
+    <!-- 项目的全球唯一标识符，通常使用全限定的包名区分该项目和其他项目。并且构建时生成的路径也是由此生成，也是打包成jar包路径的依据 如com.mycompany.app生成的相对路径为：/com/mycompany/app -->
+    <!-- 例如com.companyname.project-group，maven打包jar包的路径：/com/companyname/project-group -->
+    <groupId>com.cdxt</groupId>
+    <!-- 项目的唯一ID，通常是工程的名称，一个groupId下面可能多个项目，就是靠artifactId来区分的 -->
+    <artifactId>lis-interface</artifactId>
+    <!-- 项目当前版本，用来区分同一个artifact的不同版本，格式为:主版本.次版本.增量版本-限定版本号 -->
+    <version>0.0.1-SNAPSHOT</version>
+    <!--项目产生的构件类型，包括jar、war、ear、pom等 -->
+    <packaging>war</packaging>
+    <name>lis-interface</name>
+    <description>cdxt lis interface</description>
+    <!--父项目的坐标，坐标包括group ID，artifact ID和version。 -->
+    <!--如果项目中没有规定某个元素的值，那么父项目中的对应值即为项目的默认值 -->
+    <parent>
+        <!--被继承的父项目的全球唯一标识符 -->
+        <groupId>org.springframework.boot</groupId>
+        <!--被继承的父项目的构件标识符 -->
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <!--被继承的父项目的版本 -->
+        <version>2.3.0.RELEASE</version>
+        <!-- 父项目的pom.xml文件的相对路径,默认值是../pom.xml。 -->
+        <!-- 寻找父项目的pom：构建当前项目的地方——relativePath指定的位置——本地仓库——远程仓库 -->
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <mybatis.sp.starter.version>2.1.2</mybatis.sp.starter.version>
+        <cxf.verson>3.3.6</cxf.verson>
+        <mybatis-generator-core.version>1.3.5</mybatis-generator-core.version>
+        <orcale.version>11.2.0.3</orcale.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--mybatis-->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.sp.starter.version}</version>
+        </dependency>
+
+        <!--cxf webservice jar start-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>${cxf.verson}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf.verson}</version>
+        </dependency>
+        <!--cxf webservice jar end-->
+
+        <!-- JDBC连接数据库，因为要用HikariCP，所以需要将SpringBoot中的tomcat-jdbc排除 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.tomcat</groupId>
+                    <artifactId>tomcat-jdbc</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- oracle驱动包 -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${orcale.version}</version>
+        </dependency>
+        <!-- mysql 驱动包 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.22</version>
+        </dependency>
+
+        <!--生成实体和mapper文件-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>${mybatis-generator-core.version}</version>
+        </dependency>
+
+
+        <!-- dom4j处理xml -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/jaxen/jaxen xpath解析的时候需要引入 jaxen包 否则会报错 java.lang.NoClassDefFoundError: org/jaxen/JaxenException-->
+        <dependency>
+            <groupId>jaxen</groupId>
+            <artifactId>jaxen</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream 支持xml转bean -->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.12</version>
+        </dependency>
+
+
+        <!-- axis 1.4 jar start -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.3</version><!--$NO-MVN-MAN-VER$-->
+        </dependency>
+        <!-- axis 1.4 jar end -->
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--cdxtLisServer需要的jar  start-->
+        <dependency>
+            <groupId>cdxtLisServer</groupId>
+            <artifactId>cdxtLisServer</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/cdxtLisServer.jar</systemPath>
+        </dependency>
+        <!--对了调用lisService需要的版本-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>3.6.6.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>3.7.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--cdxtLisServer需要的jar  end-->
+    </dependencies>
+
+    <!--使用maven打包  ，构建项目需要的信息-->
+    <build>
+        <finalName>lis-interface</finalName>
+        <plugins>
+            <!-- 编译插件 -->
+            <!-- maven 项目是通过 maven-compiler-plugin 插件来对 Java 代码编译的 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.cdxt.inter.LisInterfaceApplication</mainClass>
+                    <layout>WAR</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--设置maven-war-plugins插件，否则外部依赖无法打进war包-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <webResources>
+                        <resource>
+                            <directory>lib</directory>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                            <includes>
+                                <include>**/*.jar</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <!-- mybatis generator 自动生成代码插件 -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <configuration>
+                    <!--配置文件的位置-->
+                    <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+                    <overwrite>true</overwrite>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                    <include>**/*.properties</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>
