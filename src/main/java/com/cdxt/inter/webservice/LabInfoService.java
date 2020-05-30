@@ -25,8 +25,8 @@ public interface LabInfoService {
      * @Param applicationXml:  申请单xml
      * @date: 2020/5/21 14:46
      */
-    @WebMethod(operationName = "LISLabInfoServer")
-    public String InspectionRequisitionRelated(@WebParam(name = "RequisitionXml") String applicationXml);
+    @WebMethod(operationName = "InspectionRequisition")
+    public String InspectionRequisitionRelated(@WebParam(name = "requisitionXml") String applicationXml);
 
     /**
      * @return:  java.lang.String
@@ -36,6 +36,6 @@ public interface LabInfoService {
      * @Param message:  消息体
      * @date: 2020/5/26 17:09
      */
-    @WebMethod(operationName = "LISHL7V3Server")
+    @WebMethod(operationName = "Specimen")
     public String SpecimenRelated(@WebParam(name = "action") String action, @WebParam(name = "message") String message);
 }

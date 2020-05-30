@@ -1,6 +1,7 @@
 package com.cdxt.inter.dao.chongqing;
 
 import com.cdxt.inter.entity.LisExchangePatientInfo;
+import org.apache.ibatis.annotations.Param;
 
 public interface LisExchangePatientInfoMapper {
     int deleteByPrimaryKey(String id);
@@ -14,4 +15,8 @@ public interface LisExchangePatientInfoMapper {
     int updateByPrimaryKeySelective(LisExchangePatientInfo record);
 
     int updateByPrimaryKey(LisExchangePatientInfo record);
+
+    LisExchangePatientInfo selectByPatientId(@Param("patientId") String barcode);
+
+    Integer cancelByPatientId(@Param("patientId") String patientId);
 }

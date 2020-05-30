@@ -1,7 +1,7 @@
 package com.cdxt.inter.webservice.impl;
 
+import com.cdxt.inter.service.LisRequisitionRelatedService;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
-import com.cdxt.inter.util.Dom4jUtil;
 import com.cdxt.inter.util.InvokeWebserviceUtil;
 import com.cdxt.inter.util.XStreamXmlUtil;
 import com.cdxt.inter.webservice.LabInfoService;
@@ -56,6 +56,8 @@ public class LabInfoServiceImpl implements LabInfoService {
 
     @Autowired
     private LisSpecimenRelatedService lisSpecimenRelatedService;
+    @Autowired
+    private LisRequisitionRelatedService lisRequisitionRelatedService;
 
     /**
      * @return: java.lang.String
@@ -66,7 +68,7 @@ public class LabInfoServiceImpl implements LabInfoService {
      */
     @Override
     public String InspectionRequisitionRelated(String applicationXml) {
-        return "这是检验申请单相关接口";
+        return lisRequisitionRelatedService.saveOrUpdateRequisition(applicationXml);
     }
 
     /**
@@ -80,23 +82,23 @@ public class LabInfoServiceImpl implements LabInfoService {
     @Override
     public String SpecimenRelated(String action, String message) {
         LisRequestionXml xml = XStreamXmlUtil.fromXml2Bean(LisRequestionXml.class, message);
-        Map<String,String> paramMap = new HashMap<>();
+        Map<String, String> paramMap = new HashMap<>();
         String paramXml = "";
         if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆
             switch (action) {
-                case WsConst.ACTION_SAMPLE_RECEIVE :
+                case WsConst.ACTION_SAMPLE_RECEIVE:
                     paramXml = lisSpecimenRelatedService.sampleReceive(xml);
                     dealWsdlUrl(WsConst.ACTION_SAMPLE_RECEIVE);
                     break;
-                case WsConst.ACTION_SAMPLE_REFUSE :
+                case WsConst.ACTION_SAMPLE_REFUSE:
                     paramXml = lisSpecimenRelatedService.sampleRefuse(xml);
                     dealWsdlUrl(WsConst.ACTION_SAMPLE_REFUSE);
                     break;
-                case WsConst.ACTION_SEND_REPORT :
+                case WsConst.ACTION_SEND_REPORT:
                     paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
                     dealWsdlUrl(WsConst.ACTION_SEND_REPORT);
                     break;
-                case WsConst.ACTION_UPDATE_APPLICATION_STATE :
+                case WsConst.ACTION_UPDATE_APPLICATION_STATE:
                     paramXml = lisSpecimenRelatedService.updateInspectionState(xml);
                     dealWsdlUrl(WsConst.ACTION_UPDATE_APPLICATION_STATE);
                     break;
@@ -106,7 +108,7 @@ public class LabInfoServiceImpl implements LabInfoService {
             paramMap.put(JH_PARAMITER_NAME, paramXml);
             return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_CQ, paramMap);
         } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) {//自贡大安
-            if(action.equals(WsConst.ACTION_SEND_REPORT)){
+            if (action.equals(WsConst.ACTION_SEND_REPORT)) {
                 paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
                 paramMap.put(JH_PARAMITER_NAME, paramXml);
                 return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_ZG, paramMap);
@@ -119,7 +121,7 @@ public class LabInfoServiceImpl implements LabInfoService {
     }
 
     /**
-     * @return:  void
+     * @return: void
      * @author: tangxiaohui
      * @description: 重庆渝北区 接口要加 操作后缀
      * @Param action:  操作 审核，标本接拒收，发报告...

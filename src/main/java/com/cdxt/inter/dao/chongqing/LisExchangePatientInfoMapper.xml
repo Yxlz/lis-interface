@@ -2,90 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cdxt.inter.dao.chongqing.LisExchangePatientInfoMapper">
   <resultMap id="BaseResultMap" type="com.cdxt.inter.entity.LisExchangePatientInfo">
-    <constructor>
-      <idArg column="ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="HOSPITAL_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="HOSPITAL_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PERSON_INFO_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="BED_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_JZBS" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_AGE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DOCTOR_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DOCTOR_NAME_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_SEX" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_AGE_UNIT" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SECTION_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SECTION_NAME_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="REQ_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="PATIENT_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="TOTAL_CHARGE" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
-      <arg column="INSPEC_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="ID_CARD_NUM" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="P_DIAGNOSIS" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="P_DIAGNOSIS_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="ADDRESS" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PHONE_NUM" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="CONTAINER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="EXECUTE_SECTION" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="CREATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="PATIENT_ID_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="TEMP_REQ_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="TEMP_REQ_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="UPLOAD_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="UPLOAD_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="RECEIVE_HOSPITAL_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="RECEIVE_HOSPITAL_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PEIS_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="BIRDTHDAY" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="CREATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="TEMP_REQ_CODE_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="CANCELLED" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DEPT_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DOWN_LOAD_REPORT_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DOWN_LOAD_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="SEND_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="REPORT_FLAG" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="IS_MERGE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PRINT_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="PRINT_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="HIS_PATIENT_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="STATUS" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="HEALTH_CARD_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="REQUEST_NO" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="REQUEST_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="REQUEST_TEXT" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="EFFECTIVE_LOW" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="EFFECTIVE_HIGH" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="REQUEST_STATUS" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="INSERT_TIME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="RECEIVE_DOC" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="OPC_REGISTRATION_NO" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DIAGNOSIS_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DIAGNOSIS_TYPE_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="BED_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="ROOM_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="ROOM_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="DEPT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_WARD_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PATIENT_WARD_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="INSPEC_NAME_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_COLLECT_METHOD_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_COLLECT_METHOD" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_COLLECT_PART_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="SAMPLE_COLLECT_PART" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PRIORITYCODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="PRIORITYNAME" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="MEDICAL_ORDER_FREQUENCY_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="MEDICAL_ORDER_FREQUENCY" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="EH_CARD_NUM" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="VISIT_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR" />
-    </constructor>
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="HOSPITAL_ID" jdbcType="VARCHAR" property="hospitalId" />
+    <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName" />
+    <result column="PERSON_INFO_ID" jdbcType="VARCHAR" property="personInfoId" />
+    <result column="BED_CODE" jdbcType="VARCHAR" property="bedCode" />
+    <result column="PATIENT_TYPE" jdbcType="VARCHAR" property="patientType" />
+    <result column="PATIENT_JZBS" jdbcType="VARCHAR" property="patientJzbs" />
+    <result column="PATIENT_AGE" jdbcType="VARCHAR" property="patientAge" />
+    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+    <result column="DOCTOR_NAME" jdbcType="VARCHAR" property="doctorName" />
+    <result column="DOCTOR_NAME_ID" jdbcType="VARCHAR" property="doctorNameId" />
+    <result column="PATIENT_SEX" jdbcType="VARCHAR" property="patientSex" />
+    <result column="PATIENT_CODE" jdbcType="VARCHAR" property="patientCode" />
+    <result column="PATIENT_AGE_UNIT" jdbcType="VARCHAR" property="patientAgeUnit" />
+    <result column="SECTION_NAME" jdbcType="VARCHAR" property="sectionName" />
+    <result column="SECTION_NAME_ID" jdbcType="VARCHAR" property="sectionNameId" />
+    <result column="REQ_DATE" jdbcType="TIMESTAMP" property="reqDate" />
+    <result column="PATIENT_ID" jdbcType="VARCHAR" property="patientId" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="TOTAL_CHARGE" jdbcType="DECIMAL" property="totalCharge" />
+    <result column="INSPEC_NAME" jdbcType="VARCHAR" property="inspecName" />
+    <result column="ID_CARD_NUM" jdbcType="VARCHAR" property="idCardNum" />
+    <result column="P_DIAGNOSIS" jdbcType="VARCHAR" property="pDiagnosis" />
+    <result column="P_DIAGNOSIS_ID" jdbcType="VARCHAR" property="pDiagnosisId" />
+    <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+    <result column="PHONE_NUM" jdbcType="VARCHAR" property="phoneNum" />
+    <result column="CONTAINER" jdbcType="VARCHAR" property="container" />
+    <result column="EXECUTE_SECTION" jdbcType="VARCHAR" property="executeSection" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="PATIENT_ID_TYPE" jdbcType="VARCHAR" property="patientIdType" />
+    <result column="TEMP_REQ_CODE" jdbcType="VARCHAR" property="tempReqCode" />
+    <result column="TEMP_REQ_NAME" jdbcType="VARCHAR" property="tempReqName" />
+    <result column="UPLOAD_DATE" jdbcType="TIMESTAMP" property="uploadDate" />
+    <result column="UPLOAD_FLAG" jdbcType="VARCHAR" property="uploadFlag" />
+    <result column="RECEIVE_HOSPITAL_ID" jdbcType="VARCHAR" property="receiveHospitalId" />
+    <result column="RECEIVE_HOSPITAL_NAME" jdbcType="VARCHAR" property="receiveHospitalName" />
+    <result column="PEIS_FLAG" jdbcType="VARCHAR" property="peisFlag" />
+    <result column="BIRDTHDAY" jdbcType="VARCHAR" property="birdthday" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="TEMP_REQ_CODE_TYPE" jdbcType="VARCHAR" property="tempReqCodeType" />
+    <result column="CANCELLED" jdbcType="VARCHAR" property="cancelled" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="DOWN_LOAD_REPORT_ID" jdbcType="VARCHAR" property="downLoadReportId" />
+    <result column="DOWN_LOAD_DATE" jdbcType="TIMESTAMP" property="downLoadDate" />
+    <result column="SEND_DATE" jdbcType="TIMESTAMP" property="sendDate" />
+    <result column="REPORT_FLAG" jdbcType="VARCHAR" property="reportFlag" />
+    <result column="IS_MERGE" jdbcType="VARCHAR" property="isMerge" />
+    <result column="PRINT_DATE" jdbcType="TIMESTAMP" property="printDate" />
+    <result column="PRINT_USER" jdbcType="VARCHAR" property="printUser" />
+    <result column="HIS_PATIENT_ID" jdbcType="VARCHAR" property="hisPatientId" />
+    <result column="HIS_PATIENT_CODE" jdbcType="VARCHAR" property="hisPatientCode" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="REQUEST_NO" jdbcType="VARCHAR" property="requestNo" />
+    <result column="HEALTH_CARD_NUMBER" jdbcType="VARCHAR" property="healthCardNumber" />
+    <result column="REQUEST_TEXT" jdbcType="VARCHAR" property="requestText" />
+    <result column="EFFECTIVE_LOW" jdbcType="VARCHAR" property="effectiveLow" />
+    <result column="EFFECTIVE_HIGH" jdbcType="VARCHAR" property="effectiveHigh" />
+    <result column="REQUEST_STATUS" jdbcType="VARCHAR" property="requestStatus" />
+    <result column="INSERT_TIME" jdbcType="VARCHAR" property="insertTime" />
+    <result column="RECEIVE_DOC" jdbcType="VARCHAR" property="receiveDoc" />
+    <result column="OPC_REGISTRATION_NO" jdbcType="VARCHAR" property="opcRegistrationNo" />
+    <result column="EH_CARD_NUM" jdbcType="VARCHAR" property="ehCardNum" />
+    <result column="REQUEST_CODE" jdbcType="VARCHAR" property="requestCode" />
+    <result column="DIAGNOSIS_TYPE" jdbcType="VARCHAR" property="diagnosisType" />
+    <result column="DIAGNOSIS_TYPE_ID" jdbcType="VARCHAR" property="diagnosisTypeId" />
+    <result column="SAMPLE_CODE" jdbcType="VARCHAR" property="sampleCode" />
+    <result column="BED_NUMBER" jdbcType="VARCHAR" property="bedNumber" />
+    <result column="ROOM_CODE" jdbcType="VARCHAR" property="roomCode" />
+    <result column="ROOM_NUMBER" jdbcType="VARCHAR" property="roomNumber" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="PATIENT_WARD_CODE" jdbcType="VARCHAR" property="patientWardCode" />
+    <result column="PATIENT_WARD_NAME" jdbcType="VARCHAR" property="patientWardName" />
+    <result column="INSPEC_NAME_CODE" jdbcType="VARCHAR" property="inspecNameCode" />
+    <result column="SAMPLE_COLLECT_METHOD_CODE" jdbcType="VARCHAR" property="sampleCollectMethodCode" />
+    <result column="SAMPLE_COLLECT_METHOD" jdbcType="VARCHAR" property="sampleCollectMethod" />
+    <result column="SAMPLE_COLLECT_PART_CODE" jdbcType="VARCHAR" property="sampleCollectPartCode" />
+    <result column="SAMPLE_COLLECT_PART" jdbcType="VARCHAR" property="sampleCollectPart" />
+    <result column="PRIORITYCODE" jdbcType="VARCHAR" property="prioritycode" />
+    <result column="PRIORITYNAME" jdbcType="VARCHAR" property="priorityname" />
+    <result column="MEDICAL_ORDER_FREQUENCY_CODE" jdbcType="VARCHAR" property="medicalOrderFrequencyCode" />
+    <result column="MEDICAL_ORDER_FREQUENCY" jdbcType="VARCHAR" property="medicalOrderFrequency" />
+    <result column="VISIT_NUMBER" jdbcType="VARCHAR" property="visitNumber" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, HOSPITAL_ID, HOSPITAL_NAME, PERSON_INFO_ID, BED_CODE, PATIENT_TYPE, PATIENT_JZBS, 
@@ -96,13 +95,24 @@
     UPLOAD_DATE, UPLOAD_FLAG, RECEIVE_HOSPITAL_ID, RECEIVE_HOSPITAL_NAME, PEIS_FLAG, 
     BIRDTHDAY, CREATE_USER, TEMP_REQ_CODE_TYPE, CANCELLED, DEPT_ID, DOWN_LOAD_REPORT_ID, 
     DOWN_LOAD_DATE, SEND_DATE, REPORT_FLAG, IS_MERGE, PRINT_DATE, PRINT_USER, HIS_PATIENT_ID, 
-    STATUS, HEALTH_CARD_NUMBER, REQUEST_NO, REQUEST_CODE, REQUEST_TEXT, EFFECTIVE_LOW, 
-    EFFECTIVE_HIGH, REQUEST_STATUS, INSERT_TIME, RECEIVE_DOC, OPC_REGISTRATION_NO, DIAGNOSIS_TYPE, 
-    DIAGNOSIS_TYPE_ID, SAMPLE_CODE, BED_NUMBER, ROOM_CODE, ROOM_NUMBER, DEPT_NAME, PATIENT_WARD_CODE, 
-    PATIENT_WARD_NAME, INSPEC_NAME_CODE, SAMPLE_COLLECT_METHOD_CODE, SAMPLE_COLLECT_METHOD, 
-    SAMPLE_COLLECT_PART_CODE, SAMPLE_COLLECT_PART, PRIORITYCODE, PRIORITYNAME, MEDICAL_ORDER_FREQUENCY_CODE, 
-    MEDICAL_ORDER_FREQUENCY, EH_CARD_NUM, VISIT_NUMBER
+    HIS_PATIENT_CODE, STATUS, REQUEST_NO, HEALTH_CARD_NUMBER, REQUEST_TEXT, EFFECTIVE_LOW, 
+    EFFECTIVE_HIGH, REQUEST_STATUS, INSERT_TIME, RECEIVE_DOC, OPC_REGISTRATION_NO, EH_CARD_NUM, 
+    REQUEST_CODE, DIAGNOSIS_TYPE, DIAGNOSIS_TYPE_ID, SAMPLE_CODE, BED_NUMBER, ROOM_CODE, 
+    ROOM_NUMBER, DEPT_NAME, PATIENT_WARD_CODE, PATIENT_WARD_NAME, INSPEC_NAME_CODE, SAMPLE_COLLECT_METHOD_CODE, 
+    SAMPLE_COLLECT_METHOD, SAMPLE_COLLECT_PART_CODE, SAMPLE_COLLECT_PART, PRIORITYCODE, 
+    PRIORITYNAME, MEDICAL_ORDER_FREQUENCY_CODE, MEDICAL_ORDER_FREQUENCY, VISIT_NUMBER
   </sql>
+  <update id="cancelByPatientId" parameterType="java.lang.String">
+  	update LIS_EXCHANGE_PATIENT_INFO
+  	set CANCELLED = '1'
+  	where PATIENT_ID = #{patientId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from LIS_EXCHANGE_PATIENT_INFO
+    where PATIENT_ID = #{patientId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -131,18 +141,18 @@
       DEPT_ID, DOWN_LOAD_REPORT_ID, DOWN_LOAD_DATE, 
       SEND_DATE, REPORT_FLAG, IS_MERGE, 
       PRINT_DATE, PRINT_USER, HIS_PATIENT_ID, 
-      STATUS, HEALTH_CARD_NUMBER, REQUEST_NO, 
-      REQUEST_CODE, REQUEST_TEXT, EFFECTIVE_LOW, 
+      HIS_PATIENT_CODE, STATUS, REQUEST_NO, 
+      HEALTH_CARD_NUMBER, REQUEST_TEXT, EFFECTIVE_LOW, 
       EFFECTIVE_HIGH, REQUEST_STATUS, INSERT_TIME, 
-      RECEIVE_DOC, OPC_REGISTRATION_NO, DIAGNOSIS_TYPE, 
-      DIAGNOSIS_TYPE_ID, SAMPLE_CODE, BED_NUMBER, 
-      ROOM_CODE, ROOM_NUMBER, DEPT_NAME, 
-      PATIENT_WARD_CODE, PATIENT_WARD_NAME, INSPEC_NAME_CODE, 
-      SAMPLE_COLLECT_METHOD_CODE, SAMPLE_COLLECT_METHOD, 
-      SAMPLE_COLLECT_PART_CODE, SAMPLE_COLLECT_PART, 
-      PRIORITYCODE, PRIORITYNAME, MEDICAL_ORDER_FREQUENCY_CODE, 
-      MEDICAL_ORDER_FREQUENCY, EH_CARD_NUM, VISIT_NUMBER
-      )
+      RECEIVE_DOC, OPC_REGISTRATION_NO, EH_CARD_NUM, 
+      REQUEST_CODE, DIAGNOSIS_TYPE, DIAGNOSIS_TYPE_ID, 
+      SAMPLE_CODE, BED_NUMBER, ROOM_CODE, 
+      ROOM_NUMBER, DEPT_NAME, PATIENT_WARD_CODE, 
+      PATIENT_WARD_NAME, INSPEC_NAME_CODE, SAMPLE_COLLECT_METHOD_CODE, 
+      SAMPLE_COLLECT_METHOD, SAMPLE_COLLECT_PART_CODE, 
+      SAMPLE_COLLECT_PART, PRIORITYCODE, PRIORITYNAME, 
+      MEDICAL_ORDER_FREQUENCY_CODE, MEDICAL_ORDER_FREQUENCY, 
+      VISIT_NUMBER)
     values (#{id,jdbcType=VARCHAR}, #{hospitalId,jdbcType=VARCHAR}, #{hospitalName,jdbcType=VARCHAR}, 
       #{personInfoId,jdbcType=VARCHAR}, #{bedCode,jdbcType=VARCHAR}, #{patientType,jdbcType=VARCHAR}, 
       #{patientJzbs,jdbcType=VARCHAR}, #{patientAge,jdbcType=VARCHAR}, #{patientName,jdbcType=VARCHAR}, 
@@ -160,18 +170,18 @@
       #{deptId,jdbcType=VARCHAR}, #{downLoadReportId,jdbcType=VARCHAR}, #{downLoadDate,jdbcType=TIMESTAMP}, 
       #{sendDate,jdbcType=TIMESTAMP}, #{reportFlag,jdbcType=VARCHAR}, #{isMerge,jdbcType=VARCHAR}, 
       #{printDate,jdbcType=TIMESTAMP}, #{printUser,jdbcType=VARCHAR}, #{hisPatientId,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{healthCardNumber,jdbcType=VARCHAR}, #{requestNo,jdbcType=VARCHAR}, 
-      #{requestCode,jdbcType=VARCHAR}, #{requestText,jdbcType=VARCHAR}, #{effectiveLow,jdbcType=VARCHAR}, 
+      #{hisPatientCode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{requestNo,jdbcType=VARCHAR}, 
+      #{healthCardNumber,jdbcType=VARCHAR}, #{requestText,jdbcType=VARCHAR}, #{effectiveLow,jdbcType=VARCHAR}, 
       #{effectiveHigh,jdbcType=VARCHAR}, #{requestStatus,jdbcType=VARCHAR}, #{insertTime,jdbcType=VARCHAR}, 
-      #{receiveDoc,jdbcType=VARCHAR}, #{opcRegistrationNo,jdbcType=VARCHAR}, #{diagnosisType,jdbcType=VARCHAR}, 
-      #{diagnosisTypeId,jdbcType=VARCHAR}, #{sampleCode,jdbcType=VARCHAR}, #{bedNumber,jdbcType=VARCHAR}, 
-      #{roomCode,jdbcType=VARCHAR}, #{roomNumber,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
-      #{patientWardCode,jdbcType=VARCHAR}, #{patientWardName,jdbcType=VARCHAR}, #{inspecNameCode,jdbcType=VARCHAR}, 
-      #{sampleCollectMethodCode,jdbcType=VARCHAR}, #{sampleCollectMethod,jdbcType=VARCHAR}, 
-      #{sampleCollectPartCode,jdbcType=VARCHAR}, #{sampleCollectPart,jdbcType=VARCHAR}, 
-      #{prioritycode,jdbcType=VARCHAR}, #{priorityname,jdbcType=VARCHAR}, #{medicalOrderFrequencyCode,jdbcType=VARCHAR}, 
-      #{medicalOrderFrequency,jdbcType=VARCHAR}, #{ehCardNum,jdbcType=VARCHAR}, #{visitNumber,jdbcType=VARCHAR}
-      )
+      #{receiveDoc,jdbcType=VARCHAR}, #{opcRegistrationNo,jdbcType=VARCHAR}, #{ehCardNum,jdbcType=VARCHAR}, 
+      #{requestCode,jdbcType=VARCHAR}, #{diagnosisType,jdbcType=VARCHAR}, #{diagnosisTypeId,jdbcType=VARCHAR}, 
+      #{sampleCode,jdbcType=VARCHAR}, #{bedNumber,jdbcType=VARCHAR}, #{roomCode,jdbcType=VARCHAR}, 
+      #{roomNumber,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{patientWardCode,jdbcType=VARCHAR}, 
+      #{patientWardName,jdbcType=VARCHAR}, #{inspecNameCode,jdbcType=VARCHAR}, #{sampleCollectMethodCode,jdbcType=VARCHAR}, 
+      #{sampleCollectMethod,jdbcType=VARCHAR}, #{sampleCollectPartCode,jdbcType=VARCHAR}, 
+      #{sampleCollectPart,jdbcType=VARCHAR}, #{prioritycode,jdbcType=VARCHAR}, #{priorityname,jdbcType=VARCHAR}, 
+      #{medicalOrderFrequencyCode,jdbcType=VARCHAR}, #{medicalOrderFrequency,jdbcType=VARCHAR}, 
+      #{visitNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.cdxt.inter.entity.LisExchangePatientInfo">
     insert into LIS_EXCHANGE_PATIENT_INFO
@@ -329,17 +339,17 @@
       <if test="hisPatientId != null">
         HIS_PATIENT_ID,
       </if>
+      <if test="hisPatientCode != null">
+        HIS_PATIENT_CODE,
+      </if>
       <if test="status != null">
         STATUS,
-      </if>
-      <if test="healthCardNumber != null">
-        HEALTH_CARD_NUMBER,
       </if>
       <if test="requestNo != null">
         REQUEST_NO,
       </if>
-      <if test="requestCode != null">
-        REQUEST_CODE,
+      <if test="healthCardNumber != null">
+        HEALTH_CARD_NUMBER,
       </if>
       <if test="requestText != null">
         REQUEST_TEXT,
@@ -361,6 +371,12 @@
       </if>
       <if test="opcRegistrationNo != null">
         OPC_REGISTRATION_NO,
+      </if>
+      <if test="ehCardNum != null">
+        EH_CARD_NUM,
+      </if>
+      <if test="requestCode != null">
+        REQUEST_CODE,
       </if>
       <if test="diagnosisType != null">
         DIAGNOSIS_TYPE,
@@ -415,9 +431,6 @@
       </if>
       <if test="medicalOrderFrequency != null">
         MEDICAL_ORDER_FREQUENCY,
-      </if>
-      <if test="ehCardNum != null">
-        EH_CARD_NUM,
       </if>
       <if test="visitNumber != null">
         VISIT_NUMBER,
@@ -577,17 +590,17 @@
       <if test="hisPatientId != null">
         #{hisPatientId,jdbcType=VARCHAR},
       </if>
+      <if test="hisPatientCode != null">
+        #{hisPatientCode,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="healthCardNumber != null">
-        #{healthCardNumber,jdbcType=VARCHAR},
       </if>
       <if test="requestNo != null">
         #{requestNo,jdbcType=VARCHAR},
       </if>
-      <if test="requestCode != null">
-        #{requestCode,jdbcType=VARCHAR},
+      <if test="healthCardNumber != null">
+        #{healthCardNumber,jdbcType=VARCHAR},
       </if>
       <if test="requestText != null">
         #{requestText,jdbcType=VARCHAR},
@@ -609,6 +622,12 @@
       </if>
       <if test="opcRegistrationNo != null">
         #{opcRegistrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ehCardNum != null">
+        #{ehCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="requestCode != null">
+        #{requestCode,jdbcType=VARCHAR},
       </if>
       <if test="diagnosisType != null">
         #{diagnosisType,jdbcType=VARCHAR},
@@ -663,9 +682,6 @@
       </if>
       <if test="medicalOrderFrequency != null">
         #{medicalOrderFrequency,jdbcType=VARCHAR},
-      </if>
-      <if test="ehCardNum != null">
-        #{ehCardNum,jdbcType=VARCHAR},
       </if>
       <if test="visitNumber != null">
         #{visitNumber,jdbcType=VARCHAR},
@@ -825,17 +841,17 @@
       <if test="hisPatientId != null">
         HIS_PATIENT_ID = #{hisPatientId,jdbcType=VARCHAR},
       </if>
+      <if test="hisPatientCode != null">
+        HIS_PATIENT_CODE = #{hisPatientCode,jdbcType=VARCHAR},
+      </if>
       <if test="status != null">
         STATUS = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="healthCardNumber != null">
-        HEALTH_CARD_NUMBER = #{healthCardNumber,jdbcType=VARCHAR},
       </if>
       <if test="requestNo != null">
         REQUEST_NO = #{requestNo,jdbcType=VARCHAR},
       </if>
-      <if test="requestCode != null">
-        REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
+      <if test="healthCardNumber != null">
+        HEALTH_CARD_NUMBER = #{healthCardNumber,jdbcType=VARCHAR},
       </if>
       <if test="requestText != null">
         REQUEST_TEXT = #{requestText,jdbcType=VARCHAR},
@@ -857,6 +873,12 @@
       </if>
       <if test="opcRegistrationNo != null">
         OPC_REGISTRATION_NO = #{opcRegistrationNo,jdbcType=VARCHAR},
+      </if>
+      <if test="ehCardNum != null">
+        EH_CARD_NUM = #{ehCardNum,jdbcType=VARCHAR},
+      </if>
+      <if test="requestCode != null">
+        REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
       </if>
       <if test="diagnosisType != null">
         DIAGNOSIS_TYPE = #{diagnosisType,jdbcType=VARCHAR},
@@ -911,9 +933,6 @@
       </if>
       <if test="medicalOrderFrequency != null">
         MEDICAL_ORDER_FREQUENCY = #{medicalOrderFrequency,jdbcType=VARCHAR},
-      </if>
-      <if test="ehCardNum != null">
-        EH_CARD_NUM = #{ehCardNum,jdbcType=VARCHAR},
       </if>
       <if test="visitNumber != null">
         VISIT_NUMBER = #{visitNumber,jdbcType=VARCHAR},
@@ -973,10 +992,10 @@
       PRINT_DATE = #{printDate,jdbcType=TIMESTAMP},
       PRINT_USER = #{printUser,jdbcType=VARCHAR},
       HIS_PATIENT_ID = #{hisPatientId,jdbcType=VARCHAR},
+      HIS_PATIENT_CODE = #{hisPatientCode,jdbcType=VARCHAR},
       STATUS = #{status,jdbcType=VARCHAR},
-      HEALTH_CARD_NUMBER = #{healthCardNumber,jdbcType=VARCHAR},
       REQUEST_NO = #{requestNo,jdbcType=VARCHAR},
-      REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
+      HEALTH_CARD_NUMBER = #{healthCardNumber,jdbcType=VARCHAR},
       REQUEST_TEXT = #{requestText,jdbcType=VARCHAR},
       EFFECTIVE_LOW = #{effectiveLow,jdbcType=VARCHAR},
       EFFECTIVE_HIGH = #{effectiveHigh,jdbcType=VARCHAR},
@@ -984,6 +1003,8 @@
       INSERT_TIME = #{insertTime,jdbcType=VARCHAR},
       RECEIVE_DOC = #{receiveDoc,jdbcType=VARCHAR},
       OPC_REGISTRATION_NO = #{opcRegistrationNo,jdbcType=VARCHAR},
+      EH_CARD_NUM = #{ehCardNum,jdbcType=VARCHAR},
+      REQUEST_CODE = #{requestCode,jdbcType=VARCHAR},
       DIAGNOSIS_TYPE = #{diagnosisType,jdbcType=VARCHAR},
       DIAGNOSIS_TYPE_ID = #{diagnosisTypeId,jdbcType=VARCHAR},
       SAMPLE_CODE = #{sampleCode,jdbcType=VARCHAR},
@@ -1002,7 +1023,6 @@
       PRIORITYNAME = #{priorityname,jdbcType=VARCHAR},
       MEDICAL_ORDER_FREQUENCY_CODE = #{medicalOrderFrequencyCode,jdbcType=VARCHAR},
       MEDICAL_ORDER_FREQUENCY = #{medicalOrderFrequency,jdbcType=VARCHAR},
-      EH_CARD_NUM = #{ehCardNum,jdbcType=VARCHAR},
       VISIT_NUMBER = #{visitNumber,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
