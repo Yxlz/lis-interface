@@ -52,17 +52,19 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
         try {
             /*解析XML  开始---------------------------------------*/
             Document doc = Hl7xml2Bean.parseXml2Document(reqXml);
-            XmlMessage<InspecRequisitionInfo> mainInfo = (XmlMessage<InspecRequisitionInfo>) Hl7xml2Bean.parseXml(doc.getRootElement(), XmlMessage.class, false);
+            XmlMessage<InspecRequisitionInfo> mainInfo;
+            mainInfo = (XmlMessage<InspecRequisitionInfo>) Hl7xml2Bean.parseXml(doc.getRootElement(), XmlMessage.class, false);
             InspecRequisitionInfo reqInfo = (InspecRequisitionInfo) Hl7xml2Bean.parseXml_controlActProcess(doc.getRootElement(), InspecRequisitionInfo.class);
             mainInfo.setSubject(reqInfo);
             /*解析XML  结束---------------------------------------*/
 
+            assert reqInfo != null;
             String barcode = reqInfo.getBarCode();//条码号
             String serviceCode = mainInfo.getServiceCode();//服务事件
             LisExchangePatientInfo patientInfo = lisExchangePatientInfoMapper.selectByPatientId(barcode);
             if (serviceCode.equals("JH0206")) {// 新增更新申請單
+                CheckResult result = checkExchangePatientInfo(reqInfo);
                 if (patientInfo != null) { //更新
-                    CheckResult result = checkExchangePatientInfo(reqInfo);
                     if (result.isFlag()) {
                         saveOrUpdateExchangePatientInfo(mainInfo, patientInfo);
                         return responseXml(mainInfo, "AA", "成功");
@@ -70,9 +72,8 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
                         return responseXml(mainInfo, "AE", result.getResultMsg());
                     }
                 } else {// 新增
-                    CheckResult result = checkExchangePatientInfo(reqInfo);
                     if (result.isFlag()) {
-                        saveOrUpdateExchangePatientInfo(mainInfo, patientInfo);
+                        saveOrUpdateExchangePatientInfo(mainInfo, null);
                         log.info("保存嘉和平台申請單數據成功！");
                         return responseXml(mainInfo, "AA", "成功");
                     } else {
@@ -269,14 +270,12 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
         patient.setCancelled("0");
         if (isInsert) {
             lisExchangePatientInfoMapper.insertSelective(patient);
-            patient.setTotalCharge(insertPatientItems(patient, info, itemInfos, item));
-            lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
         } else {
             lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
             lisExchangePatientItemMapper.deleteByPatientId(patient.getId());
-            patient.setTotalCharge(insertPatientItems(patient, info, itemInfos, item));
-            lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
         }
+        patient.setTotalCharge(insertPatientItems(patient, info, itemInfos, item));
+        lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
     }
 
     /**
@@ -291,19 +290,19 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
     private BigDecimal insertPatientItems(LisExchangePatientInfo patient, InspecRequisitionInfo info, List<RequisitionItemInfo> items, LisExchangePatientItem item) {
         BigDecimal tbd = new BigDecimal("0.00");
         // 检验项目信息 循环
-        for (int i = 0; i < items.size(); i++) {
+        for (RequisitionItemInfo requisitionItemInfo : items) {
             //获取id
             item.setId(UUIDGenerator.getUUID());
             //申请单号
             item.setReqOrderNo(info.getReqNo() == null ? "" : info.getReqNo());
             //项目编码
-            item.setReqItemNo(items.get(i).getLabCode() == null ? "" : items.get(i).getLabCode());
+            item.setReqItemNo(requisitionItemInfo.getLabCode() == null ? "" : requisitionItemInfo.getLabCode());
             //项目英文名称
-            item.setReqItemName(items.get(i).getLabName() == null ? "" : items.get(i).getLabName());
+            item.setReqItemName(requisitionItemInfo.getLabName() == null ? "" : requisitionItemInfo.getLabName());
             //项目中文名称
-            item.setReqItemCname(items.get(i).getLabName() == null ? "" : items.get(i).getLabName());
+            item.setReqItemCname(requisitionItemInfo.getLabName() == null ? "" : requisitionItemInfo.getLabName());
             // REQ_ITEM_FEE;//项目价格
-            BigDecimal bd = new BigDecimal(items.get(i).getCost() == null ? "0" : items.get(i).getCost());
+            BigDecimal bd = new BigDecimal(requisitionItemInfo.getCost() == null ? "0" : requisitionItemInfo.getCost());
             tbd = tbd.add(bd);
             //设置小数位数，第一个变量是小数位数，第二个变量是取舍方法(四舍五入)
             bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -313,15 +312,15 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
             //病人ID
             item.setPatientId(patient.getId());
             //执行科室
-            item.setExecuteSection(items.get(i).getExecDeptName());
+            item.setExecuteSection(requisitionItemInfo.getExecDeptName());
             //执行科室ID
-            item.setExecuteSectionId(items.get(i).getExecDeptId());
+            item.setExecuteSectionId(requisitionItemInfo.getExecDeptId());
             //医嘱ID
-            item.setOrderId(items.get(i).getOrdersId());
+            item.setOrderId(requisitionItemInfo.getOrdersId());
             // 检验方法名称
-            item.setMethodName(items.get(i).getMethodName() == null ? "" : items.get(i).getMethodName());
+            item.setMethodName(requisitionItemInfo.getMethodName() == null ? "" : requisitionItemInfo.getMethodName());
             // 检验方法名称编码
-            item.setMethodeCode(items.get(i).getMethodCode() == null ? "" : items.get(i).getMethodCode());
+            item.setMethodeCode(requisitionItemInfo.getMethodCode() == null ? "" : requisitionItemInfo.getMethodCode());
             lisExchangePatientItemMapper.insert(item);
         }
         return tbd.setScale(2, BigDecimal.ROUND_HALF_UP);
