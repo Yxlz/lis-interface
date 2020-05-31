@@ -1,8 +1,19 @@
 package com.cdxt.inter.service.impl;
 
+import com.cdxt.inter.constants.DocConstants;
+import com.cdxt.inter.model.XmlMessage;
+import com.cdxt.inter.model.docbody.InspectionState;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
+import com.cdxt.inter.util.DateUtil;
+import com.cdxt.inter.util.UUIDGenerator;
+import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
 import com.cdxt.inter.webservice.params.LisRequestionXml;
+import lombok.extern.slf4j.Slf4j;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * @Description: TODO
@@ -12,6 +23,7 @@ import org.springframework.stereotype.Service;
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
+@Slf4j
 @Service
 public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService {
     /**
@@ -60,7 +72,38 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      * @date: 2020/5/27 14:40
      */
     @Override
-    public String updateInspectionState(LisRequestionXml message) {
-        return null;
+    public String updateInspectionState(LisRequestionXml requestionXml) {
+        XmlMessage<InspectionState> message = new XmlMessage<>();
+        message.setMessageId(UUIDGenerator.getUUID());
+        message.setCreationTime(new Date());
+        InspectionState inspecState = new InspectionState();
+        inspecState.setBarcode("12121212121");
+        inspecState.setHealthCareCardNo("123123123");
+        inspecState.setIdNumber("513029199009244594");
+        inspecState.setOperationTime(DateUtil.formatDate(new Date(), DocConstants.DOC_DATE_FORMATTER));
+        inspecState.setOperatorDeptCode("9527");
+        inspecState.setOperatorDeptName("医学检验科");
+        inspecState.setOperatorJobNumber("9528");
+        inspecState.setOperatorName("小灰灰");
+        inspecState.setPatientBirthday("19900924");
+        inspecState.setPatientName("张三");
+        inspecState.setPatientSexCode("1");
+        inspecState.setPatientSexStr("男");
+        inspecState.setPersonInfoId("9999999999999999");
+        inspecState.setReqDescription("不举");
+        inspecState.setReqNo("7410852963");
+        inspecState.setSampleCode("2222");
+        inspecState.setSampleName("尿液");
+        inspecState.setSampleStateCode("4");
+        inspecState.setSampleStateStr("标本接收");
+        try {
+            Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionState.xml");
+            Element element = Hl7bean2Xml.convertBean(message, doc.getRootElement(), true);
+            log.info(element.asXML());
+            return element.asXML();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

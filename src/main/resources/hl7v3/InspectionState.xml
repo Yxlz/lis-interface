@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<POLB_IN224000UV01 ITSVersion="XML_1.0" xmlns="urn:hl7-org:v3"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="urn:hl7-org:v3 ../multicacheschemas/POLB_IN224000UV01.xsd">
+    <!-- 消息ID 固定值为;解析时，消费系统根据消息ID判断消息的消息类型。 -->
+    <id root="2.16.156.10011.0" extension=" "/>
+    <!-- 消息创建时间 -->
+    <creationTime value="20150701000000"/>
+    <!-- 服务标识,extension为唯一事件编码，区分服务事件 -->
+    <interactionId root="" extension="JH0411"/>
+    <!-- 消息用途: 取值可以为以下列出值中任意一个,正式使用时设置为"P" P(Production); D(Debugging); T(Training) -->
+    <processingCode code="P"/>
+    <!-- 消息处理模式: 取值可以为以下列出值中任意一个，正式使用时设置为"T" A(Archive);I(Initial load); R(Restore
+        from archive); T(Current processing) -->
+    <processingModeCode code="R"/>
+    <!-- 消息应答: AL(Always); ER(Error/reject only); NE(Never) -->
+    <acceptAckCode code="AL"/>
+    <!-- 接受者 -->
+    <receiver typeCode="RCV">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!-- 接收者ID -->
+            <id>
+                <item root="2.16.156.10011.0.1.1" extension=" "/>
+            </id>
+        </device>
+    </receiver>
+    <!-- 发送者 -->
+    <sender typeCode="SND">
+        <device classCode="DEV" determinerCode="INSTANCE">
+            <!--发送者ID -->
+            <id>
+                <item root="2.16.156.10011.0.1.2" extension=" "/>
+            </id>
+        </device>
+    </sender>
+    <controlActProcess classCode="CACT" moodCode="EVN">
+        <subject typeCode="SUBJ" contextConductionInd="false">
+            <observationReport classCode="GROUPER" moodCode="EVN">
+                <id>
+                    <!--电子申请单编号@extension -->
+                    <item root="2.16.156.10011.1.24" extension="@8741795311"/>
+                </id>
+                <code/>
+                <!--申请单描述 -->
+                <text value="申请单描述"/>
+                <!--申请单状态 -->
+                <statusCode code="active"/>
+                <!--优先级别 -->
+                <priorityCode/>
+                <specimen typeCode="SPC" contextControlCode="OP">
+                    <specimen classCode="SPEC">
+                        <!--标本ID/或者条码ID@extension -->
+                        <id root="2.16.156.10011.1.14" extension="@8741795311"/>
+                        <!--标本类别代码 -->
+                        <code code="1">
+                            <displayName value="标本类别名称"/>
+                        </code>
+                        <subjectOf1 typeCode="SBJ">
+                            <specimenProcessStep classCode="PROC"
+                                                 moodCode="EVN">
+                                <!--检验操作 -->
+                                <verifier typeCode="AUTHEN">
+                                    <!--操作日期时间 -->
+                                    <time xsi:type="TS" value="20170102070000"/>
+                                    <!--操作代码和名称：标本采集、标本接收、报告已 打印、报告已删除 -->
+                                    <modeCode code="标本拒收代码">
+                                        <displayName value="标本拒收"/>
+                                        <originalText value="拒收原因描述"/>
+                                    </modeCode>
+                                    <assignedEntity classCode="ASSIGNED">
+                                        <!--操作者代码@extension -->
+                                        <id>
+                                            <item root="2.16.156.10011.1.4" extension="@员工号"/>
+                                        </id>
+                                        <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                                            <!--操作者姓名 -->
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <part value="李护士"/>
+                                                </item>
+                                            </name>
+                                        </assignedPerson>
+                                        <!--操作科室 -->
+                                        <representedOrganization classCode="ORG"
+                                                                 determinerCode="INSTANCE">
+                                            <id>
+                                                <!-- 科室编码@extension -->
+                                                <item root="2.16.156.10011.1.26" extension="科室ID"/>
+                                            </id>
+                                            <name xsi:type="BAG_EN">
+                                                <item>
+                                                    <!-- 科室名称 -->
+                                                    <part value="检验科科"/>
+                                                </item>
+                                            </name>
+                                        </representedOrganization>
+                                    </assignedEntity>
+                                </verifier>
+                            </specimenProcessStep>
+                        </subjectOf1>
+                    </specimen>
+                </specimen>
+                <!--记录对象 -->
+                <recordTarget typeCode="RCT" contextControlCode="OP">
+                    <patient classCode="PAT">
+                        <!--患者编号ID@extension -->
+                        <id>
+                            <item root="2.16.156.10011.0.2.2" extension="111"/>
+                        </id>
+                        <statusCode code="active"/>
+                        <patientPerson classCode="PSN" determinerCode="INSTANCE">
+                            <id>
+                                <!--身份证号@extension -->
+                                <item root="2.16.156.10011.1.3" extension="111"/>
+                                <!-- 医保卡号@extension -->
+                                <item root="2.16.156.10011.1.15" extension="191284777494877"/>
+                            </id>
+                            <!--患者姓名 -->
+                            <name xsi:type="LIST_EN">
+                                <item>
+                                    <part value="@患者姓名"/>
+                                </item>
+                            </name>
+                            <!--性别代码@code及描述 -->
+                            <administrativeGenderCode code="1"
+                                                      codeSystem="2.16.156.10011.2.3.3.4"
+                                                      codeSystemName="生理性别代码表（GB/T 2261.1）">
+                                <displayName value="男性"/>
+                            </administrativeGenderCode>
+                            <!--出生日期 -->
+                            <birthTime value="19900120"/>
+                        </patientPerson>
+                    </patient>
+                </recordTarget>
+            </observationReport>
+        </subject>
+    </controlActProcess>
+</POLB_IN224000UV01>

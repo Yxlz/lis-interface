@@ -21,37 +21,17 @@ public class DocConstants {
 	/**
 	 * 存放服务请求代码 key：文档服务代码 value：服务请求根节点名称
 	 */
-	public static final Map<String, String> DOC_REQ_MAP = new HashMap<String, String>();
+	public static final Map<String, String> DOC_REQ_MAP = new HashMap<>();
 
 	/**
 	 * 存放服务返回代码 key：文档服务代码 value：服务返回根节名称
 	 */
-	public static final Map<String, String> DOC_RES_MAP = new HashMap<String, String>();
+	public static final Map<String, String> DOC_RES_MAP = new HashMap<>();
 
 	/**
 	 * 配置部分服务的异常返回根节点名称
 	 */
-	public static final Map<String, String> FAIL_RES_MAP = new HashMap<String, String>();
-
-	/**
-	 * 消息分发标识
-	 */
-	public static final String MESSAGE_SUBSCRB_NOTIFY = "MessageSubcrbNotify";
-
-//	static {
-//		// 服务请求根节名称
-//		/*-------------------------------LIS标本交互服务--------------------------------*/
-//
-//		// 标本基础信息
-//		DOC_RES_MAP.put("getInspecGeneralInfo", "CUST_OUT00001");
-//		// 根据报告单获取结果信息
-//		DOC_RES_MAP.put("getInspecResultQuery", "CUST_OUT00002");
-//		// 根据申请单号获取检验结果信息
-//		DOC_RES_MAP.put("getInspecGeneralInfoResultQuery", "CUST_OUT00003");
-//		// 病人项目趋势图检验项目结果信息
-//		DOC_RES_MAP.put("getInspecGeneralInfoItemResultsQuery", "CUST_OUT00004");
-//
-//	}
+	public static final Map<String, String> FAIL_RES_MAP = new HashMap<>();
 
 	/**
 	 * XML文档默认的编码
@@ -114,11 +94,6 @@ public class DocConstants {
 	public static final String MESSAGE_COMMON_BODY = "body";
 
 	/**
-	 * 病历查阅返回文档信息
-	 */
-	public static final String MESSAGE_CONSULT_SUBJECT = "consult";
-
-	/**
 	 * 数据内容标识
 	 */
 	public static final String MESSAGE_SUBJECT = "subject";
@@ -134,22 +109,7 @@ public class DocConstants {
 	public static final String MESSAGE_REQUEST = "REQUEST";
 
 	/**
-	 * 病历检索返回文档信息
-	 */
-	public static final String MESSAGE_RETRIEVE_SUBJECT = "retrieve";
-
-	/**
-	 * 病历检索相应消息类型
-	 */
-	public static final String DOC_RETRIEVE_RES = "EMRDocumentAccessResponse";
-
-	/**
-	 * 病历查阅相应消息类型
-	 */
-	public static final String DOC_CONSULT_RES = "EMRDocumentRetrieveResponse";
-
-	/**
 	 * 出错时返回的XML
 	 */
-	public static final String CMD_FAIL_XML = "<EMR>服务调用返回时发生异常！请重试！</EMR>";
+	public static final String CMD_FAIL_XML = "<LIS>服务调用返回时发生异常！请重试！</LIS>";
 }

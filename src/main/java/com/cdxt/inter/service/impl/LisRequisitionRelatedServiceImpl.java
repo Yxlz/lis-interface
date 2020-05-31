@@ -1,16 +1,16 @@
 package com.cdxt.inter.service.impl;
 
+import com.cdxt.inter.constants.DocConstants;
 import com.cdxt.inter.dao.chongqing.LisExchangePatientInfoMapper;
 import com.cdxt.inter.dao.chongqing.LisExchangePatientItemMapper;
 import com.cdxt.inter.entity.LisExchangePatientInfo;
 import com.cdxt.inter.entity.LisExchangePatientItem;
+import com.cdxt.inter.model.*;
 import com.cdxt.inter.model.CheckResult;
-import com.cdxt.inter.model.InspecRequisitionInfo;
-import com.cdxt.inter.model.RequisitionItemInfo;
-import com.cdxt.inter.model.XmlMessage;
 import com.cdxt.inter.service.LisRequisitionRelatedService;
 import com.cdxt.inter.util.DateUtil;
 import com.cdxt.inter.util.UUIDGenerator;
+import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
 import com.cdxt.inter.util.dom4j.Hl7xml2Bean;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -52,8 +52,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
         try {
             /*解析XML  开始---------------------------------------*/
             Document doc = Hl7xml2Bean.parseXml2Document(reqXml);
-            XmlMessage<InspecRequisitionInfo> mainInfo;
-            mainInfo = (XmlMessage<InspecRequisitionInfo>) Hl7xml2Bean.parseXml(doc.getRootElement(), XmlMessage.class, false);
+            XmlMessage<InspecRequisitionInfo> mainInfo = (XmlMessage<InspecRequisitionInfo>) Hl7xml2Bean.parseXml(doc.getRootElement(), XmlMessage.class, false);
             InspecRequisitionInfo reqInfo = (InspecRequisitionInfo) Hl7xml2Bean.parseXml_controlActProcess(doc.getRootElement(), InspecRequisitionInfo.class);
             mainInfo.setSubject(reqInfo);
             /*解析XML  结束---------------------------------------*/
@@ -67,38 +66,28 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
                 if (patientInfo != null) { //更新
                     if (result.isFlag()) {
                         saveOrUpdateExchangePatientInfo(mainInfo, patientInfo);
-                        return responseXml(mainInfo, "AA", "成功");
-                    } else {
-                        return responseXml(mainInfo, "AE", result.getResultMsg());
                     }
                 } else {// 新增
                     if (result.isFlag()) {
                         saveOrUpdateExchangePatientInfo(mainInfo, null);
-                        log.info("保存嘉和平台申請單數據成功！");
-                        return responseXml(mainInfo, "AA", "成功");
-                    } else {
-                        return responseXml(mainInfo, "AE", result.getResultMsg());
                     }
                 }
+                return responseXml(mainInfo, result);
             } else if (serviceCode.equals("JH0209")) {//取消申请单
-                if (patientInfo == null) {
-                    return responseXml(mainInfo, "AE", "LIS中沒有該申請單，失败");
+                if (patientInfo != null) {
+                    lisExchangePatientInfoMapper.cancelByPatientId(patientInfo.getPatientId());
+                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_SUCCESS, "取消成功"));
                 } else {
-                    Integer result = lisExchangePatientInfoMapper.cancelByPatientId(patientInfo.getPatientId());
-                    if (result == 1) {
-                        return responseXml(mainInfo, "AA", "取消成功");
-                    } else {
-                        return responseXml(mainInfo, "AE", "取消失败");
-                    }
+                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "取消成功,LIS中沒有查询到此申请单"));
                 }
             } else {
-                log.info("嘉和平台未知操作！");
-                return "老鐵，接口還沒寫呢";
+                return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "无此服务接口"));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.getMessage());
+            return DocConstants.CMD_FAIL_XML;
         }
-        return "";
     }
 
     /**
@@ -334,39 +323,39 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
      */
     private CheckResult checkExchangePatientInfo(InspecRequisitionInfo requisitionInfo) {
         if (StringUtils.isBlank(requisitionInfo.getHospitalCode())) {
-            return new CheckResult(false, "申请机构ID为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请机构ID为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getHospitalName())) {
-            return new CheckResult(false, "申请机构为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请机构为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getClinicTypeCode())) {
-            return new CheckResult(false, "病人类型（门诊或住院或体检等）为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人类型（门诊或住院或体检等）为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPatientName())) {
-            return new CheckResult(false, "病人姓名为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人姓名为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getOpcRegistrationNo()) && StringUtils.isBlank(requisitionInfo.getIpiRegistrationNO()) && StringUtils.isBlank(requisitionInfo.getTjRegistrationNO())) {
-            return new CheckResult(false, "住院号，门诊号，体检号都为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "住院号，门诊号，体检号都为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getOrderDeptName())) {
-            return new CheckResult(false, "申请科室为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请科室为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getOrderDeptCode())) {
-            return new CheckResult(false, "申请科室ID为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请科室ID为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getOrderTime())) {
-            return new CheckResult(false, "申请时间为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请时间为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getBarCode())) {
-            return new CheckResult(false, "标本ID（条码号）为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "标本ID（条码号）为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getReqNo())) {
-            return new CheckResult(false, "申请单号为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请单号为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPersonInfoId())) {
-            return new CheckResult(false, "病人唯一ID为空");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人唯一ID为空");
         }
-        return new CheckResult(true, "");
+        return new CheckResult(true, DocConstants.CMD_EXE_SUCCESS, "成功");
     }
 
     /**
@@ -377,47 +366,20 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
      * @Param resultMsg:返回信息
      * @date: 2020/5/30 0030 17:54
      */
-    private String responseXml(XmlMessage<InspecRequisitionInfo> mainInfo, String resultCode, String resultMsg) {
-        StringBuffer xml = new StringBuffer();
-        xml.append("<MCCI_IN000002UV01 xmlns=\"urn:hl7-org:v3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ITSVersion=\"XML_1.0\" xsi:schemaLocation=\"urn:hl7-org:v3 ../multicacheschemas/MCCI_IN000002UV01.xsd\">" +
-                //<!-- 消息ID extension请使用GUID生成-->
-                "<id root=\"2.16.156.10011.0\" extension=\"" + UUID.randomUUID() + "\"/>" +
-                //<!-- 消息创建时间 -->
-                "<creationTime value=\"" + DateUtil.formatDate(new Date(), "yyyyMMddHHmmss") + "\"/>" +
-                //<!-- 服务标识,extension为唯一事件编码，区分响应的服务事件 -->
-                "<interactionId root=\"2.16.840.1.113883.1.6\" extension=\"" + mainInfo.getServiceCode() + "\"/>" +
-                //<!-- 消息用途: P(Production); D(Debugging); T(Training) -->
-                "<processingCode code=\"" + mainInfo.getProcessingCode() + "\"/>" +
-                //<!-- 消息处理模式: "取值可以为以下列出值中任意一个，正式使用时设置为""T""A(Archive);I(Initial load); R(Restore from archive); T(Current processing)" -->
-                "<processingModeCode code=\"" + mainInfo.getProcessingModeCode() + "\"/>" +
-                //<!-- 消息应答: "取值可以为以下列出值中任意一个，正式使用时设置为""NE""AL(Always); ER(Error/reject only); NE(Never)"-->
-                "<acceptAckCode code=\"" + mainInfo.getAcceptAckCode() + "\"/>" +
-                //<!--接收方信息-->
-                "<receiver typeCode=\"RCV\">" +
-                "<device classCode=\"DEV\" determinerCode=\"INSTANCE\">" +
-                //<!-- 接受者ID root为OID -->
-                "<id root=\"2.16.156.10011.0.1.1\" extension=\"" + mainInfo.getReceiverId() + "\"/>" +
-                "</device>" +
-                "</receiver>" +
-                //<!--发送方信息-->
-                "<sender typeCode=\"SND\">" +
-                "<device classCode=\"DEV\" determinerCode=\"INSTANCE\">" +
-                //<!-- 发送者ID root为OID -->
-                "<id root=\"2.16.156.10011.0.1.2\" extension=\"LIS\"/>" +
-                "</device>" +
-                "</sender>" +
-                //<!--typeCode 为处理结果，AA表示成功 AE 表示失败-->
-                "<acknowledgement typeCode=\"" + resultCode + "\">" +
-                "<targetMessage>" +
-                //<!-- 请求的消息ID-->
-                "<id extension=\"" + mainInfo.getMessageId() + "\"/>" +
-                "</targetMessage>" +
-                "<acknowledgementDetail>" +
-                //<!-- 处理结果说明-->
-                "<text>" + resultMsg + "</text>" +
-                "</acknowledgementDetail>" +
-                "</acknowledgement>" +
-                "</MCCI_IN000002UV01>");
-        return xml.toString();
+    private String responseXml(XmlMessage<InspecRequisitionInfo> mainInfo, CheckResult result) throws Exception {
+        InspecReqResponse response = new InspecReqResponse();
+        response.setMessageId(UUID.randomUUID().toString());
+        response.setCreationTime(new Date());
+        response.setServiceCode(mainInfo.getServiceCode());
+        response.setProcessingCode(mainInfo.getProcessingCode());
+        response.setProcessingModeCode(mainInfo.getProcessingModeCode());
+        response.setAcceptAckCode(mainInfo.getAcceptAckCode());
+        response.setReceiverId(mainInfo.getReceiverId());
+        response.setSenderId(mainInfo.getSenderId());
+        response.setSourceId(mainInfo.getMessageId());
+        response.setResponseCode(result.getResultCode());
+        response.setResponseMessage(result.getResultMsg());
+        Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspecReqResponse.xml");
+        return Hl7bean2Xml.convertBean(response, doc.getRootElement(), false).asXML();
     }
 }
