@@ -6,7 +6,10 @@ import com.cdxt.inter.dao.chongqing.LisExchangePatientItemMapper;
 import com.cdxt.inter.entity.LisExchangePatientInfo;
 import com.cdxt.inter.entity.LisExchangePatientItem;
 import com.cdxt.inter.model.*;
-import com.cdxt.inter.model.CheckResult;
+import com.cdxt.inter.model.response.CheckResult;
+import com.cdxt.inter.model.request.InspecRequisitionInfo;
+import com.cdxt.inter.model.request.mults.RequisitionItemInfo;
+import com.cdxt.inter.model.response.InspecReqResponse;
 import com.cdxt.inter.service.LisRequisitionRelatedService;
 import com.cdxt.inter.util.DateUtil;
 import com.cdxt.inter.util.UUIDGenerator;
@@ -316,7 +319,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
     }
 
     /**
-     * @return: com.cdxt.inter.model.CheckResult
+     * @return: com.cdxt.inter.model.response.CheckResult
      * @description: 校验申请单非空信息
      * @Param requisitionInfo:
      * @date: 2020/5/30 0030 14:19

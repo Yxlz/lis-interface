@@ -71,7 +71,7 @@ public class DocConstants {
 	/**
 	 * 文档处理代码。标识此消息是否是产品、训练、调试系统的一部分。D：调试；P：产品；T：训练
 	 */
-	public static final String DOC_PROCESSING_CODE = "D";
+	public static final String DOC_PROCESSING_CODE = "P";
 
 	/**
 	 * 接收确认类型 AL：总是确认；NE：从不确认；ER：仅在错误/或拒绝时确认；SU：仅在成功完成时确认

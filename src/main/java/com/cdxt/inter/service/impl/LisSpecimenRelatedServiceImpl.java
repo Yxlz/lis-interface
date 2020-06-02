@@ -1,22 +1,24 @@
 package com.cdxt.inter.service.impl;
 
 import com.cdxt.inter.constants.DocConstants;
-import com.cdxt.inter.model.XmlMessage;
-import com.cdxt.inter.model.docbody.InspectionState;
+import com.cdxt.inter.model.request.InspectionState;
+import com.cdxt.inter.model.request.SampleReceive;
+import com.cdxt.inter.model.request.mults.DoctorAdvice;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
 import com.cdxt.inter.util.DateUtil;
 import com.cdxt.inter.util.UUIDGenerator;
 import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
-import com.cdxt.inter.webservice.params.LisRequestionXml;
+import com.cdxt.inter.model.request.LisRequestionXml;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
-import org.dom4j.Element;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * @Description: TODO
+ * @Description: 标本相关接口实现
  * @Author: tangxiaohui
  * @CreateDate: 2020/5/26 17:36
  * @Copyright: Copyright (c) 2020
@@ -46,8 +48,39 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      * @date: 2020/5/27 14:37
      */
     @Override
-    public String sampleReceive(LisRequestionXml message) {
-        return null;
+    public String sampleReceive(LisRequestionXml message) throws Exception {
+        SampleReceive sr = new SampleReceive();
+        sr.setMessageId(UUIDGenerator.getUUID());
+        sr.setCreationTime(new Date());
+        sr.setServiceCode("JH0411");
+        sr.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
+        sr.setProcessingModeCode("T");
+        sr.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
+        sr.setReceiverId("EMR");
+        sr.setSenderId("LIS");
+        sr.setInspecNameCode("12");
+        sr.setInspecName("生化类");
+        sr.setOrderDeptCode("21");
+        sr.setOrderDeptName("开单科室1");
+        sr.setOrderDoctorCode("999");
+        sr.setOrderDoctorName("医生李四");
+        sr.setRegionId("1");
+        List<DoctorAdvice> advices = new ArrayList<>();
+        DoctorAdvice advice = new DoctorAdvice();
+        advice.setAttentionCode("22");
+        advice.setAttentionName("空腹");
+        advice.setBarcode("1234567890");
+        advice.setCollectorCode("321");
+        advice.setCollectorName("采集人王五");
+        advice.setExcuteSectionCode("666");
+        advice.setExcuteSectionName("检验医学科");
+        advice.setOrderNo("12345678");
+        advice.setPriority("21");
+        advices.add(advice);
+        advices.add(advice);
+        sr.setDocAdvices(advices);
+        Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/SampleReceive.xml");
+        return Hl7bean2Xml.convertBean(sr, doc.getRootElement(), false).asXML();
     }
 
     /**
@@ -72,11 +105,16 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      * @date: 2020/5/27 14:40
      */
     @Override
-    public String updateInspectionState(LisRequestionXml requestionXml) {
-        XmlMessage<InspectionState> message = new XmlMessage<>();
-        message.setMessageId(UUIDGenerator.getUUID());
-        message.setCreationTime(new Date());
+    public String updateInspectionState(LisRequestionXml requestionXml) throws Exception {
         InspectionState inspecState = new InspectionState();
+        inspecState.setMessageId(UUIDGenerator.getUUID());
+        inspecState.setCreationTime(new Date());
+        inspecState.setServiceCode("JH0411");
+        inspecState.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
+        inspecState.setProcessingModeCode("T");
+        inspecState.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
+        inspecState.setReceiverId("EMR");
+        inspecState.setSenderId("LIS");
         inspecState.setBarcode("12121212121");
         inspecState.setHealthCareCardNo("123123123");
         inspecState.setIdNumber("513029199009244594");
@@ -96,14 +134,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
         inspecState.setSampleName("尿液");
         inspecState.setSampleStateCode("4");
         inspecState.setSampleStateStr("标本接收");
-        try {
-            Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionState.xml");
-            Element element = Hl7bean2Xml.convertBean(message, doc.getRootElement(), true);
-            log.info(element.asXML());
-            return element.asXML();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "";
-        }
+        Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionState.xml");
+        return Hl7bean2Xml.convertBean(inspecState, doc.getRootElement(), false).asXML();
     }
 }

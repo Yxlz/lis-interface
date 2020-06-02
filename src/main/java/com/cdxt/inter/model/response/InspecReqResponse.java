@@ -1,4 +1,4 @@
-package com.cdxt.inter.model;
+package com.cdxt.inter.model.response;
 
 import com.cdxt.inter.annotation.Path;
 import lombok.Data;
@@ -6,17 +6,15 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * <R> 请求消息模型
- *
- * @Description: XML消息
+ * @Description: 检验申请单响应
  * @Author: tangxiaohui
- * @CreateDate: 2020/5/30 0030 11:34
+ * @CreateDate: 2020/5/31 0031 9:08
  * @Copyright: Copyright (c) 2020
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
 @Data
-public class XmlMessage<R> {
+public class InspecReqResponse {
     /**
      * 消息流水号Id
      */
@@ -54,16 +52,32 @@ public class XmlMessage<R> {
     private String acceptAckCode;
 
     /**
+     * 消息接收者ID
+     */
+    @Path(path = "receiver/device/id", attribute = "extension")
+    private String receiverId;
+
+    /**
      * 消息发送者ID
      */
-    @Path(path = "sender/device/id/item", attribute = "extension")
+    @Path(path = "sender/device/id", attribute = "extension")
     private String senderId;
 
     /**
-     * 消息接收者ID
+     * 响应代码    AA成功  AE失败
      */
-    @Path(path = "receiver/device/id/item", attribute = "extension")
-    private String receiverId;
+    @Path(path = "acknowledgement", attribute = "typeCode")
+    private String responseCode;
 
-    private R subject;
+    /**
+     * 请求消息ID
+     */
+    @Path(path = "acknowledgement/targetMessage/id", attribute = "extension")
+    private String sourceId;
+
+    /**
+     * 响应内容
+     */
+    @Path(path = "acknowledgement/acknowledgementDetail/text")
+    private String responseMessage;
 }

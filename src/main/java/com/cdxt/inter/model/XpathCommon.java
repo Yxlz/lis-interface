@@ -6,15 +6,15 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @Description: TODO
+ * @Description: 各XML相同部分
  * @Author: tangxiaohui
- * @CreateDate: 2020/5/31 0031 9:08
+ * @CreateDate: 2020/6/1 16:24
  * @Copyright: Copyright (c) 2020
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
 @Data
-public class InspecReqResponse {
+public class XpathCommon {
     /**
      * 消息流水号Id
      */
@@ -52,32 +52,14 @@ public class InspecReqResponse {
     private String acceptAckCode;
 
     /**
-     * 消息接收者ID
-     */
-    @Path(path = "receiver/device/id", attribute = "extension")
-    private String receiverId;
-
-    /**
      * 消息发送者ID
      */
-    @Path(path = "sender/device/id", attribute = "extension")
+    @Path(path = "sender/device/id/item", attribute = "extension")
     private String senderId;
 
     /**
-     * 响应代码    AA成功  AE失败
+     * 消息接收者ID
      */
-    @Path(path = "acknowledgement", attribute = "typeCode")
-    private String responseCode;
-
-    /**
-     * 请求消息ID
-     */
-    @Path(path = "acknowledgement/targetMessage/id", attribute = "extension")
-    private String sourceId;
-
-    /**
-     * 响应内容
-     */
-    @Path(path = "acknowledgement/acknowledgementDetail/text")
-    private String responseMessage;
+    @Path(path = "receiver/device/id/item", attribute = "extension")
+    private String receiverId;
 }

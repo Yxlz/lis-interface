@@ -139,7 +139,7 @@
                             <!--检验申请单编号 必须项已使用 HIS APPLY_ID -->
                             <item extension="12009320" root="1.2.156.112698.1.1.2.1.20"/>
                             <!-- HIS SpID 号 (预留为空) -->
-                            <item extension="01012009320" root=" "/>
+                            <item extension="" root=" "/>
                         </id>
                         <!-- 医嘱类型必须项目已使用 -->
                         <code code="03" codeSystem="1.2.156.112698.1.1.1.4.5">

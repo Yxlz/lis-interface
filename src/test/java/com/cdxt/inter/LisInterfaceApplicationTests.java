@@ -1,12 +1,9 @@
 package com.cdxt.inter;
 
-import app.entity.LisInspecUsers;
 import app.manager.api.LisService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
 
 @SpringBootTest
 class LisInterfaceApplicationTests {
@@ -16,10 +13,10 @@ class LisInterfaceApplicationTests {
 
     @Test
     void contextLoads() {
-        List<LisInspecUsers> users = service.getAllLisInspecUsers();
-        for (int i = 0; i < users.size(); i++) {
-            System.out.println(users.get(i).getUsername());
-        }
+//        List<LisInspecUsers> users = service.getAllLisInspecUsers();
+//        for (int i = 0; i < users.size(); i++) {
+//            System.out.println(users.get(i).getUsername());
+//        }
     }
 
 }

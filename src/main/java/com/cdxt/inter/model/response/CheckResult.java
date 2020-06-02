@@ -1,4 +1,4 @@
-package com.cdxt.inter.model;
+package com.cdxt.inter.model.response;
 
 import lombok.Data;
 

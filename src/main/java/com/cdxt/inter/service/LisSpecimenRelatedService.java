@@ -1,6 +1,6 @@
 package com.cdxt.inter.service;
 
-import com.cdxt.inter.webservice.params.LisRequestionXml;
+import com.cdxt.inter.model.request.LisRequestionXml;
 
 /**
  * @Description: 标本相关服务
@@ -28,7 +28,7 @@ public interface LisSpecimenRelatedService {
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
      * @date: 2020/5/27 14:37
      */
-    public String sampleReceive(LisRequestionXml message);
+    public String sampleReceive(LisRequestionXml message) throws Exception;
 
     /**
      * @return:  java.lang.String
@@ -48,5 +48,5 @@ public interface LisSpecimenRelatedService {
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
      * @date: 2020/5/27 14:40
      */
-    public String updateInspectionState(LisRequestionXml message);
+    public String updateInspectionState(LisRequestionXml message) throws Exception;
 }

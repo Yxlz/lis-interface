@@ -1,14 +1,9 @@
 package com.cdxt.inter;
 
 import com.cdxt.inter.constants.DocConstants;
-import com.cdxt.inter.model.InspecReqResponse;
-import com.cdxt.inter.model.XmlMessage;
-import com.cdxt.inter.model.docbody.InspectionState;
-import com.cdxt.inter.util.DateUtil;
-import com.cdxt.inter.util.UUIDGenerator;
+import com.cdxt.inter.model.response.InspecReqResponse;
 import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
 import org.dom4j.Document;
-import org.dom4j.Element;
 
 import java.util.Date;
 import java.util.UUID;

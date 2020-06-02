@@ -1,5 +1,5 @@
 
-package com.cdxt.inter.model;
+package com.cdxt.inter.util;
 
 import lombok.Data;
 

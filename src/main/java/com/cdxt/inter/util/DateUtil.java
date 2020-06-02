@@ -1,6 +1,5 @@
 package com.cdxt.inter.util;
 
-import com.cdxt.inter.model.BirthAge;
 import org.springframework.util.StringUtils;
 
 import java.text.DateFormat;
@@ -77,7 +76,7 @@ public class DateUtil {
         if (dateStr == null) return null;
         if (formater == null) formater = DEFAUL_TIME_FORMATER;
         SimpleDateFormat sdf = new SimpleDateFormat(formater);
-        sdf.setCalendar(new GregorianCalendar(new SimpleTimeZone(0, "GMT")));
+//        sdf.setCalendar(new GregorianCalendar(new SimpleTimeZone(0, "GMT")));
         try {
             return sdf.parse(dateStr);
         } catch (ParseException e) {
@@ -200,7 +199,7 @@ public class DateUtil {
     }
 
     /**
-     * @return:  com.cdxt.inter.model.BirthAge
+     * @return:  com.cdxt.inter.util.BirthAge
      * @description: 根据生日获取年龄
      * @Param birthDay:
      * @date: 2020/5/30 0030 11:04

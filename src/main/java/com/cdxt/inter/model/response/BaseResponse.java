@@ -1,4 +1,4 @@
-package com.cdxt.inter.webservice;
+package com.cdxt.inter.model.response;
 
 import com.cdxt.inter.enums.IFStateEnum;
 import com.cdxt.inter.enums.ReturnCodeEnum;

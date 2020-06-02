@@ -90,10 +90,12 @@ public class Dom4jBaseUtil {
      * @date: 2020/5/31 0031 10:03
      */
     public static Document parseXmlFile2Document(String relativeFileName) throws Exception {
+        Map<String, String> xmlMap = new HashMap<>();
+        xmlMap.put(DocConstants.DOC_NAMESPACE_KEY, DocConstants.DOC_NAMESPACE);
         URL url = Dom4jBaseUtil.class.getClassLoader().getResource(relativeFileName);
         File file = new File(url.getFile());
         SAXReader reader = new SAXReader();
-        Document document = reader.read(file);
-        return document;
+        reader.getDocumentFactory().setXPathNamespaceURIs(xmlMap);
+        return reader.read(file);
     }
 }

@@ -1,4 +1,4 @@
-package com.cdxt.inter.webservice.params;
+package com.cdxt.inter.model.request;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;

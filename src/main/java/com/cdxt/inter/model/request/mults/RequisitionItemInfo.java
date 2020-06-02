@@ -1,4 +1,4 @@
-package com.cdxt.inter.model;
+package com.cdxt.inter.model.request.mults;
 
 import com.cdxt.inter.annotation.Path;
 import lombok.Data;

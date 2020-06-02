@@ -6,7 +6,7 @@ import com.cdxt.inter.util.InvokeWebserviceUtil;
 import com.cdxt.inter.util.XStreamXmlUtil;
 import com.cdxt.inter.webservice.LabInfoService;
 import com.cdxt.inter.webservice.constants.WsConst;
-import com.cdxt.inter.webservice.params.LisRequestionXml;
+import com.cdxt.inter.model.request.LisRequestionXml;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -81,43 +81,46 @@ public class LabInfoServiceImpl implements LabInfoService {
      */
     @Override
     public String SpecimenRelated(String action, String message) {
-        LisRequestionXml xml = XStreamXmlUtil.fromXml2Bean(LisRequestionXml.class, message);
-        Map<String, String> paramMap = new HashMap<>();
-        String paramXml = "";
-        if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆
-            switch (action) {
-                case WsConst.ACTION_SAMPLE_RECEIVE:
-                    paramXml = lisSpecimenRelatedService.sampleReceive(xml);
-                    dealWsdlUrl(WsConst.ACTION_SAMPLE_RECEIVE);
-                    break;
-                case WsConst.ACTION_SAMPLE_REFUSE:
-                    paramXml = lisSpecimenRelatedService.sampleRefuse(xml);
-                    dealWsdlUrl(WsConst.ACTION_SAMPLE_REFUSE);
-                    break;
-                case WsConst.ACTION_SEND_REPORT:
-                    paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
-                    dealWsdlUrl(WsConst.ACTION_SEND_REPORT);
-                    break;
-                case WsConst.ACTION_UPDATE_APPLICATION_STATE:
-                    paramXml = lisSpecimenRelatedService.updateInspectionState(xml);
-                    dealWsdlUrl(WsConst.ACTION_UPDATE_APPLICATION_STATE);
-                    break;
-                default:
-                    return null;
-            }
-            paramMap.put(JH_PARAMITER_NAME, paramXml);
-            return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_CQ, paramMap);
-        } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) {//自贡大安
-            if (action.equals(WsConst.ACTION_SEND_REPORT)) {
-                paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
+        try {
+            LisRequestionXml xml = XStreamXmlUtil.fromXml2Bean(LisRequestionXml.class, message);
+            Map<String, String> paramMap = new HashMap<>();
+            String paramXml = "";
+            if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆
+                switch (action) {
+                    case WsConst.ACTION_SAMPLE_RECEIVE:
+                        paramXml = lisSpecimenRelatedService.sampleReceive(xml);
+                        dealWsdlUrl(WsConst.ACTION_SAMPLE_RECEIVE);
+                        break;
+                    case WsConst.ACTION_SAMPLE_REFUSE:
+                        paramXml = lisSpecimenRelatedService.sampleRefuse(xml);
+                        dealWsdlUrl(WsConst.ACTION_SAMPLE_REFUSE);
+                        break;
+                    case WsConst.ACTION_SEND_REPORT:
+                        paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
+                        dealWsdlUrl(WsConst.ACTION_SEND_REPORT);
+                        break;
+                    case WsConst.ACTION_UPDATE_APPLICATION_STATE:
+                        paramXml = lisSpecimenRelatedService.updateInspectionState(xml);
+                        dealWsdlUrl(WsConst.ACTION_UPDATE_APPLICATION_STATE);
+                        break;
+                    default:
+                        return null;
+                }
                 paramMap.put(JH_PARAMITER_NAME, paramXml);
-                return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_ZG, paramMap);
-            } else {
-                return null;
+                return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_CQ, paramMap);
+            } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) { //自贡大安
+                if (action.equals(WsConst.ACTION_SEND_REPORT)) {
+                    paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
+                    paramMap.put(JH_PARAMITER_NAME, paramXml);
+                    return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_ZG, paramMap);
+                } else {
+                    return null;
+                }
             }
-        } else {
-            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return null;
     }
 
     /**

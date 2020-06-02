@@ -1,7 +1,8 @@
-package com.cdxt.inter.model;
+package com.cdxt.inter.model.request;
 
 import com.cdxt.inter.annotation.Path;
 import com.cdxt.inter.annotation.Subject;
+import com.cdxt.inter.model.request.mults.RequisitionItemInfo;
 import lombok.Data;
 
 import java.util.List;
