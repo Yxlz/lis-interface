@@ -19,7 +19,7 @@ public interface LisSpecimenRelatedService {
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
      * @date: 2020/5/26 17:34
      */
-    public String sendInspectionReport(LisRequestionXml message);
+    public String sendInspectionReport(LisRequestionXml message) throws Exception;
 
     /**
      * @return:  java.lang.String
@@ -38,7 +38,7 @@ public interface LisSpecimenRelatedService {
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
      * @date: 2020/5/27 14:39
      */
-    public String sampleRefuse(LisRequestionXml message);
+    public String sampleRefuse(LisRequestionXml message) throws Exception;
 
     /**
      * @return:  java.lang.String

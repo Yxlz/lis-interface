@@ -2,19 +2,19 @@
                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  xsi:schemaLocation="urn:hl7-org:v3 ../../Schemas/POOR_IN200901UV21.xsd">
     <!-- 消息ID 固定值为;解析时，消费系统根据消息ID判断消息的消息类型。 -->
-    <id extension=" "/>
+    <id extension=""/>
     <!-- 消息创建时间 -->
-    <creationTime value="20150701000000"/>
+    <creationTime value=""/>
     <!-- 服务标识,extension为唯一事件编码，区分服务事件 -->
     <interactionId root="" extension="JH0413"/>
     <!-- 消息用途: 取值可以为以下列出值中任意一个,正式使用时设置为"P" P(Production); D(Debugging); T(Training) -->
-    <processingCode code="P"/>
+    <processingCode code=""/>
     <!-- 消息处理模式: 取值可以为以下列出值中任意一个，正式使用时设置为"T" A(Archive);I(Initial load); R(Restore
         from archive); T(Current processing) -->
-    <processingModeCode code="R"/>
+    <processingModeCode code=""/>
     <!-- 消息应答: 取值可以为以下列出值中任意一个，正式使用时设置为"NE" AL(Always); ER(Error/reject only);
         NE(Never) -->
-    <acceptAckCode code="NE"/>
+    <acceptAckCode code=""/>
     <!-- 接受者 -->
     <receiver typeCode="RCV">
         <device classCode="DEV" determinerCode="INSTANCE">
@@ -42,31 +42,31 @@
                     <patient classCode="PAT">
                         <id>
                             <!-- 域ID 门诊: 01 住院：02 体检：03 -->
-                            <item root="1.2.156.112698.1.1.2.1.5" extension="111"/>
+                            <item root="1.2.156.112698.1.1.2.1.5" extension=""/>
                             <!--患者ID 域ID=01门诊时为PATIENT_ID 域ID=02住院时为PATIENT_ID 域ID=03体检时为体检档案号 -->
-                            <item root="1.2.156.112698.1.1.2.1.6" extension="001407878200"/>
+                            <item root="1.2.156.112698.1.1.2.1.6" extension=""/>
                             <!--就诊类别 extension =01门诊 extension =02普通急诊 extension =03急诊留观 82 extension
                                 =04住院 extension =05普通体检 extension =06干部保险体检 extension =07转院 -->
-                            <item root="1.2.156.112698.1.1.2.1.20" extension="01"/>
+                            <item root="1.2.156.112698.1.1.2.1.20" extension=""/>
                             <!--就诊号 就诊类别=01/02时为门诊号 就诊类别=03/04/07时为住院号 就诊类别=05/06时为体检档案号 -->
-                            <item root="1.2.156.112698.1.1.2.1.21" extension="4153754"/>
+                            <item root="1.2.156.112698.1.1.2.1.21" extension=""/>
                         </id>
                     </patient>
                 </subject>
                 <author typeCode="AUT">
                     <!-- 开单时间 -->
-                    <time value="2015-07-01 00:00:00"/>
+                    <time value=""/>
                     <assignedEntity classCode="ASSIGNED">
                         <!-- 开单医生编码 -->
                         <id>
-                            <item extension="03421" root="1.2.156.112698.1.1.1.4.2"/>
+                            <item extension="" root="1.2.156.112698.1.1.1.4.2"/>
                         </id>
                         <assignedPerson determinerCode="INSTANCE"
                                         classCode="PSN">
                             <!--开单医生姓名 必须项已使用 -->
                             <name xsi:type="BAG_EN">
                                 <item>
-                                    <part value="李四"/>
+                                    <part value=""/>
                                 </item>
                             </name>
                         </assignedPerson>
@@ -75,12 +75,12 @@
                                                  classCode="ORG">
                             <!-- 申请科室编码 必须已使用 -->
                             <id>
-                                <item extension="140988948" root="1.2.156.112698.1.1.1.4.10"/>
+                                <item extension="" root="1.2.156.112698.1.1.1.4.10"/>
                             </id>
                             <!-- 申请科室名称 -->
                             <name xsi:type="BAG_EN">
                                 <item use="ABC">
-                                    <part value="检验科微生物室"/>
+                                    <part value=""/>
                                 </item>
                             </name>
                         </representedOrganization>
@@ -90,21 +90,21 @@
                 <transcriber typeCode="TRANS">
                     <time>
                         <!-- 录入日期 开始时间 -->
-                        <low value="20150701000000"/>
+                        <low value=""/>
                         <!-- 录入日期 结束时间 -->
-                        <high value="20150701000000"/>
+                        <high value=""/>
                     </time>
                     <assignedEntity classCode="ASSIGNED">
                         <!-- 录入人 -->
                         <id>
-                            <item extension="07466" root="1.2.156.112698.1.1.1.4.2"/>
+                            <item extension="" root="1.2.156.112698.1.1.1.4.2"/>
                         </id>
                         <assignedPerson determinerCode="INSTANCE"
                                         classCode="PSN">
                             <!-- 录入人姓名 必须项已使用 -->
                             <name xsi:type="BAG_EN">
                                 <item use="ABC">
-                                    <part value="王五"/>
+                                    <part value=""/>
                                 </item>
                             </name>
                         </assignedPerson>
@@ -112,18 +112,18 @@
                 </transcriber>
                 <verifier typeCode="VRF" xsi:nil="false">
                     <!--确认时间 -->
-                    <time value="20150701000000"/>
+                    <time value=""/>
                     <assignedEntity classCode="ASSIGNED">
                         <!--确认人编码 -->
                         <id>
-                            <item extension="123456789" root="1.2.156.112698.1.1.1.4.2"/>
+                            <item extension="" root="1.2.156.112698.1.1.1.4.2"/>
                         </id>
                         <assignedPerson classCode="PSN" determinerCode="INSTANCE"
                                         xsi:nil="false">
                             <!--确认人姓名 -->
                             <name xsi:type="BAG_EN">
                                 <item>
-                                    <part value="确认人姓名"/>
+                                    <part value=""/>
                                 </item>
                             </name>
                         </assignedPerson>
@@ -137,14 +137,14 @@
                         <!--检验申请单编号 必须项已使用 -->
                         <id>
                             <!--检验申请单编号 必须项已使用 HIS APPLY_ID -->
-                            <item extension="12009320" root="1.2.156.112698.1.1.2.1.20"/>
+                            <item extension="" root="1.2.156.112698.1.1.2.1.20"/>
                             <!-- HIS SpID 号 (预留为空) -->
                             <item extension="" root=" "/>
                         </id>
                         <!-- 医嘱类型必须项目已使用 -->
-                        <code code="03" codeSystem="1.2.156.112698.1.1.1.4.5">
+                        <code code="" codeSystem="1.2.156.112698.1.1.1.4.5">
                             <!-- 医嘱类型名称 -->
-                            <displayName value="化验类"/>
+                            <displayName value=""/>
                         </code>
                         <text/>
                         <!-- 检验申请单状态 必须项未使用 A 检查开立 B 检查提交/接收 C 检查预约 D 取消预约 E 检 查登记 F 取消检验 G
@@ -152,7 +152,7 @@
                         <statusCode code="A"/>
                         <!-- 检验申请日期 -->
                         <effectiveTime xsi:type="IVL_TS">
-                            <any value="20150701000000"/>
+                            <any value=""/>
                         </effectiveTime>
                         <!-- 是否私隐 -->
                         <!--1..n 一个申请单可以包含多个医嘱，每个医嘱对应一个 component2,多个医嘱重复component2 -->
@@ -161,37 +161,37 @@
                             <observationRequest classCode="OBS" moodCode="RQO">
                                 <!-- 医嘱号 必须项已使用 -->
                                 <id>
-                                    <item extension="35566"/>
+                                    <item extension=""/>
                                 </id>
                                 <!-- 检验项目编码 必须项使用 -->
-                                <code code="1300200001" codeSystem="1.2.156.112698.1.1.1.4.9">
-                                    <displayName value="生化五項"/>
+                                <code code="" codeSystem="1.2.156.112698.1.1.1.4.9">
+                                    <displayName value=""/>
                                 </code>
                                 <!-- 必须项未使用 -->
                                 <statusCode/>
                                 <!-- validTimeLow="医嘱开始时间" validTimeHigh=" 医嘱结束时间" 医嘱预定开始时间 医嘱预定结束时间 -->
-                                <effectiveTime xsi:type="QSC_TS" validTimeLow="20150701000000"
-                                               validTimeHigh="20150701000000">
+                                <effectiveTime xsi:type="QSC_TS" validTimeLow=""
+                                               validTimeHigh="">
                                     <!-- 医嘱执行频率编码 -->
-                                    <code code="BID" codeSystem="1.2.156.112698.1.1.1.4.44">
+                                    <code code="" codeSystem="1.2.156.112698.1.1.1.4.44">
                                         <!--医嘱执行频率名称 -->
-                                        <displayName value="2/日(8am-4pm)"/>
+                                        <displayName value=""/>
                                     </code>
                                 </effectiveTime>
                                 <!-- 检验项目优先级别 -->
-                                <priorityCode code="1"/>
+                                <priorityCode code=""/>
                                 <specimen typeCode="SPC">
                                     <specimen classCode="SPEC">
                                         <!--标本号/条码号 必须项已使用 -->
-                                        <id extension="00983"/>
+                                        <id extension=""/>
                                         <!--标本角色代码（patient,group,blind) 必 须项目未使用 -->
                                         <code/>
                                         <specimenNatural determinerCode="INSTANCE"
                                                          classCode="ENT">
                                             <!--标本类型编码 血清/血浆/尿 标本类 别代码 -->
-                                            <code code="01" codeSystem="1.2.156.112698.1.1.1.3.5">
+                                            <code code="" codeSystem="1.2.156.112698.1.1.1.3.5">
                                                 <!--标本类型名称 -->
-                                                <displayName value="血"/>
+                                                <displayName value=""/>
                                             </code>
                                         </specimenNatural>
                                         <subjectOf1 typeCode="SBJ" contextControlCode="OP">
@@ -199,27 +199,27 @@
                                                                  classCode="SPECCOLLECT">
                                                 <!-- 采集日期 -->
                                                 <effectiveTime xsi:type="IVL_TS">
-                                                    <any value="20150701000000"/>
+                                                    <any value=""/>
                                                 </effectiveTime>
                                                 <performer typeCode="PRF">
                                                     <assignedEntity classCode="ASSIGNED">
                                                         <!-- 采集人Id -->
                                                         <id>
-                                                            <item extension="0100" root="1.2.156.112698.1.1.1.4.2"/>
+                                                            <item extension="" root="1.2.156.112698.1.1.1.4.2"/>
                                                         </id>
                                                         <assignedPerson determinerCode="INSTANCE"
                                                                         classCode="PSN">
                                                             <!-- 采集人姓名 -->
                                                             <name xsi:type="BAG_EN">
                                                                 <item>
-                                                                    <part value="张三"/>
+                                                                    <part value=""/>
                                                                 </item>
                                                             </name>
                                                             <!-- 采集地点 -->
                                                             <asLocatedEntity classCode="LOCE">
                                                                 <addr xsi:type="BAG_AD">
                                                                     <item use="WP">
-                                                                        <part type="BNR" value="护士站"/>
+                                                                        <part type="BNR" value=""/>
                                                                     </item>
                                                                 </addr>
                                                             </asLocatedEntity>
@@ -237,12 +237,12 @@
                                                 determinerCode="INSTANCE" classCode="ORG">
                                             <!-- 执行科室编码 -->
                                             <id>
-                                                <item extension="1010700" root="1.2.156.112698.1.1.1.4.10"/>
+                                                <item extension="" root="1.2.156.112698.1.1.1.4.10"/>
                                             </id>
                                             <!--执行科室名称 -->
                                             <name xsi:type="BAG_EN" controlInformationExtension="1010700">
                                                 <item>
-                                                    <part value="检验室"/>
+                                                    <part value=""/>
                                                 </item>
                                             </name>
                                         </serviceProviderOrganization>
@@ -255,9 +255,9 @@
                                     <seperatableInd value="false"/>
                                     <annotation classCode="ACT" moodCode="EVN">
                                         <!-- 备注类型 -->
-                                        <code code="01" codeSystem="2.16.156.10011.1.1.2.1.2.2.11"/>
+                                        <code code="" codeSystem="2.16.156.10011.1.1.2.1.2.2.11"/>
                                         <!--标本要求 必须项已使用 -->
-                                        <text value="空腹"/>
+                                        <text value=""/>
                                         <!--注意事项状态,模型中要求,值为 'completed' -->
                                         <statusCode code="completed"/>
                                         <!--必须项 未使用 -->

@@ -1,14 +1,12 @@
 package com.cdxt.inter.service.impl;
 
 import com.cdxt.inter.constants.DocConstants;
-import com.cdxt.inter.model.request.InspectionState;
-import com.cdxt.inter.model.request.SampleReceive;
+import com.cdxt.inter.model.request.*;
 import com.cdxt.inter.model.request.mults.DoctorAdvice;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
 import com.cdxt.inter.util.DateUtil;
 import com.cdxt.inter.util.UUIDGenerator;
 import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
-import com.cdxt.inter.model.request.LisRequestionXml;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.Document;
 import org.springframework.stereotype.Service;
@@ -36,8 +34,16 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      * @date: 2020/5/26 17:34
      */
     @Override
-    public String sendInspectionReport(LisRequestionXml message) {
-        return "发送检验报告";
+    public String sendInspectionReport(LisRequestionXml message) throws Exception {
+        InspectionReport ir = new InspectionReport();
+        ir.setBarcode("9999999999");
+        ir.setBarcode1("9999999999");
+        ir.setBarcode2("9999999999");
+        ir.setBarcode3("9999999999");
+        ir.setSampleCollectorJobNo("9527");
+        ir.setSampleCollectorName("唐伯虎");
+        Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionReport.xml");
+        return Hl7bean2Xml.convertBean(ir, doc.getRootElement(), false).asXML();
     }
 
     /**
@@ -92,8 +98,35 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      * @date: 2020/5/27 14:39
      */
     @Override
-    public String sampleRefuse(LisRequestionXml message) {
-        return null;
+    public String sampleRefuse(LisRequestionXml message) throws Exception {
+        SampleRefuse sr = new SampleRefuse();
+        sr.setMessageId(UUIDGenerator.getUUID());
+        sr.setCreationTime(new Date());
+        sr.setServiceCode("JH0411");
+        sr.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
+        sr.setProcessingModeCode("T");
+        sr.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
+        sr.setReceiverId("EMR");
+        sr.setSenderId("LIS");
+        sr.setInspecNameCode("12");
+        sr.setInspecName("生化类");
+        sr.setRegionId("2");
+        List<DoctorAdvice> advices = new ArrayList<>();
+        DoctorAdvice advice = new DoctorAdvice();
+        advice.setAttentionCode("22");
+        advice.setAttentionName("空腹");
+        advice.setBarcode("1234567890");
+        advice.setCollectorCode("321");
+        advice.setCollectorName("采集人王五");
+        advice.setExcuteSectionCode("666");
+        advice.setExcuteSectionName("检验医学科");
+        advice.setOrderNo("12345678");
+        advice.setPriority("21");
+        advices.add(advice);
+        advices.add(advice);
+        sr.setDocAdvices(advices);
+        Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/SampleRefuse.xml");
+        return Hl7bean2Xml.convertBean(sr, doc.getRootElement(), false).asXML();
     }
 
     /**

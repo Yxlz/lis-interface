@@ -18,7 +18,7 @@ public class XStreamXmlUtil {
         //创建解析XML对象
         XStream xStream = new XStream(new DomDriver("UTF-8", new XmlFriendlyNameCoder("_-", "_")));
         XStream.setupDefaultSecurity(xStream);
-        xStream.allowTypesByWildcard(new String[]{"com.cdxt.inter.webservice.params.**"});
+        xStream.allowTypesByWildcard(new String[]{"com.cdxt.inter.model.request.**"});
         //处理注解
         xStream.processAnnotations(clazz);
         //将XML字符串转为bean对象

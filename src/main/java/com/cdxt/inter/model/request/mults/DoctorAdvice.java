@@ -40,6 +40,13 @@ public class DoctorAdvice {
     @Path(path="observationRequest/priorityCode",attribute = "code")
     private String priority;//优先级别
 
+    @Path(path="observationRequest/location/serviceDeliveryLocation/serviceProviderOrganization/id/item",attribute = "extension")
+    private String excuteSectionCode;//执行科室编码
+
+    @Path(path="observationRequest/location/serviceDeliveryLocation/serviceProviderOrganization/name/item/part",attribute = "value")
+    private String excuteSectionName;//执行科室名称
+
+    /*标本拒收的请求XML中下列节点没有*/
     @Path(path="observationRequest/specimen/specimen/id",attribute = "extension")
     private String barcode;//标本号/条码号
 
@@ -61,15 +68,10 @@ public class DoctorAdvice {
     @Path(path="observationRequest/specimen/specimen/subjectOf1/specimenProcessStep/performer/assignedEntity/assignedPerson/asLocatedEntity/addr/item/part",attribute = "value")
     private String collectPlace;//采集地点：检验科，护士站，体检中心
 
-    @Path(path="observationRequest/location/serviceDeliveryLocation/serviceProviderOrganization/id/item",attribute = "extension")
-    private String excuteSectionCode;//执行科室编码
-
-    @Path(path="observationRequest/location/serviceDeliveryLocation/serviceProviderOrganization/name/item/part",attribute = "value")
-    private String excuteSectionName;//执行科室名称
-
     @Path(path="observationRequest/subjectOf6/annotation/code",attribute = "code")
     private String attentionCode;//备注类型代码
 
     @Path(path="observationRequest/subjectOf6/annotation/text",attribute = "value")
     private String attentionName;//标本要求 空腹之类的
+
 }

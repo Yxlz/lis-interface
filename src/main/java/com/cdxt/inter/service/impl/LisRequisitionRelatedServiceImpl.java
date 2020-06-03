@@ -365,8 +365,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
      * @return: java.lang.String
      * @description: 接口返回
      * @Param mainInfo:解析xml的申請單信息
-     * @Param resultCode:返回代碼  AA成功  AE失敗
-     * @Param resultMsg:返回信息
+     * @Param CheckResult:结果信息
      * @date: 2020/5/30 0030 17:54
      */
     private String responseXml(XmlMessage<InspecRequisitionInfo> mainInfo, CheckResult result) throws Exception {

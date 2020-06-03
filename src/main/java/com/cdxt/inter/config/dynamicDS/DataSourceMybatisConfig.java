@@ -1,4 +1,4 @@
-package com.cdxt.inter.config;
+package com.cdxt.inter.config.dynamicDS;
 
 import com.cdxt.inter.config.dynamicDS.DynamicDataSource;
 import com.cdxt.inter.config.dynamicDS.DynamicDataSourceContextHolder;
