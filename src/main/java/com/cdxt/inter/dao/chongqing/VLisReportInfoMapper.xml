@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdxt.inter.dao.chongqing.VLisReportInfoMapper">
+  <resultMap id="BaseResultMap" type="com.cdxt.inter.entity.VLisReportInfo">
+    <result column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="INPUT_DATE" jdbcType="VARCHAR" property="inputDate" />
+    <result column="DEV_ID" jdbcType="VARCHAR" property="devId" />
+    <result column="INSPEC_NO" jdbcType="VARCHAR" property="inspecNo" />
+    <result column="PERSON_INFO_ID" jdbcType="VARCHAR" property="personInfoId" />
+    <result column="MJZ_NO" jdbcType="VARCHAR" property="mjzNo" />
+    <result column="ZY_NO" jdbcType="VARCHAR" property="zyNo" />
+    <result column="TJ_NO" jdbcType="VARCHAR" property="tjNo" />
+    <result column="REPORT_NO" jdbcType="VARCHAR" property="reportNo" />
+    <result column="REQUEST_NO" jdbcType="VARCHAR" property="requestNo" />
+    <result column="SPECIMEN_NO" jdbcType="VARCHAR" property="specimenNo" />
+    <result column="TIMES_OF_VISIT" jdbcType="CHAR" property="timesOfVisit" />
+    <result column="PATIENT_TYPE_CODE" jdbcType="VARCHAR" property="patientTypeCode" />
+    <result column="PATIENT_TYPE_NAME" jdbcType="VARCHAR" property="patientTypeName" />
+    <result column="PATIENT_PHONE" jdbcType="VARCHAR" property="patientPhone" />
+    <result column="PATIENT_ID_NO" jdbcType="VARCHAR" property="patientIdNo" />
+    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+    <result column="PATIENT_SEX_CODE" jdbcType="VARCHAR" property="patientSexCode" />
+    <result column="PATIENT_SEX_STR" jdbcType="VARCHAR" property="patientSexStr" />
+    <result column="PATIENT_BIRTHDAY" jdbcType="VARCHAR" property="patientBirthday" />
+    <result column="PATIENT_AGE_UNIT" jdbcType="CHAR" property="patientAgeUnit" />
+    <result column="PATIENT_AGE" jdbcType="VARCHAR" property="patientAge" />
+    <result column="TIME_REPORT" jdbcType="TIMESTAMP" property="timeReport" />
+    <result column="REPORTER_JOB_NO" jdbcType="VARCHAR" property="reporterJobNo" />
+    <result column="REPORTER_NAME" jdbcType="VARCHAR" property="reporterName" />
+    <result column="CUSTODIAN_ORG_CODE" jdbcType="VARCHAR" property="custodianOrgCode" />
+    <result column="CUSTODIAN_ORG_NAME" jdbcType="VARCHAR" property="custodianOrgName" />
+    <result column="TIME_OF_CHECK" jdbcType="TIMESTAMP" property="timeOfCheck" />
+    <result column="CHECK_DOCTOR_JOB_NO" jdbcType="VARCHAR" property="checkDoctorJobNo" />
+    <result column="CHECK_DOCTOR_NAME" jdbcType="VARCHAR" property="checkDoctorName" />
+    <result column="TIME_OF_INSPEC" jdbcType="TIMESTAMP" property="timeOfInspec" />
+    <result column="INSPEC_DOCTOR_JOB_NO" jdbcType="VARCHAR" property="inspecDoctorJobNo" />
+    <result column="INSPEC_DOCTOR_NAME" jdbcType="VARCHAR" property="inspecDoctorName" />
+    <result column="TIME_OF_REQ" jdbcType="TIMESTAMP" property="timeOfReq" />
+    <result column="REQ_DEPT_CODE" jdbcType="VARCHAR" property="reqDeptCode" />
+    <result column="REQ_DEPT_NAME" jdbcType="VARCHAR" property="reqDeptName" />
+    <result column="REQ_HOSPITAL_CODE" jdbcType="VARCHAR" property="reqHospitalCode" />
+    <result column="REQ_HOSPITAL_NAME" jdbcType="VARCHAR" property="reqHospitalName" />
+    <result column="TIME_OF_INSPEC_EXCUTE" jdbcType="TIMESTAMP" property="timeOfInspecExcute" />
+    <result column="INSPEC_EXCUTE_DOCTOR_JOB_NO" jdbcType="VARCHAR" property="inspecExcuteDoctorJobNo" />
+    <result column="INSPEC_EXCUTE_DOCTOR_NAME" jdbcType="VARCHAR" property="inspecExcuteDoctorName" />
+    <result column="BED_NO" jdbcType="VARCHAR" property="bedNo" />
+    <result column="PATIENT_WARD_NO" jdbcType="VARCHAR" property="patientWardNo" />
+    <result column="PATIENT_WARD_NO_CODE" jdbcType="VARCHAR" property="patientWardNoCode" />
+    <result column="PATIENT_WARD_NAME" jdbcType="VARCHAR" property="patientWardName" />
+    <result column="DEPT_CODE" jdbcType="VARCHAR" property="deptCode" />
+    <result column="DEPT_NAME" jdbcType="VARCHAR" property="deptName" />
+    <result column="HOSPITAL_NAME" jdbcType="VARCHAR" property="hospitalName" />
+    <result column="DIAGNOSIS_TEXT" jdbcType="VARCHAR" property="diagnosisText" />
+    <result column="DIAGNOSIS_TIME" jdbcType="VARCHAR" property="diagnosisTime" />
+    <result column="DIAGNOSIS_CODE" jdbcType="VARCHAR" property="diagnosisCode" />
+    <result column="DIAGNOSIS_NAME" jdbcType="VARCHAR" property="diagnosisName" />
+    <result column="DIAGNOSIS_ORG" jdbcType="VARCHAR" property="diagnosisOrg" />
+    <result column="PRE_ORDER_TIME" jdbcType="TIMESTAMP" property="preOrderTime" />
+    <result column="PRE_ORDER_PERSON_JOB_NO" jdbcType="VARCHAR" property="preOrderPersonJobNo" />
+    <result column="PRE_ORDER_PERSON_NAME" jdbcType="VARCHAR" property="preOrderPersonName" />
+    <result column="PRE_COLLECT_TIME" jdbcType="TIMESTAMP" property="preCollectTime" />
+    <result column="PRE_COLLECTOR_JOB_NO" jdbcType="VARCHAR" property="preCollectorJobNo" />
+    <result column="PRE_COLLECTOR_NAME" jdbcType="VARCHAR" property="preCollectorName" />
+    <result column="INSPEC_CODE" jdbcType="VARCHAR" property="inspecCode" />
+    <result column="INSPEC_NAME" jdbcType="VARCHAR" property="inspecName" />
+    <result column="INSPEC_TITLE" jdbcType="VARCHAR" property="inspecTitle" />
+    <result column="BARCODE" jdbcType="VARCHAR" property="barcode" />
+    <result column="SAMPLE_CODE" jdbcType="VARCHAR" property="sampleCode" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="SAMPLE_COLLECT_TIME" jdbcType="TIMESTAMP" property="sampleCollectTime" />
+    <result column="BARCODE1" jdbcType="VARCHAR" property="barcode1" />
+    <result column="SAMPLE_COLLECTOR_JOB_NO" jdbcType="VARCHAR" property="sampleCollectorJobNo" />
+    <result column="SAMPLE_COLLECTOR_NAME" jdbcType="VARCHAR" property="sampleCollectorName" />
+    <result column="SAMPLE_COLLECT_METHOD_CODE" jdbcType="VARCHAR" property="sampleCollectMethodCode" />
+    <result column="SAMPLE_COLLECT_METHOD_NAME" jdbcType="VARCHAR" property="sampleCollectMethodName" />
+    <result column="SAMPLE_COLLECT_PART_CODE" jdbcType="VARCHAR" property="sampleCollectPartCode" />
+    <result column="SAMPLE_COLLECT_PART_NAME" jdbcType="VARCHAR" property="sampleCollectPartName" />
+    <result column="BARCODE2" jdbcType="VARCHAR" property="barcode2" />
+    <result column="SAMPLE_REQ_TIME" jdbcType="TIMESTAMP" property="sampleReqTime" />
+    <result column="SAMPLE_RECEIVE_TIME" jdbcType="TIMESTAMP" property="sampleReceiveTime" />
+    <result column="BARCODE3" jdbcType="VARCHAR" property="barcode3" />
+    <result column="SAMPLE_RECEIVER_JOB_NO" jdbcType="VARCHAR" property="sampleReceiverJobNo" />
+    <result column="SAMPLE_RECEIVER_NAME" jdbcType="VARCHAR" property="sampleReceiverName" />
+    <result column="REPORT_NO1" jdbcType="VARCHAR" property="reportNo1" />
+  </resultMap>
+  <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from V_LIS_REPORT_INFO
+    where BARCODE = #{barcode,jdbcType=VARCHAR}
+  </select>
+</mapper>

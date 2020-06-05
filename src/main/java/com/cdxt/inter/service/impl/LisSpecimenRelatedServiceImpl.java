@@ -1,19 +1,34 @@
 package com.cdxt.inter.service.impl;
 
+import app.entity.LisInspecGeneralInfo;
+import app.entity.LisInspecResultIntraday;
+import app.entity.add.LisMicroCultureResult;
+import app.entity.add.LisMicroDurgResult;
+import app.entity.add.LisMicroMicroResult;
+import app.entity.add.LisMicroSmearResult;
+import app.manager.api.LisService;
 import com.cdxt.inter.constants.DocConstants;
+import com.cdxt.inter.dao.chongqing.VLisReportInfoMapper;
+import com.cdxt.inter.entity.VLisReportInfo;
 import com.cdxt.inter.model.request.*;
-import com.cdxt.inter.model.request.mults.DoctorAdvice;
+import com.cdxt.inter.model.request.mults.*;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
 import com.cdxt.inter.util.DateUtil;
+import com.cdxt.inter.util.SendReportUtil;
 import com.cdxt.inter.util.UUIDGenerator;
 import com.cdxt.inter.util.dom4j.Hl7bean2Xml;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.dom4j.Document;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @Description: 标本相关接口实现
@@ -26,6 +41,13 @@ import java.util.List;
 @Slf4j
 @Service
 public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService {
+
+    @Resource
+    private VLisReportInfoMapper vLisReportInfoMapper;
+
+    @Resource
+    private LisService lisService;
+
     /**
      * @return: java.lang.String
      * @author: tangxiaohui
@@ -35,15 +57,120 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      */
     @Override
     public String sendInspectionReport(LisRequestionXml message) throws Exception {
-        InspectionReport ir = new InspectionReport();
-        ir.setBarcode("9999999999");
-        ir.setBarcode1("9999999999");
-        ir.setBarcode2("9999999999");
-        ir.setBarcode3("9999999999");
-        ir.setSampleCollectorJobNo("9527");
-        ir.setSampleCollectorName("唐伯虎");
+        VLisReportInfo vLisReportInfo = vLisReportInfoMapper.selectByBarcode(message.getBarCode());
+        InspectionReport inspectionReport = new InspectionReport();
+        //注册一个日期空值转换器
+        ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+        BeanUtils.copyProperties(inspectionReport, vLisReportInfo);
+        inspectionReport.setDocumentCreateTime(new Date());
+
+        Object obj = lisService.getLisGeneralInfos(message.getDevCode(), message.getInputDate(), message.getInspecNo());
+        /*医嘱从属信息*/
+        List<InFulfillmentOf> inFulfillmentOfs = new ArrayList<>();
+        /*检验执行*/
+        List<InspecItemExcute> inspecItemExcutes = new ArrayList<>();
+        /*检验结果项*/
+        List<InspecResult> inspecResults = new ArrayList<>();
+        /*微生物结果项  个人理解为涂片培养结果*/
+        List<InspecMicrobialResult> inspecMicrobialResults = new ArrayList<>();
+        /*细菌培养结果项*/
+        List<InspecMicroCultureResult> inspecMicroCultureResults = new ArrayList<>();
+        /*药敏抗生素结果项*/
+        List<InspecMicroDrugResult> inspecMicroDrugResults = new ArrayList<>();
+        if(obj instanceof LisInspecGeneralInfo){
+            LisInspecGeneralInfo igi = (LisInspecGeneralInfo) obj;
+            String[] itemNames = igi.getRequestItemName().split(",");
+            String[] itemCodes = igi.getRequestItemNo().split(",");
+            for (int i = 0; i < itemCodes.length; i++) {
+                InFulfillmentOf inFulfillmentOf = new InFulfillmentOf();
+                inFulfillmentOf.setOrderNo(vLisReportInfo.getRequestNo());
+                inFulfillmentOf.setOrderItemCode(itemCodes[i]);
+                inFulfillmentOf.setOrderItemName(itemNames[i]);
+                inFulfillmentOfs.add(inFulfillmentOf);
+
+                InspecItemExcute inspecItemExcute = new InspecItemExcute();
+                inspecItemExcute.setCheckTime(vLisReportInfo.getTimeOfCheck());
+                inspecItemExcute.setInspecItemCode(itemCodes[i]);
+                inspecItemExcute.setInspecItemName(itemNames[i]);
+                inspecItemExcute.setDevCode(igi.getDevCode().getDevCode());
+                inspecItemExcute.setDevName(igi.getDevCode().getDevName());
+                inspecItemExcute.setInspecDoctorJobNo(vLisReportInfo.getInspecExcuteDoctorJobNo());
+                inspecItemExcute.setInspecDoctorName(vLisReportInfo.getInspecExcuteDoctorName());
+                inspecItemExcutes.add(inspecItemExcute);
+            }
+
+            if(igi.getDevCode().getDevType().equals("1")){/*微生物*/
+                /*涂片结果*/
+                List<LisMicroSmearResult> smearList = lisService.getLisMicroSmearResultList(igi.getId());
+                for (LisMicroSmearResult lmsr : smearList) {
+                    InspecMicrobialResult inspecMicrobialResult = new InspecMicrobialResult();
+                    inspecMicrobialResult.setSmearCode(lmsr.getSmearCode());
+                    inspecMicrobialResult.setSmearName(lmsr.getSmeraContent());
+                    inspecMicrobialResult.setReportTime(lmsr.getValueTime());
+                    inspecMicrobialResult.setResult(SendReportUtil.transferMeaning(lmsr.getInspecValue()));
+                    inspecMicrobialResults.add(inspecMicrobialResult);
+                }
+                /*细菌培养结果*/
+                List<LisMicroCultureResult> cultureList = lisService.getLisMicroCultureResults(igi.getId());
+                for (LisMicroCultureResult lmcr : cultureList) {
+                    InspecMicroCultureResult inspecMicroCultureResult = new InspecMicroCultureResult();
+                    inspecMicroCultureResult.setMicroCode(lmcr.getCultureCode());
+                    inspecMicroCultureResult.setMicroName(lmcr.getResult());
+                    inspecMicroCultureResult.setReportTime(lmcr.getValueTime());
+                    inspecMicroCultureResult.setResult(lmcr.getType());
+                    inspecMicroCultureResults.add(inspecMicroCultureResult);
+                }
+                /*药敏抗生素结果 */
+                List<LisMicroMicroResult> lmmrs = lisService.getLisMicroMicroResultList(igi.getId());
+                for (LisMicroMicroResult lmmr : lmmrs) {
+                    InspecMicroCultureResult inspecMicroCultureResult = new InspecMicroCultureResult();
+                    inspecMicroCultureResult.setMicroCode(lmmr.getMicroName());
+                    inspecMicroCultureResult.setMicroName(lmmr.getMicroNameCn());
+                    inspecMicroCultureResult.setReportTime(lmmr.getValueTime());
+                    inspecMicroCultureResult.setResult("阳性");
+                    inspecMicroCultureResults.add(inspecMicroCultureResult);
+
+                    List<LisMicroDurgResult> lmdrs = lisService.getLisMicroDurgResultList(igi.getInspecNo(),igi.getDevCode().getDevCode(),igi.getId());
+                    for (LisMicroDurgResult lmdr : lmdrs) {
+                        InspecMicroDrugResult inspecMicroDrugResult = new InspecMicroDrugResult();
+                        inspecMicroDrugResult.setItemCode(lmdr.getDurgCode());
+                        inspecMicroDrugResult.setItemName(lmdr.getDurgName());
+                        inspecMicroDrugResult.setResult(lmdr.getResult());
+                        inspecMicroDrugResult.setReportTime(igi.getTimeReport());
+                        inspecMicroDrugResult.setResultValue(lmdr.getExpertValue());
+                        inspecMicroDrugResult.setReferenceRange(SendReportUtil.transferMeaning(lmdr.getMic()));
+                        inspecMicroDrugResults.add(inspecMicroDrugResult);
+                    }
+                }
+            }else{/*常规结果*/
+                List<LisInspecResultIntraday> results = lisService.getOnlyLisInspecResultIntradays(igi.getDevCode().getId(), message.getInspecNo(), message.getInputDate());
+                for (LisInspecResultIntraday liri : results) {
+                    InspecResult inspecResult = new InspecResult();
+                    inspecResult.setItemCode(liri.getItemName());
+                    inspecResult.setItemName(liri.getItemNameCn());
+                    inspecResult.setResult(liri.getHighLow());
+                    inspecResult.setReportTime(liri.getValueTime());
+                    boolean inspecValueIsNumber = SendReportUtil.inspecValueIsNumber(liri.getInspecValue());
+                    if(inspecValueIsNumber){
+                        inspecResult.setResultType("PQ");//定量
+                    }else{
+                        inspecResult.setResultType("ST");//定性
+                    }
+                    inspecResult.setResultValue(SendReportUtil.transferMeaning(liri.getInspecValue()));
+                    inspecResult.setReferenceRange(SendReportUtil.transferMeaning(liri.getHighLowGap()));
+                    inspecResults.add(inspecResult);
+                }
+            }
+        }
+        inspectionReport.setOrderItems(inFulfillmentOfs);
+        inspectionReport.setInspecItemExcutes(inspecItemExcutes);
+        inspectionReport.setInspecResults(inspecResults);
+        inspectionReport.setInspecMicrobialResults(inspecMicrobialResults);
+        inspectionReport.setInspecMicroCultureResults(inspecMicroCultureResults);
+        inspectionReport.setInspecMicroDrugResults(inspecMicroDrugResults);
+
         Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionReport.xml");
-        return Hl7bean2Xml.convertBean(ir, doc.getRootElement(), false).asXML();
+        return Hl7bean2Xml.convertBean(inspectionReport, doc.getRootElement(), false).asXML();
     }
 
     /**

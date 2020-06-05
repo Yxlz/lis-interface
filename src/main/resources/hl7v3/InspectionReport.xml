@@ -1,75 +1,51 @@
 <ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:mif="urn:hl7-org:v3/mif"
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="urn:hl7-org:v3 ..\sdschemas\SDA.xsd">
-    <!--******************************************************** CDA Header********************************************************-->
     <realmCode code="CN"/>
-    <!-- 服务标识,extension为唯一事件编码，区分服务事件 -->
     <typeId root="2.16.840.1.113883.1.3" extension="JH0421"/>
     <templateId root="2.16.156.10011.2.1.1.27"/>
-    <!-- 文档唯一标识 -->
     <id root="1.2.156.112636.1.1.2.2.2.1" extension="每份文档的唯一标识"/>
-    <!--写死的代码，不需要改变-->
     <code code="C0007" codeSystem="2.16.156.10011.2.4" codeSystemName="卫生信息共享文档编码体系"/>
     <title>检验记录</title>
-    <!-- 文档机器生成时间 -->
     <effectiveTime value=""/>
     <confidentialityCode code="N" codeSystem="1.2.156.112636.1.1.2.1.4.31" codeSystemName="正常访问保密级别" displayName="保密"/>
     <languageCode code="zh-CN"/>
     <setId/>
     <versionNumber/>
-    <!--文档记录对象（患者）-->
     <recordTarget typeCode="RCT" contextControlCode="OP">
         <patientRole classCode="PAT">
-            <!--患者ID(patient_id)标识,全院统一患者标识 -->
             <id root="1.2.156.112636.1.2.1.4.1" extension=""/>
-            <!--门（急）诊号标识 -->
             <id root="1.2.156.112636.1.1.2.2.1.3" extension=""/>
-            <!--住院号标识-->
             <id root="1.2.156.112636.1.1.2.2.1.2" extension=""/>
-            <!--检验报告单号标识-->
             <id root="1.2.156.112636.1.1.2.2.1.24" extension=""/>
-            <!--电子申请单编号,如果有多个申请单号，拆分为多条-->
             <id root="1.2.156.112636.1.1.2.2.1.20" extension=""/>
-            <!-- 检验标本编号标识 -->
             <id root="1.2.156.112636.1.1.2.2.1.25" extension=""/>
-            <!--体检号标识 -->
             <id root="1.2.156.112636.1.1.2.2.1.4" extension=""/>
-            <!--住院次数,数值@value，单位@unit-->
             <lengthOfStayQuantity unit="次" value=""/>
-            <!-- 患者就诊类别代码1.门诊 2.急诊 3.住院 9.其他-->
             <patientType>
                 <patienttypeCode code="" codeSystem="1.2.156.112636.1.1.2.1.4.10" codeSystemName="患者就诊类型代码表"
                                  displayName=""/>
             </patientType>
-            <!-- 联系电话 -->
             <telecom value=""/>
             <patient classCode="PSN" determinerCode="INSTANCE">
-                <!--患者身份证号标识-->
                 <id root="1.2.156.112636.1.1.2.2.1.8" extension=""/>
                 <name></name>
                 <administrativeGenderCode code="" codeSystem="1.2.156.112636.1.1.2.1.2.1" codeSystemName="性别代码表"
                                           displayName=""/>
-                <!--出生日期-->
                 <birthTime value=""/>
-                <!-- 年龄 -->
                 <age unit="" value=""/>
             </patient>
         </patientRole>
     </recordTarget>
-    <!-- 检验报告医师（文档创作者） -->
     <author typeCode="AUT" contextControlCode="OP">
-        <!-- 检验报告日期 -->
         <time value=""/>
         <assignedAuthor classCode="ASSIGNED">
-            <!-- 医师工号 -->
             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
-            <!-- 医师姓名 -->
             <assignedPerson>
                 <name></name>
             </assignedPerson>
         </assignedAuthor>
     </author>
-    <!-- 保管机构 -->
     <custodian typeCode="CST">
         <assignedCustodian classCode="ASSIGNED">
             <representedCustodianOrganization classCode="ORG" determinerCode="INSTANCE">
@@ -78,12 +54,10 @@
             </representedCustodianOrganization>
         </assignedCustodian>
     </custodian>
-    <!-- 审核医师签名 -->
     <legalAuthenticator>
         <time value=""/>
         <signatureCode/>
         <assignedEntity>
-            <!-- 医师工号 -->
             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
             <code displayName="审核医师"/>
             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
@@ -91,12 +65,10 @@
             </assignedPerson>
         </assignedEntity>
     </legalAuthenticator>
-    <!-- 检验技师签名 -->
     <authenticator>
         <time value=""/>
         <signatureCode/>
         <assignedEntity>
-            <!-- 医师工号 -->
             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
             <code displayName="检验技师"/>
             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
@@ -104,9 +76,7 @@
             </assignedPerson>
         </assignedEntity>
     </authenticator>
-    <!-- 检验申请机构及科室 -->
     <participant typeCode="PRF">
-        <!-- 申请时间-->
         <time value=""/>
         <associatedEntity classCode="ASSIGNED">
             <scopingOrganization>
@@ -121,34 +91,26 @@
             </scopingOrganization>
         </associatedEntity>
     </participant>
-    <!--医嘱从属信息，多条医嘱重复此节点-->
     <inFulfillmentOf>
-        <!--医嘱信息 -->
         <order>
-            <!--医嘱号,order_sn医嘱唯一标识-->
             <id root="1.2.156.112636.1.1.2.2.1.19" extension=""/>
-            <!--医嘱项目名称-->
             <code code="OrderConcept106811" displayName=""/>
         </order>
     </inFulfillmentOf>
     <documentationOf>
         <serviceEvent>
-            <!--检验执行时间-->
             <effectiveTime value=""/>
             <performer typeCode="PRF">
                 <templateId root="1.3.6.1.4.1.19376.1.3.3.1.7"/>
                 <assignedEntity>
-                    <!--检验医生工号-->
                     <id extension="" root="1.2.156.112636.1.1.2.1.4.2"/>
                     <assignedPerson>
-                        <!--检验医生姓名-->
                         <name></name>
                     </assignedPerson>
                 </assignedEntity>
             </performer>
         </serviceEvent>
     </documentationOf>
-    <!-- 病床号、病房、病区、科室和医院的关联 -->
     <componentOf>
         <encompassingEncounter>
             <effectiveTime/>
@@ -156,24 +118,19 @@
                 <healthCareFacility>
                     <serviceProviderOrganization>
                         <asOrganizationPartOf classCode="PART">
-                            <!-- DE01.00.026.00	病床号 -->
                             <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
                                 <id root="1.2.156.112636.1.1.2.1.4.23" extension=""/>
-                                <!-- DE01.00.019.00	病房号 -->
                                 <asOrganizationPartOf classCode="PART">
                                     <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
                                         <id root="1.2.156.112636.1.1.2.1.4.7" extension=""/>
-                                        <!-- DE08.10.054.00	病区名称 -->
                                         <asOrganizationPartOf classCode="PART">
                                             <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
                                                 <id root="1.2.156.112636.1.1.2.1.4.7" extension=""/>
                                                 <name></name>
-                                                <!-- DE08.10.026.00	科室名称 -->
                                                 <asOrganizationPartOf classCode="PART">
                                                     <wholeOrganization classCode="ORG" determinerCode="INSTANCE">
                                                         <id root="1.2.156.112636.1.1.2.1.4.1" extension=""/>
                                                         <name></name>
-                                                        <!--XXX医院 -->
                                                         <asOrganizationPartOf classCode="PART">
                                                             <wholeOrganization classCode="ORG"
                                                                                determinerCode="INSTANCE">
@@ -194,24 +151,17 @@
             </location>
         </encompassingEncounter>
     </componentOf>
-    <!--***************************************************文档体Body*******************************************************-->
     <component>
         <structuredBody classCode="DOCBODY" moodCode="EVN">
-            <!-- 诊断记录章节-->
             <component>
                 <section>
-                    <!--写死的代码，不需要改变-->
                     <code code="29548-5" displayName="Diagnosis" codeSystem="2.16.840.1.113883.6.1"
                           codeSystemName="LOINC"/>
-                    <!--诊断文本，诊断描述、内容-->
                     <text>诊断文本</text>
-                    <!--条目：诊断（可为空），多条诊断重复<observation>-->
                     <entry>
                         <observation classCode="OBS" moodCode="EVN">
-                            <!--诊断文本，诊断描述、内容-->
                             <code code="52797-8" displayName="Diagnosis ICD code" codeSystem="2.16.840.1.113883.6.1"
                                   codeSystemName="LOINC"/>
-                            <!--诊断日期-->
                             <effectiveTime value="20120201"/>
                             <value xsi:type="CD" code="Z30.1.2" codeSystem="1.2.156.112636.1.1.2.1.1.2"
                                    codeSystemName="诊断代码表（ICD-10）" displayName="心肌梗死"/>
@@ -227,37 +177,27 @@
                     </entry>
                 </section>
             </component>
-            <!--采样预约章节-->
             <component>
                 <section>
                     <text/>
                     <entry>
                         <act classCode="ACT" moodCode="EVN">
-                            <!--写死的代码，不需要改变-->
                             <code displayName="预约信息"/>
-                            <!--预约时间-->
                             <effectiveTime value=""/>
-                            <!--预约人-->
                             <performer typeCode="PRF">
                                 <assignedEntity>
-                                    <!--工号-->
                                     <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
                                     <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                                         <name></name>
                                     </assignedPerson>
                                 </assignedEntity>
                             </performer>
-                            <!--拟采样信息-->
                             <entryRelationship typeCode="COMP">
                                 <act classCode="ACT" moodCode="EVN">
-                                    <!--写死的代码，不需要改变-->
                                     <code displayName="拟采样信息"/>
-                                    <!--拟采样时间-->
                                     <effectiveTime value=""/>
-                                    <!--拟采样医师-->
                                     <performer typeCode="PRF">
                                         <assignedEntity>
-                                            <!--工号-->
                                             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
                                             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                                                 <name></name>
@@ -270,64 +210,45 @@
                     </entry>
                 </section>
             </component>
-            <!--实验室检查专业章节-->
             <component>
                 <section>
                     <templateId root="1.3.6.1.4.1.19376.1.3.3.2.1"/>
-                    <!--检验类别，如果LIS系统自带能够区分血液、生化、免疫、微生物等类型，使用LIS系统的编码体系即可
-                    <code code="29576-6" codeSystem="1.2.156.112636.1.1.2.1.4.16" codeSystemName="检验类别代码表" displayName="微生物检验"/>					-->
-                    <!--如果LIS系统无法区分具体的检验类别，可以参照LOINC下26436-6子类分类码，来区分：18767-4 (BLOOD GAS STUDIES 血气分析)，18725-2 (MICROBIOLOGY STUDIES 微生物检验)，18729-4 (URINALYSIS STUDIES 尿液分析)，26435-8 (MOLECULAR PATHOLOGY STUDIES 分子病理分析)，18719-5(Chemistry studies 化学检查), 18723-7 (Hematology studies 血液分析) ，18720-3(Coagulation studies 凝血分析)，18728-6(Toxicology studies 毒理分析) ，18721-1(Therapeutic drug monitoring studies 药敏)，18727-8(Serology studies 血清分析)    -->
                     <code code="" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
                           displayName=""/>
-                    <!--检验标题，如：肝功+肾功-->
                     <title></title>
-                    <!--人可读内容，可为空-->
                     <text/>
-                    <!--检验报告数据处理条目-->
                     <entry typeCode="DRIV">
                         <templateId root="1.3.6.1.4.1.19376.1.3.1"/>
                         <act classCode="ACT" moodCode="EVN">
-                            <!--写死的代码，不需要改变-->
                             <code displayName="样本信息"/>
-                            <!--样本信息，多个样本重复specimen-->
                             <specimen typeCode="SPC">
                                 <specimenRole classCode="SPEC">
-                                    <!--样本编号/条码-->
                                     <id root="1.2.156.112636.1.1.2.2.1.25" extension=""/>
                                     <specimenPlayingEntity>
-                                        <!--样本类型-->
                                         <code code="" codeSystem="1.2.156.112636.1.1.2.1.3.5" codeSystemName="样本类型代码"
                                               displayName=""/>
                                     </specimenPlayingEntity>
                                 </specimenRole>
                             </specimen>
-                            <!--样本采集条目-->
                             <entryRelationship typeCode="COMP">
                                 <act classCode="ACT" moodCode="EVN">
                                     <templateId root="1.3.6.1.4.1.19376.1.3.1.2"/>
-                                    <!--写死的代码，不需要改变-->
                                     <code code="33882-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
                                           displayName="Specimen Collection"/>
-                                    <!--样本采集时间-->
                                     <effectiveTime value=""/>
-                                    <!--样本信息-->
                                     <specimen typeCode="SPC">
                                         <specimenRole classCode="SPEC">
-                                            <!--样本编号/条码-->
                                             <id extension="" root="1.2.156.112636.1.1.2.2.1.25"/>
                                         </specimenRole>
                                     </specimen>
-                                    <!--采样人信息-->
                                     <performer typeCode="PRF">
                                         <assignedEntity>
-                                            <!--工号-->
                                             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
                                             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                                                 <name></name>
                                             </assignedPerson>
                                         </assignedEntity>
                                     </performer>
-                                    <!--采样相关操作-->
                                     <entryRelationship typeCode="COMP">
                                         <procedure classCode="PROC" moodCode="EVN">
                                             <templateId root="1.3.6.1.4.1.19376.1.3.1.8"/>
@@ -337,7 +258,6 @@
                                                             codeSystemName="采样部位代码表" displayName=""/>
                                             <specimen typeCode="SPC">
                                                 <specimenRole classCode="SPEC">
-                                                    <!--样本编号/条码-->
                                                     <id extension="" root="1.2.156.112636.1.1.2.2.1.25"/>
                                                 </specimenRole>
                                             </specimen>
@@ -345,30 +265,22 @@
                                     </entryRelationship>
                                 </act>
                             </entryRelationship>
-                            <!--样本接收条目-->
                             <entryRelationship typeCode="COMP">
                                 <act classCode="ACT" moodCode="EVN">
                                     <templateId root="1.3.6.1.4.1.19376.1.3.1.3"/>
                                     <code code="SPRECEIVE" codeSystem="1.3.5.1.4.1.19376.1.5.3.2"
                                           codeSystemName="IHEActCode" displayName="Specimen Receive"/>
-                                    <!--样本接收时间-->
                                     <effectiveTime>
-                                        <!--标本送检时间-->
                                         <low value=""/>
-                                        <!--标本接收时间-->
                                         <high value=""/>
                                     </effectiveTime>
-                                    <!--同时接收多个样本，重复specimen-->
                                     <specimen typeCode="SPC">
                                         <specimenRole classCode="SPEC">
-                                            <!--样本编号/条码-->
                                             <id extension="" root="1.2.156.112636.1.1.2.2.1.25"/>
                                         </specimenRole>
                                     </specimen>
-                                    <!--样本接收人-->
                                     <performer typeCode="PRF">
                                         <assignedEntity>
-                                            <!--工号-->
                                             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
                                             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                                                 <name></name>
@@ -377,37 +289,28 @@
                                     </performer>
                                 </act>
                             </entryRelationship>
-                            <!--检验执行，如果有多个项目执行，重复此项-->
                             <entryRelationship typeCode="COMP">
                                 <act classCode="ACT" moodCode="EVN">
-                                    <!--检验项目代码，代表具体的检验项目-->
                                     <code code="" codeSystem="1.2.156.112636.1.1.2.1.4.9" codeSystemName="检验项目代码表"
                                           displayName=""/>
-                                    <!--检查状态，取值范围：completed|abort|active，对应：完成|作废|正在执行-->
                                     <statusCode code="completed"/>
-                                    <!--检查时间，如果检查状态是completed，代表报告时间，abort代表作废时间，active代表检查时间-->
                                     <effectiveTime value=""/>
-                                    <!--检查执行者，如果检查状态是completed，代表报告医师，abort代表作废医师，active代表检查医师-->
                                     <performer typeCode="PRF">
                                         <assignedEntity>
-                                            <!--工号-->
                                             <id root="1.2.156.112636.1.1.2.1.4.2" extension=""/>
                                             <assignedPerson classCode="PSN" determinerCode="INSTANCE">
                                                 <name></name>
                                             </assignedPerson>
                                         </assignedEntity>
                                     </performer>
-                                    <!--检验设备-->
                                     <participant typeCode="DEV">
                                         <participantRole>
-                                            <!--设备号-->
                                             <id root="1.2.156.112636.1.1.2.1.5.2" extension=""/>
                                             <playingDevice>
                                                 <manufacturerModelName></manufacturerModelName>
                                             </playingDevice>
                                         </participantRole>
                                     </participant>
-                                    <!--检验方法-->
                                     <entryRelationship typeCode="COMP">
                                         <procedure classCode="PROC" moodCode="EVN">
                                             <templateId root="1.3.6.1.4.1.19376.1.3.1.8"/>
@@ -421,43 +324,31 @@
                     </entry>
                 </section>
             </component>
-            <!--检验报告章节-->
             <component>
                 <section>
                     <entry>
-                        <!--检验报告组织-->
                         <organizer classCode="BATTERY" moodCode="EVN">
                             <templateId root="1.3.6.1.4.1.19376.1.3.1.4"/>
                             <id root="1.2.156.112636.1.1.2.2.1.24" extension=""/>
-                            <!--检查状态，取值范围：completed|abort|active，对应：完成|作废|正在执行-->
                             <statusCode code="completed"/>
-                            <!--定量结果-->
                             <component>
                                 <observation classCode="OBS" moodCode="EVN">
                                     <templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
                                     <code code="" codeSystem="1.2.156.112636.1.1.2.1.4.36"
                                           codeSystemName="检验结果项代码表" displayName=""/>
-                                    <!--结果描述，和参考范围比较的定性结果，偏高、偏低等-->
                                     <text>
                                         <reference value=""/>
                                     </text>
-                                    <!--报告时间,可为空-->
                                     <effectiveTime value=""/>
-                                    <!--结果值，如果是定量结果，类型为PQ，定性结果，类型为ST-->
                                     <value xsi:type="" value="" unit=""/>
-                                    <!--关联医嘱-->
                                     <entryRelationship typeCode="COMP">
                                         <act classCode="ACT" moodCode="EVN">
-                                            <!--医嘱号,order_sn医嘱唯一标识-->
                                             <id root="1.2.156.112636.1.1.2.2.1.19" extension=""/>
-                                            <!--医嘱项目，order_code和order_name，如果LIS中不存医嘱项目，则传入HIS收费码charge_code-->
                                             <code code="" displayName=""/>
                                         </act>
                                     </entryRelationship>
-                                    <!--参考范围，可为空，-->
                                     <referenceRange>
                                         <observationRange>
-                                            <!--参考范围描述，可为空，如果是定性描述，可以使用text-->
                                             <text></text>
                                             <value xsi:type="IVL_PQ">
                                                 <low value="" unit=""/>
@@ -470,27 +361,6 @@
                             <component>
                                 <observation classCode="OBS" moodCode="EVN">
                                     <templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
-                                    <code code="" codeSystem="1.2.156.112636.1.1.2.1.4.36"
-                                          codeSystemName="检验结果项代码表" displayName=""/>
-                                    <!--检查状态，取值范围：completed|abort|active，对应：完成|作废|正在执行-->
-                                    <statusCode code="completed"/>
-                                    <!--报告时间,可为空-->
-                                    <effectiveTime value=""/>
-                                    <value xsi:type="" value="" unit=""/>
-                                    <referenceRange>
-                                        <observationRange>
-                                            <value xsi:type="IVL_PQ">
-                                                <low value="" unit=""/>
-                                                <high value="" unit=""/>
-                                            </value>
-                                        </observationRange>
-                                    </referenceRange>
-                                </observation>
-                            </component>
-                            <!--定性结果-->
-                            <component>
-                                <observation classCode="OBS" moodCode="EVN">
-                                    <templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
                                     <code code="" codeSystem="1.2.156.112636.1.1.2.1.4.36" codeSystemName="微生物代码表"
                                           displayName=""/>
                                     <statusCode code="completed"/>
@@ -498,13 +368,11 @@
                                     <value xsi:type="ST"></value>
                                 </observation>
                             </component>
-                            <!--微生物敏感性-->
                             <component>
                                 <observation classCode="OBS" moodCode="EVN">
                                     <templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
                                     <code code="" codeSystem="1.2.156.112636.1.1.2.1.4.36" codeSystemName="药敏抗生素代码表"
                                           displayName=""/>
-                                    <!--结果描述-->
                                     <text>
                                         <reference value=""/>
                                     </text>
@@ -513,7 +381,6 @@
                                     <value xsi:type="PQ" value="" unit="mm"/>
                                     <referenceRange>
                                         <observationRange>
-                                            <!--参考范围描述-->
                                             <text></text>
                                             <value xsi:type="IVL_PQ">
                                                 <low value="" unit=""/>
@@ -533,11 +400,9 @@
                                     <value xsi:type="ST"></value>
                                 </observation>
                             </component>
-                            <!--报告备注-->
                             <component>
                                 <act classCode="ACT" moodCode="EVN">
                                     <templateId extension="1.3.6.1.4.1.19376.1.5.3.1.4.2"/>
-                                    <!--写死的代码，不需要改变-->
                                     <code code="48767-8" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"
                                           displayName="Annotation Comment"/>
                                     <text>

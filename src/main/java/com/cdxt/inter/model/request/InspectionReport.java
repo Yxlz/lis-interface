@@ -173,8 +173,8 @@ public class InspectionReport {
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/specimen/specimenRole/specimenPlayingEntity/code", attribute = "displayName")
     private String   sampleName;//样本编码
         /*样本采集条目*/
-    @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Collection']/../effectiveTime", attribute = "value")
-    private String   sampleCollectTime;//样本采集时间 20071108000000.0000-0500
+    @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Collection']/../effectiveTime", attribute = "value", dateformat = DocConstants.DOC_DATE_FORMATTER)
+    private Date   sampleCollectTime;//样本采集时间 20071108000000.0000-0500
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Collection']/../specimen/specimenRole/id", attribute = "extension")
     private String   barcode1;//样本编号/条码
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Collection']/../performer/assignedEntity/id", attribute = "extension")
@@ -193,9 +193,9 @@ public class InspectionReport {
     private String   barcode2;//样本编号/条码
         /*样本接收条目*/
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Receive']/../effectiveTime/low", attribute = "value", dateformat = DocConstants.DOC_DATE_FORMATTER)
-    private String   sampleReqTime;//标本送检时间
+    private Date   sampleReqTime;//标本送检时间
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Receive']/../effectiveTime/high", attribute = "value", dateformat = DocConstants.DOC_DATE_FORMATTER)
-    private String   sampleReceiveTime;//标本接收时间
+    private Date   sampleReceiveTime;//标本接收时间
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Receive']/../specimen/specimenRole/id", attribute = "extension")
     private String   barcode3;//样本编号/条码
     @Path(path = "component/structuredBody/component/section/templateId[@root='1.3.6.1.4.1.19376.1.3.3.2.1']/../entry/act/entryRelationship/act/code[@displayName='Specimen Receive']/../performer/assignedEntity/id", attribute = "extension")

@@ -14,26 +14,6 @@ import java.util.Map;
 public class DocConstants {
 
 	/**
-	 * 是否美化返回的XML
-	 */
-	public static boolean FORMAT_XML = true;
-
-	/**
-	 * 存放服务请求代码 key：文档服务代码 value：服务请求根节点名称
-	 */
-	public static final Map<String, String> DOC_REQ_MAP = new HashMap<>();
-
-	/**
-	 * 存放服务返回代码 key：文档服务代码 value：服务返回根节名称
-	 */
-	public static final Map<String, String> DOC_RES_MAP = new HashMap<>();
-
-	/**
-	 * 配置部分服务的异常返回根节点名称
-	 */
-	public static final Map<String, String> FAIL_RES_MAP = new HashMap<>();
-
-	/**
 	 * XML文档默认的编码
 	 */
 	public static final String DOC_ENCODING = "UTF-8";
@@ -79,37 +59,13 @@ public class DocConstants {
 	public static final String DOC_ASK_MODE = "AL";
 
 	/**
-	 * 查询失败时的askmode类型
-	 */
-	public static final String MESSAGE_FAIL_ASK = "ask";
-
-	/**
-	 * 返回的XML公共部分
-	 */
-	public static final String MESSAGE_COMMON_HEADER = "header";
-
-	/**
-	 * 查询返回的XML消息体部分
-	 */
-	public static final String MESSAGE_COMMON_BODY = "body";
-
-	/**
-	 * 数据内容标识
-	 */
-	public static final String MESSAGE_SUBJECT = "subject";
-
-	/**
 	 * 文档体标识
 	 */
 	public static final String MESSAGE_ACT_PROCESS = "controlActProcess";
 
 	/**
-	 * 自定义文档体标识
-	 */
-	public static final String MESSAGE_REQUEST = "REQUEST";
-
-	/**
 	 * 出错时返回的XML
 	 */
 	public static final String CMD_FAIL_XML = "<LIS>服务调用返回时发生异常！请重试！</LIS>";
+
 }
