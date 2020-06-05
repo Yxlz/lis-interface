@@ -7,6 +7,7 @@ import com.cdxt.inter.util.InvokeWebserviceUtil;
 import com.cdxt.inter.util.XStreamXmlUtil;
 import com.cdxt.inter.webservice.LabInfoService;
 import com.cdxt.inter.webservice.constants.WsConst;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import java.util.Map;
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
+@Slf4j
 @WebService(
         targetNamespace = WsConst.NAMESPACE_URL, //wsdl命名空间 与接口中的命名空间一致,一般是接口的包名倒
         name = "labInfoPortType",                 //portType名称 客户端生成代码时 为接口名称
@@ -119,6 +121,7 @@ public class LabInfoServiceImpl implements LabInfoService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(e.getMessage());
         }
         return null;
     }

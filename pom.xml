@@ -128,9 +128,19 @@
             <version>1.4</version>
         </dependency>
         <dependency>
-            <groupId>axis</groupId>
+            <groupId>org.apache.axis</groupId>
             <artifactId>axis-jaxrpc</artifactId>
             <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.activation</groupId>
+            <artifactId>activation</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.4.7</version>
         </dependency>
         <dependency>
             <groupId>commons-discovery</groupId>

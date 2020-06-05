@@ -28,7 +28,6 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * @Description: 标本相关接口实现
@@ -58,6 +57,10 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
     @Override
     public String sendInspectionReport(LisRequestionXml message) throws Exception {
         VLisReportInfo vLisReportInfo = vLisReportInfoMapper.selectByBarcode(message.getBarCode());
+        if(vLisReportInfo == null){
+            log.error("数据库没查询到此数据",message);
+            return "";
+        }
         InspectionReport inspectionReport = new InspectionReport();
         //注册一个日期空值转换器
         ConvertUtils.register(new DateConverter(null), java.util.Date.class);
