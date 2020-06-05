@@ -1,17 +1,17 @@
 package com.cdxt.inter.webservice.impl;
 
+import com.cdxt.inter.model.request.LisRequestionXml;
 import com.cdxt.inter.service.LisRequisitionRelatedService;
 import com.cdxt.inter.service.LisSpecimenRelatedService;
 import com.cdxt.inter.util.InvokeWebserviceUtil;
 import com.cdxt.inter.util.XStreamXmlUtil;
 import com.cdxt.inter.webservice.LabInfoService;
 import com.cdxt.inter.webservice.constants.WsConst;
-import com.cdxt.inter.model.request.LisRequestionXml;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import javax.annotation.Resource;
 import javax.jws.WebService;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,9 +54,9 @@ public class LabInfoServiceImpl implements LabInfoService {
      */
     private static final String JH_PARAMITER_NAME = "Message";
 
-    @Autowired
+    @Resource
     private LisSpecimenRelatedService lisSpecimenRelatedService;
-    @Autowired
+    @Resource
     private LisRequisitionRelatedService lisRequisitionRelatedService;
 
     /**
@@ -84,7 +84,7 @@ public class LabInfoServiceImpl implements LabInfoService {
         try {
             LisRequestionXml xml = XStreamXmlUtil.fromXml2Bean(LisRequestionXml.class, message);
             Map<String, String> paramMap = new HashMap<>();
-            String paramXml = "";
+            String paramXml;
             if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆
                 switch (action) {
                     case WsConst.ACTION_SAMPLE_RECEIVE:
@@ -131,10 +131,6 @@ public class LabInfoServiceImpl implements LabInfoService {
      * @date: 2020/5/28 11:44
      */
     private void dealWsdlUrl(String action) {
-        try {
-            jhServiceUrl += new String(WsConst.ACTION_REQ_MAP.get(action).getBytes("UTF-8"), "ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        jhServiceUrl += new String(WsConst.ACTION_REQ_MAP.get(action).getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
     }
 }
