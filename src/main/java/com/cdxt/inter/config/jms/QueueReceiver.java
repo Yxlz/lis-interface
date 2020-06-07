@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 public class QueueReceiver {
 
-    @JmsListener(destination = "queueName", containerFactory = "MyjmsQueueListener")
+    @JmsListener(destination = "${spring.activemq.queueName}", containerFactory = "MyjmsQueueListener")
     public void receiveMap(Map<Object, Object> map) {
         log.info("receiveMap:{}", map);
     }
