@@ -1,7 +1,6 @@
 package com.cdxt.inter.config.jms;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,7 @@ import java.util.Map;
 public class QueueReceiver {
 
     @JmsListener(destination = "queueName", containerFactory = "MyjmsQueueListener")
-    public void receiveMap(Map map) {
+    public void receiveMap(Map<Object, Object> map) {
         log.info("receiveMap:{}", map);
     }
 }
