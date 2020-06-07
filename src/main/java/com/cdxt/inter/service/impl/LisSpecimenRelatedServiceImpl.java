@@ -58,7 +58,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
     public String sendInspectionReport(LisRequestionXml message) throws Exception {
         VLisReportInfo vLisReportInfo = vLisReportInfoMapper.selectByBarcode(message.getBarCode());
         if(vLisReportInfo == null){
-            log.error("数据库没查询到此数据",message);
+            log.error("数据库没查询到此数据:{}",message);
             return "";
         }
         InspectionReport inspectionReport = new InspectionReport();

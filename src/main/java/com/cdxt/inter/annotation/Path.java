@@ -22,7 +22,7 @@ public @interface Path {
 	 */
 	public String path() default ""; 
 	
-	/***
+	/**
 	 * @Description: 是否是空节点  空节点时其他属性不需要，只需要设置nullFlavor属性
 	 * @Author tangxiaohui
 	 * @DateTime 2020/5/28 17:39
@@ -42,8 +42,6 @@ public @interface Path {
 	 * @DateTime 2020/5/28 17:40
 	 */
 	public String dateformat() default "";
-
-
 
 	/**
 	 * @Description: 节点attribute为空的时候是否保留该节点或者属性   默认为1：保留   0:删除节点  2：删除属性    只针对返回时起作用

@@ -55,6 +55,18 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis.sp.starter.version}</version>
         </dependency>
+        <!--activemq依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-activemq</artifactId>
+        </dependency>
+
+        <!--消息队列连接池-->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-pool</artifactId>
+            <version>5.12.0</version>
+        </dependency>
 
         <!--cxf webservice jar start-->
         <dependency>
