@@ -1,7 +1,7 @@
 package com.cdxt.inter.enums;
 
 /**
- * @Description: TODO
+ * @Description: 接口返回代码
  * @Author: tangxiaohui
  * @CreateDate: 2020/6/1 0001 21:04
  * @Copyright: Copyright (c) 2020

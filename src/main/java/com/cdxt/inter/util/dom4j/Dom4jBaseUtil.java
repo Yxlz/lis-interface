@@ -3,7 +3,6 @@ package com.cdxt.inter.util.dom4j;
 import com.cdxt.inter.constants.DocConstants;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
-import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.ByteArrayInputStream;
@@ -13,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Description: TODO
+ * @Description: DOM4J的基本工具类
  * @Author: tangxiaohui
  * @CreateDate: 2020/5/27 16:01
  * @Copyright: Copyright (c) 2020
@@ -93,6 +92,7 @@ public class Dom4jBaseUtil {
         Map<String, String> xmlMap = new HashMap<>();
         xmlMap.put(DocConstants.DOC_NAMESPACE_KEY, DocConstants.DOC_NAMESPACE);
         URL url = Dom4jBaseUtil.class.getClassLoader().getResource(relativeFileName);
+        assert url != null;
         File file = new File(url.getFile());
         SAXReader reader = new SAXReader();
         reader.getDocumentFactory().setXPathNamespaceURIs(xmlMap);

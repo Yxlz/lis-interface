@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * @Description: TODO
+ * @Description: 检验申请单相关服务接口实现类（主要重庆渝北区嘉禾平台开单子）
  * @Author: tangxiaohui
  * @CreateDate: 2020/5/30 0030 13:26
  * @Copyright: Copyright (c) 2020

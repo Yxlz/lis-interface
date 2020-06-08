@@ -1,0 +1,100 @@
+CREATE OR REPLACE VIEW V_LIS_REPORT_INFO
+(ID,INPUT_DATE,DEV_ID,INSPEC_NO,PERSON_INFO_ID,MJZ_NO,ZY_NO,TJ_NO,REPORT_NO,REQUEST_NO,SPECIMEN_NO,TIMES_OF_VISIT,PATIENT_TYPE_CODE,PATIENT_TYPE_NAME,PATIENT_PHONE,PATIENT_ID_NO,PATIENT_NAME,PATIENT_SEX_CODE,PATIENT_SEX_STR,
+PATIENT_BIRTHDAY,PATIENT_AGE_UNIT,PATIENT_AGE,
+TIME_REPORT,REPORTER_JOB_NO,REPORTER_NAME,CUSTODIAN_ORG_CODE,CUSTODIAN_ORG_NAME,TIME_OF_CHECK,CHECK_DOCTOR_JOB_NO,CHECK_DOCTOR_NAME,TIME_OF_INSPEC,
+INSPEC_DOCTOR_JOB_NO,INSPEC_DOCTOR_NAME,TIME_OF_REQ,REQ_DEPT_CODE,REQ_DEPT_NAME,REQ_HOSPITAL_CODE,REQ_HOSPITAL_NAME,TIME_OF_INSPEC_EXCUTE,INSPEC_EXCUTE_DOCTOR_JOB_NO,INSPEC_EXCUTE_DOCTOR_NAME,
+BED_NO,PATIENT_WARD_NO,PATIENT_WARD_NO_CODE,PATIENT_WARD_NAME,DEPT_CODE,DEPT_NAME,HOSPITAL_NAME,
+DIAGNOSIS_TEXT,DIAGNOSIS_TIME,DIAGNOSIS_CODE,DIAGNOSIS_NAME,DIAGNOSIS_ORG,PRE_ORDER_TIME,
+PRE_ORDER_PERSON_JOB_NO,PRE_ORDER_PERSON_NAME,PRE_COLLECT_TIME,PRE_COLLECTOR_JOB_NO,PRE_COLLECTOR_NAME,
+INSPEC_CODE,INSPEC_NAME,INSPEC_TITLE,BARCODE,SAMPLE_CODE,SAMPLE_NAME,SAMPLE_COLLECT_TIME,BARCODE1,
+SAMPLE_COLLECTOR_JOB_NO,SAMPLE_COLLECTOR_NAME,SAMPLE_COLLECT_METHOD_CODE,SAMPLE_COLLECT_METHOD_NAME,SAMPLE_COLLECT_PART_CODE,SAMPLE_COLLECT_PART_NAME,BARCODE2,SAMPLE_REQ_TIME,SAMPLE_RECEIVE_TIME,
+BARCODE3,SAMPLE_RECEIVER_JOB_NO,SAMPLE_RECEIVER_NAME,REPORT_NO1)
+AS
+SELECT
+  G.ID 														  AS ID,
+  G.INPUT_DATE 												  AS INPUT_DATE,
+  G.DEV_CODE 												  AS DEV_ID,
+  G.INSPEC_NO 												  AS INSPEC_NO,
+  P.PERSON_INFO_ID                                            AS PERSON_INFO_ID,
+  DECODE(P.P_TYPE,0,P.P_CODE,'')                              AS MJZ_NO,--门急诊号
+  DECODE(P.P_TYPE,1,P.P_CODE,'')                              AS ZY_NO,--住院号
+  DECODE(P.P_TYPE,2,P.P_CODE,'')                              AS TJ_NO,--体检号
+  P.PID                                                       AS REPORT_NO,--检验报告单号
+  G.REQUEST_NO                                                AS REQUEST_NO,--电子申请单编号
+  P.PID                                                       AS SPECIMEN_NO,--检验标本编号
+  '1'                                                         AS TIMES_OF_VISIT,--就诊次数
+  DECODE(P.P_TYPE,0,'1',1,'3',2,'4',3,'2','9')                AS PATIENT_TYPE_CODE,--患者就诊类别代码1.门诊 2.急诊 3.住院 4.体检 9.其他
+  DECODE(P.P_TYPE,0,'门诊',1,'住院',2,'体检',3,'急诊','其他') AS PATIENT_TYPE_NAME,--患者就诊类别
+  P.PHONE_NUM                                                 AS PATIENT_PHONE,
+  P.ID_CARD_NUM                                               AS PATIENT_ID_NO,--身份证
+  P.P_NAME                                                    AS PATIENT_NAME,
+  DECODE(P.P_SEX,'男','1','女','2','')                        AS PATIENT_SEX_CODE,
+  P.P_SEX                                                     AS PATIENT_SEX_STR,
+  NULL                                                        AS PATIENT_BIRTHDAY,
+  '岁'                                                        AS PATIENT_AGE_UNIT,
+  P.P_AGE                                                     AS PATIENT_AGE,
+  G.DOCHECK_TIME                                              AS TIME_REPORT,
+  G.DOC_CHECK                                                 AS REPORTER_JOB_NO,
+  G.DOC_CHECK_NAME                                            AS REPORTER_NAME,
+  P.HOSPITAL_ID                                               AS CUSTODIAN_ORG_CODE,
+  P.HOSPITAL_NAME                                             AS CUSTODIAN_ORG_NAME,--保管机构
+  G.DOCHECK_TIME                                              AS TIME_OF_CHECK,
+  G.DOC_CHECK                                                 AS CHECK_DOCTOR_JOB_NO,
+  G.DOC_CHECK_NAME                                            AS CHECK_DOCTOR_NAME,
+  G.DOCHECK_TIME                                              AS TIME_OF_INSPEC,
+  NULL                                                        AS INSPEC_DOCTOR_JOB_NO,
+  G.DOC_INSPEC                                                AS INSPEC_DOCTOR_NAME,
+  G.TIME_REQUEST                                              AS TIME_OF_REQ,
+  P.SECTION_ID                                                AS REQ_DEPT_CODE,
+  P.P_SECTION                                                 AS REQ_DEPT_NAME,
+  P.HOSPITAL_ID                                               AS REQ_HOSPITAL_CODE,
+  P.HOSPITAL_NAME                                             AS REQ_HOSPITAL_NAME,
+  G.TIME_SAMPLE_RECEIVED                                      AS TIME_OF_INSPEC_EXCUTE,
+  NULL                                                        AS INSPEC_EXCUTE_DOCTOR_JOB_NO,
+  G.DOC_INSPEC                                                AS INSPEC_EXCUTE_DOCTOR_NAME,
+  P.P_BEDNO                                                   AS BED_NO,
+  P.P_BEDNO                                                   AS PATIENT_WARD_NO,  
+  NULL                                                        AS PATIENT_WARD_NO_CODE,  
+  NULL                                                        AS PATIENT_WARD_NAME,
+  P.SECTION_ID                                                AS DEPT_CODE,
+  P.P_SECTION                                                 AS DEPT_NAME,
+  P.HOSPITAL_NAME                                             AS HOSPITAL_NAME,
+  P.P_DIAGNOSIS                                               AS DIAGNOSIS_TEXT,
+  NULL                                                        AS DIAGNOSIS_TIME,
+  NULL                                                        AS DIAGNOSIS_CODE,
+  NULL                                                        AS DIAGNOSIS_NAME,
+  P.HOSPITAL_ID                                               AS DIAGNOSIS_ORG,
+  G.TIME_REQUEST                                              AS PRE_ORDER_TIME,
+  NULL                                                        AS PRE_ORDER_PERSON_JOB_NO,
+  G.DOC_REQUEST                                               AS PRE_ORDER_PERSON_NAME,
+  G.TIME_SAMPLE_COLLECT                                       AS PRE_COLLECT_TIME,
+  NULL                                                        AS PRE_COLLECTOR_JOB_NO,
+  G.DOC_SAMPLE_COLLECT                                        AS PRE_COLLECTOR_NAME,
+  G.INSPEC_TYPE                                               AS INSPEC_CODE,
+  G.INSPEC_NAME                                               AS INSPEC_NAME,
+  G.REQUEST_ITEM_NAME                                         AS INSPEC_TITLE,
+  P.PID                                                       AS BARCODE,
+  NULL                                                        AS SAMPLE_CODE,
+  G.SAMPLE_NAME                                               AS SAMPLE_NAME,
+  G.TIME_SAMPLE_COLLECT                                       AS SAMPLE_COLLECT_TIME,
+  P.PID                                                       AS BARCODE1,
+  NULL                                                        AS SAMPLE_COLLECTOR_JOB_NO,
+  G.DOC_SAMPLE_COLLECT                                        AS SAMPLE_COLLECTOR_NAME,
+  NULL                                                        AS SAMPLE_COLLECT_METHOD_CODE,
+  NULL                                                        AS SAMPLE_COLLECT_METHOD_NAME,
+  NULL                                                        AS SAMPLE_COLLECT_PART_CODE,
+  NULL                                                        AS SAMPLE_COLLECT_PART_NAME,
+  P.PID                                                       AS BARCODE2,
+  G.TIME_SAMPLE_COLLECT                                       AS SAMPLE_REQ_TIME,
+  G.TIME_SAMPLE_RECEIVED                                      AS SAMPLE_RECEIVE_TIME,
+  P.PID                                                       AS BARCODE3,
+  NULL                                                        AS SAMPLE_RECEIVER_JOB_NO,
+  G.DOC_INSPEC                                                AS SAMPLE_RECEIVER_NAME,
+  P.PID														  AS REPORT_NO1
+FROM
+  LIS_INSPEC_GENERAL_INFO G
+LEFT JOIN
+  LIS_INSPEC_PATIENT P
+ON G.PATIENT_ID = P.ID
+WHERE P.PERSON_INFO_ID IS NOT NULL
+	AND BITAND(G.REPORTED_FLAG,2) = 2
