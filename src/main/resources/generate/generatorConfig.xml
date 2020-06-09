@@ -23,7 +23,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
         <!-- 生成模型的包名和位置-->
-        <javaModelGenerator targetPackage="com.cdxt.inter.entity" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.cdxt.app.entity" targetProject="src/main/java">
             <!-- 是否对model添加 构造函数 -->
             <property name="constructorBased" value="false"/>
             <!-- 是否允许子包，即targetPackage.schemaName.tableName -->
@@ -36,7 +36,7 @@
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- 生成映射文件的包名和位置-->
-        <sqlMapGenerator targetPackage="com.cdxt.inter.dao.chongqing" targetProject="src/main/java">
+        <sqlMapGenerator targetPackage="com.cdxt.app.dao.chongqing" targetProject="src/main/java">
             <!-- enableSubPackages:是否让schema作为包的后缀 -->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
@@ -45,7 +45,7 @@
                 type="MIXEDMAPPER",生成基于注解的Java Model 和相应的Mapper对象
                 type="XMLMAPPER",生成SQLMap XML文件和独立的Mapper接口
         -->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cdxt.inter.dao.chongqing" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.cdxt.app.dao.chongqing" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="enableSubPackages" value=""/>
             <!--定义Maper.java 源代码中的ByExample() 方法的可视性，可选的值有：

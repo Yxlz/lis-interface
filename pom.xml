@@ -240,7 +240,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>com.cdxt.inter.LisInterfaceApplication</mainClass>
+                    <mainClass>com.cdxt.app.LisInterfaceApplication</mainClass>
                     <layout>WAR</layout>
                 </configuration>
                 <executions>
