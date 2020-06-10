@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public class InvokeWebserviceUtil {
         try {
             org.apache.axis.client.Service service = new org.apache.axis.client.Service();
             org.apache.axis.client.Call call = (org.apache.axis.client.Call) service.createCall();
+            call.setEncodingStyle("UTF-8");
             call.setTargetEndpointAddress(wsdlUrl);
             // 调用的方法名
             call.setOperationName(new QName(namespaceURI, localPart));
@@ -114,23 +116,23 @@ public class InvokeWebserviceUtil {
             con.setRequestProperty("content-type", "text/xml;charset=UTF-8");
 
             // 5，手动构造请求体
-            String requestBody = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"";
-            requestBody += " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"";
-            requestBody += " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-            requestBody += "<soapenv:Body>";
+            StringBuilder requestBody = new StringBuilder("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"");
+            requestBody.append(" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"");
+            requestBody.append(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">");
+            requestBody.append("<soapenv:Body>");
 
-            requestBody += "<q0:"+localPart+" xmlns:q0=\""+namespaceURI+"\">";//调用方法 和命名空间
+            requestBody.append("<q0:").append(localPart).append(" xmlns:q0=\"").append(namespaceURI).append("\">");//调用方法 和命名空间
             for(String key:paramMap.keySet()){
-                requestBody += "<"+key+">" +paramMap.get(key) + "</"+key+">";//参数
+                requestBody.append("<").append(key).append(">").append(paramMap.get(key)).append("</").append(key).append(">");//参数
             }
-            requestBody += "</q0:"+localPart+">";
+            requestBody.append("</q0:").append(localPart).append(">");
 
-            requestBody += "</soapenv:Body>";
-            requestBody += "</soapenv:Envelope>";
+            requestBody.append("</soapenv:Body>");
+            requestBody.append("</soapenv:Envelope>");
 
             // 6，通过流的方式将请求体发送出去：
             OutputStream out = con.getOutputStream();
-            out.write(requestBody.getBytes());
+            out.write(requestBody.toString().getBytes());
             out.close();
             // 7，服务端返回正常：
             int code = con.getResponseCode();
@@ -138,10 +140,10 @@ public class InvokeWebserviceUtil {
             if (code == 200) {// 服务端返回正常
                 InputStream is = con.getInputStream();
                 byte[] b = new byte[1024];
-                StringBuffer sb = new StringBuffer();
-                int len = 0;
+                StringBuilder sb = new StringBuilder();
+                int len;
                 while ((len = is.read(b)) != -1) {
-                    String str = new String(b, 0, len, "UTF-8");
+                    String str = new String(b, 0, len, StandardCharsets.UTF_8);
                     sb.append(str);
                 }
                 result = sb.toString();

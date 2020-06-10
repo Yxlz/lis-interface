@@ -6,8 +6,10 @@ import com.cdxt.app.service.LisSpecimenRelatedService;
 import com.cdxt.app.util.InvokeWebserviceUtil;
 import com.cdxt.app.util.XStreamXmlUtil;
 import com.cdxt.app.webservice.LabInfoService;
+import com.cdxt.app.webservice.constants.JhIfConst;
 import com.cdxt.app.webservice.constants.WsConst;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.Resource;
@@ -26,10 +28,9 @@ import java.util.Map;
  */
 @Slf4j
 @WebService(
-        targetNamespace = WsConst.NAMESPACE_URL, //wsdl命名空间 与接口中的命名空间一致,一般是接口的包名倒
-        name = "labInfoPortType",                 //portType名称 客户端生成代码时 为接口名称
-        serviceName = "labInfoService",           //服务name名称 与接口中指定的name一致
-        portName = "labInfoPortName",             //port名称
+        targetNamespace = WsConst.NAMESPACE_URL,  //wsdl命名空间 与接口中的命名空间一致,一般是接口的包名倒
+        serviceName = "labInfoService",           //对外发布的服务名，指定 Web Service 的服务名称：wsdl:service。缺省值为 Java 类的简单名称 + Service。（字符串）
+        portName = "labInfoPortName",             //wsdl:portName。缺省值为 WebService.name+Port。
         endpointInterface = "com.cdxt.app.webservice.LabInfoService")//指定发布webservcie的接口类，此类也需要接入@WebService注解
 public class LabInfoServiceImpl implements LabInfoService {
 
@@ -38,23 +39,6 @@ public class LabInfoServiceImpl implements LabInfoService {
 
     @Value("${Jh_Hospital}")
     private String hospital;
-
-    /**
-     * 嘉和接口命名空间
-     */
-    private static final String JH_NAMESPACE_URI = "http://goodwillcis.com";
-    /**
-     * 嘉和接口方法_重庆
-     */
-    private static final String JH_LOCAL_PART_CQ = "HIPMessageServer";
-    /**
-     * 嘉和接口方法_自贡大安
-     */
-    private static final String JH_LOCAL_PART_ZG = "ReportReturn";
-    /**
-     * 嘉和接口方法参数名
-     */
-    private static final String JH_PARAMITER_NAME = "Message";
 
     @Resource
     private LisSpecimenRelatedService lisSpecimenRelatedService;
@@ -108,13 +92,19 @@ public class LabInfoServiceImpl implements LabInfoService {
                     default:
                         return null;
                 }
-                paramMap.put(JH_PARAMITER_NAME, paramXml);
-                return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_CQ, paramMap);
+                if (StringUtils.isBlank(paramXml)) {
+                    return null;
+                }
+                paramMap.put(JhIfConst.PARAMITER_NAME_CQ, paramXml);
+                return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JhIfConst.NAMESPACE_URI_CQ, JhIfConst.LOCAL_PART_CQ, paramMap);
             } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) { //自贡大安
                 if (action.equals(WsConst.ACTION_SEND_REPORT)) {
                     paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
-                    paramMap.put(JH_PARAMITER_NAME, paramXml);
-                    return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JH_NAMESPACE_URI, JH_LOCAL_PART_ZG, paramMap);
+                    if (StringUtils.isBlank(paramXml)) {
+                        return null;
+                    }
+                    paramMap.put(JhIfConst.PARAMITER_NAME_ZG, paramXml);
+                    return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JhIfConst.NAMESPACE_URI_ZG, JhIfConst.LOCAL_PART_ZG, paramMap);
                 } else {
                     return null;
                 }
