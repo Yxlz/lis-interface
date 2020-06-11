@@ -32,7 +32,6 @@ public class HttpInvokeConfig {
 
     @Bean
     public HttpComponentsHttpInvokerRequestExecutor httpComponentsHttpInvokerRequestExecutor(){
-        HttpComponentsHttpInvokerRequestExecutor executor = new HttpComponentsHttpInvokerRequestExecutor();
-        return executor;
+        return new HttpComponentsHttpInvokerRequestExecutor();
     }
 }
