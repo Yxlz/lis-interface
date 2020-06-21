@@ -59,6 +59,7 @@ public class SendReportUtil {
      * @Param toTransferStr:  待转义字符串
      * @date: 2020/6/5 9:53
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String transferMeaning(String toTransferStr){
         if(StringUtils.isBlank(toTransferStr)){
             return null;

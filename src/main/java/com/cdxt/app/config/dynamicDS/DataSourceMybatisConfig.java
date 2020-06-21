@@ -1,5 +1,6 @@
 package com.cdxt.app.config.dynamicDS;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -92,5 +93,26 @@ public class DataSourceMybatisConfig {
     @Bean(name = "dynamicTransactionManager")
     public DataSourceTransactionManager dynamicTransactionManager(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) {
         return new DataSourceTransactionManager(dynamicDataSource);
+    }
+
+//    /**
+//     * @return:  PerformanceInterceptor
+//     * @description: mp性能优化
+//     * @date: 2020/6/20 0020 19:00
+//     */
+//    @Bean
+//    public PerformanceInterceptor performanceInterceptor() {
+//        PerformanceInterceptor performanceInterceptor = new PerformanceInterceptor();
+//        return new PerformanceInterceptor();
+//    }
+
+    /**
+     * @return:  com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor
+     * @description: 分页插件
+     * @date: 2020/6/20 0020 19:01
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
     }
 }
