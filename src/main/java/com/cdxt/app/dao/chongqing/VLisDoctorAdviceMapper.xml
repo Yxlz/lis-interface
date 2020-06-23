@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdxt.app.dao.chongqing.VLisDoctorAdviceMapper">
+    <resultMap id="BaseResultMap" type="com.cdxt.app.entity.VLisDoctorAdvice">
+        <result column="PATIENT_ID" jdbcType="VARCHAR" property="patientId"/>
+        <result column="SAMPLE_IS_REFUSE" jdbcType="CHAR" property="sampleIsRefuse"/>
+        <result column="ORDER_NO" jdbcType="VARCHAR" property="orderNo"/>
+        <result column="INSPEC_ITEM_CODE" jdbcType="VARCHAR" property="inspecItemCode"/>
+        <result column="INSPEC_ITEM_NAME" jdbcType="VARCHAR" property="inspecItemName"/>
+        <result column="ORDER_TIME_STARTING" jdbcType="VARCHAR" property="orderTimeStarting"/>
+        <result column="ORDER_TIME_LIMIT" jdbcType="VARCHAR" property="orderTimeLimit"/>
+        <result column="ORDER_FREQUENCY_CODE" jdbcType="VARCHAR" property="orderFrequencyCode"/>
+        <result column="ORDER_FREQUENCY_NAME" jdbcType="VARCHAR" property="orderFrequencyName"/>
+        <result column="PRIORITY" jdbcType="VARCHAR" property="priority"/>
+        <result column="EXCUTE_SECTION_CODE" jdbcType="VARCHAR" property="excuteSectionCode"/>
+        <result column="EXCUTE_SECTION_NAME" jdbcType="VARCHAR" property="excuteSectionName"/>
+        <result column="BARCODE" jdbcType="VARCHAR" property="barcode"/>
+        <result column="SAMPLE_CODE" jdbcType="VARCHAR" property="sampleCode"/>
+        <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName"/>
+        <result column="TIME_COLLECT" jdbcType="TIMESTAMP" property="timeCollect"/>
+        <result column="COLLECTOR_CODE" jdbcType="VARCHAR" property="collectorCode"/>
+        <result column="COLLECTOR_NAME" jdbcType="VARCHAR" property="collectorName"/>
+        <result column="COLLECTOR_PLACE" jdbcType="VARCHAR" property="collectorPlace"/>
+        <result column="ATTENTION_CODE" jdbcType="VARCHAR" property="attentionCode"/>
+        <result column="ATTENTION_NAME" jdbcType="VARCHAR" property="attentionName"/>
+    </resultMap>
+    <select id="selectByPatientIdAndType" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        *
+        from V_LIS_DOCTOR_ADVICE
+        where PATIENT_ID = #{patientId,jdbcType=VARCHAR}
+        and SAMPLE_IS_REFUSE = #{sampleIsRefuse,jdbcType=VARCHAR}
+    </select>
+</mapper>

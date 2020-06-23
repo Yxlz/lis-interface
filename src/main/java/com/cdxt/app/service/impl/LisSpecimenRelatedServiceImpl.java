@@ -8,12 +8,18 @@ import app.entity.add.LisMicroMicroResult;
 import app.entity.add.LisMicroSmearResult;
 import app.manager.api.LisService;
 import com.cdxt.app.constants.DocConstants;
+import com.cdxt.app.constants.SampleInfoConstants;
+import com.cdxt.app.dao.chongqing.VLisDoctorAdviceMapper;
+import com.cdxt.app.dao.chongqing.VLisInspecStateMapper;
 import com.cdxt.app.dao.chongqing.VLisReportInfoMapper;
+import com.cdxt.app.dao.chongqing.VLisSampleInfoMapper;
+import com.cdxt.app.entity.VLisDoctorAdvice;
+import com.cdxt.app.entity.VLisInspecState;
 import com.cdxt.app.entity.VLisReportInfo;
+import com.cdxt.app.entity.VLisSampleInfo;
 import com.cdxt.app.model.request.*;
 import com.cdxt.app.model.request.mults.*;
 import com.cdxt.app.service.LisSpecimenRelatedService;
-import com.cdxt.app.util.DateUtil;
 import com.cdxt.app.util.SendReportUtil;
 import com.cdxt.app.util.UUIDGenerator;
 import com.cdxt.app.util.dom4j.Hl7bean2Xml;
@@ -25,9 +31,8 @@ import org.dom4j.Document;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @Description: 标本相关接口实现
@@ -45,6 +50,15 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
     private VLisReportInfoMapper vLisReportInfoMapper;
 
     @Resource
+    private VLisInspecStateMapper vLisInspecStateMapper;
+
+    @Resource
+    private VLisSampleInfoMapper vLisSampleInfoMapper;
+
+    @Resource
+    private VLisDoctorAdviceMapper vLisDoctorAdviceMapper;
+
+    @Resource
     private LisService lisService;
 
     /**
@@ -57,8 +71,8 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
     @Override
     public String sendInspectionReport(LisRequestionXml message) throws Exception {
         VLisReportInfo vLisReportInfo = vLisReportInfoMapper.selectByParam(message.getBarCode(), message.getInspecNo(), message.getInputDate());
-        if(vLisReportInfo == null){
-            log.error("数据库没查询到此数据:{}",message);
+        if (vLisReportInfo == null) {
+            log.error("数据库没查询到此数据:{}", message);
             return "";
         }
         InspectionReport inspectionReport = new InspectionReport();
@@ -80,7 +94,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
         List<InspecMicroCultureResult> inspecMicroCultureResults = new ArrayList<>();
         /*药敏抗生素结果项*/
         List<InspecMicroDrugResult> inspecMicroDrugResults = new ArrayList<>();
-        if(obj instanceof LisInspecGeneralInfo){
+        if (obj instanceof LisInspecGeneralInfo) {
             LisInspecGeneralInfo igi = (LisInspecGeneralInfo) obj;
             String[] itemNames = igi.getRequestItemName().split(",");
             String[] itemCodes = igi.getRequestItemNo().split(",");
@@ -102,7 +116,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
                 inspecItemExcutes.add(inspecItemExcute);
             }
 
-            if(igi.getDevCode().getDevType().equals("1")){/*微生物*/
+            if (igi.getDevCode().getDevType().equals("1")) {/*微生物*/
                 /*涂片结果*/
                 List<LisMicroSmearResult> smearList = lisService.getLisMicroSmearResultList(igi.getId());
                 for (LisMicroSmearResult lmsr : smearList) {
@@ -133,7 +147,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
                     inspecMicroCultureResult.setResult("阳性");
                     inspecMicroCultureResults.add(inspecMicroCultureResult);
 
-                    List<LisMicroDurgResult> lmdrs = lisService.getLisMicroDurgResultList(igi.getInspecNo(),igi.getDevCode().getDevCode(),igi.getId());
+                    List<LisMicroDurgResult> lmdrs = lisService.getLisMicroDurgResultList(igi.getInspecNo(), igi.getDevCode().getDevCode(), igi.getId());
                     for (LisMicroDurgResult lmdr : lmdrs) {
                         InspecMicroDrugResult inspecMicroDrugResult = new InspecMicroDrugResult();
                         inspecMicroDrugResult.setItemCode(lmdr.getDurgCode());
@@ -145,7 +159,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
                         inspecMicroDrugResults.add(inspecMicroDrugResult);
                     }
                 }
-            }else{/*常规结果*/
+            } else {/*常规结果*/
                 List<LisInspecResultIntraday> results = lisService.getOnlyLisInspecResultIntradays(igi.getDevCode().getId(), message.getInspecNo(), message.getInputDate());
                 for (LisInspecResultIntraday liri : results) {
                     InspecResult inspecResult = new InspecResult();
@@ -154,9 +168,9 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
                     inspecResult.setResult(liri.getHighLow());
                     inspecResult.setReportTime(liri.getValueTime());
                     boolean inspecValueIsNumber = SendReportUtil.inspecValueIsNumber(liri.getInspecValue());
-                    if(inspecValueIsNumber){
+                    if (inspecValueIsNumber) {
                         inspecResult.setResultType("PQ");//定量
-                    }else{
+                    } else {
                         inspecResult.setResultType("ST");//定性
                     }
                     inspecResult.setResultValue(SendReportUtil.transferMeaning(liri.getInspecValue()));
@@ -185,43 +199,42 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      */
     @Override
     public String sampleReceive(LisRequestionXml message) throws Exception {
-        SampleReceive sr = new SampleReceive();
-        sr.setMessageId(UUIDGenerator.getUUID());
-        sr.setCreationTime(new Date());
-        sr.setServiceCode("JH0411");
-        sr.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
-        sr.setProcessingModeCode("T");
-        sr.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
-        sr.setReceiverId("EMR");
-        sr.setSenderId("LIS");
-        sr.setInspecNameCode("12");
-        sr.setInspecName("生化类");
-        sr.setOrderDeptCode("21");
-        sr.setOrderDeptName("开单科室1");
-        sr.setOrderDoctorCode("999");
-        sr.setOrderDoctorName("医生李四");
-        sr.setRegionId("1");
+        VLisSampleInfo vLisSampleInfo = vLisSampleInfoMapper.selectByBarcodeAndType(message.getBarCode(), SampleInfoConstants.SAMPLE_RECEIVE);
+        if (vLisSampleInfo == null) {
+            log.error("数据库没查询到此拒收数据:{}", message);
+            return "";
+        }
+        SampleReceive sampleReceive = new SampleReceive();
+        //注册一个日期空值转换器
+        ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+        BeanUtils.copyProperties(sampleReceive, vLisSampleInfo);
+
+        List<VLisDoctorAdvice> adviceList = vLisDoctorAdviceMapper.selectByPatientIdAndType(vLisSampleInfo.getPatientId(), SampleInfoConstants.SAMPLE_RECEIVE);
         List<DoctorAdvice> advices = new ArrayList<>();
-        DoctorAdvice advice = new DoctorAdvice();
-        advice.setAttentionCode("22");
-        advice.setAttentionName("空腹");
-        advice.setBarcode("1234567890");
-        advice.setCollectorCode("321");
-        advice.setCollectorName("采集人王五");
-        advice.setExcuteSectionCode("666");
-        advice.setExcuteSectionName("检验医学科");
-        advice.setOrderNo("12345678");
-        advice.setPriority("21");
-        advices.add(advice);
-        advices.add(advice);
-        sr.setDocAdvices(advices);
+        if (adviceList == null) {
+            log.error("数据库没查询到医嘱信息:{}", vLisSampleInfo);
+        } else {
+            for (VLisDoctorAdvice vadvice : adviceList) {
+                DoctorAdvice advice = new DoctorAdvice();
+                BeanUtils.copyProperties(advice, vadvice);
+                advices.add(advice);
+            }
+        }
+        sampleReceive.setDocAdvices(advices);
+        sampleReceive.setMessageId(UUIDGenerator.getUUID());
+        sampleReceive.setCreationTime(new Date());
+        sampleReceive.setServiceCode("JH0413");
+        sampleReceive.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
+        sampleReceive.setProcessingModeCode("T");
+        sampleReceive.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
+        sampleReceive.setReceiverId("EMR");
+        sampleReceive.setSenderId("LIS");
         Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/SampleReceive.xml");
-        return Hl7bean2Xml.convertBean(sr, doc.getRootElement(), false).asXML();
+        return Hl7bean2Xml.convertBean(sampleReceive, doc.getRootElement(), false).asXML();
     }
 
     /**
      * @return: java.lang.String
-     * @throws:
      * @author: tangxiaohui
      * @description: 标本拒收
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
@@ -229,39 +242,42 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      */
     @Override
     public String sampleRefuse(LisRequestionXml message) throws Exception {
-        SampleRefuse sr = new SampleRefuse();
-        sr.setMessageId(UUIDGenerator.getUUID());
-        sr.setCreationTime(new Date());
-        sr.setServiceCode("JH0411");
-        sr.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
-        sr.setProcessingModeCode("T");
-        sr.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
-        sr.setReceiverId("EMR");
-        sr.setSenderId("LIS");
-        sr.setInspecNameCode("12");
-        sr.setInspecName("生化类");
-        sr.setRegionId("2");
+        VLisSampleInfo vLisSampleInfo = vLisSampleInfoMapper.selectByBarcodeAndType(message.getBarCode(), SampleInfoConstants.SAMPLE_REFUSE);
+        if (vLisSampleInfo == null) {
+            log.error("数据库没查询到此拒收数据:{}", message);
+            return "";
+        }
+        SampleRefuse sampleRefuse = new SampleRefuse();
+        //注册一个日期空值转换器
+        ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+        BeanUtils.copyProperties(sampleRefuse, vLisSampleInfo);
+
+        List<VLisDoctorAdvice> adviceList = vLisDoctorAdviceMapper.selectByPatientIdAndType(vLisSampleInfo.getPatientId(), SampleInfoConstants.SAMPLE_REFUSE);
         List<DoctorAdvice> advices = new ArrayList<>();
-        DoctorAdvice advice = new DoctorAdvice();
-        advice.setAttentionCode("22");
-        advice.setAttentionName("空腹");
-        advice.setBarcode("1234567890");
-        advice.setCollectorCode("321");
-        advice.setCollectorName("采集人王五");
-        advice.setExcuteSectionCode("666");
-        advice.setExcuteSectionName("检验医学科");
-        advice.setOrderNo("12345678");
-        advice.setPriority("21");
-        advices.add(advice);
-        advices.add(advice);
-        sr.setDocAdvices(advices);
+        if (adviceList == null) {
+            log.error("数据库没查询到医嘱信息:{}", vLisSampleInfo);
+        } else {
+            for (VLisDoctorAdvice vadvice : adviceList) {
+                DoctorAdvice advice = new DoctorAdvice();
+                BeanUtils.copyProperties(advice, vadvice);
+                advices.add(advice);
+            }
+        }
+        sampleRefuse.setDocAdvices(advices);
+        sampleRefuse.setMessageId(UUIDGenerator.getUUID());
+        sampleRefuse.setCreationTime(new Date());
+        sampleRefuse.setServiceCode("JH0414");
+        sampleRefuse.setProcessingCode(DocConstants.DOC_PROCESSING_CODE);
+        sampleRefuse.setProcessingModeCode("T");
+        sampleRefuse.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
+        sampleRefuse.setReceiverId("EMR");
+        sampleRefuse.setSenderId("LIS");
         Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/SampleRefuse.xml");
-        return Hl7bean2Xml.convertBean(sr, doc.getRootElement(), false).asXML();
+        return Hl7bean2Xml.convertBean(sampleRefuse, doc.getRootElement(), false).asXML();
     }
 
     /**
      * @return: java.lang.String
-     * @throws:
      * @author: tangxiaohui
      * @description: 更新检验状态
      * @Param message:  包含实验号，设备，录入日期，条码，医院id
@@ -269,7 +285,16 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      */
     @Override
     public String updateInspectionState(LisRequestionXml requestionXml) throws Exception {
+        List<VLisInspecState> vLisInspecStateList = vLisInspecStateMapper.selectByBarcode(requestionXml.getBarCode());
+        if (vLisInspecStateList == null) {
+            log.error("数据库没查询到此数据:{}", requestionXml);
+            return "";
+        }
+        ListSort(vLisInspecStateList);
         InspectionState inspecState = new InspectionState();
+        //注册一个日期空值转换器
+        ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+        BeanUtils.copyProperties(inspecState, vLisInspecStateList.get(0));
         inspecState.setMessageId(UUIDGenerator.getUUID());
         inspecState.setCreationTime(new Date());
         inspecState.setServiceCode("JH0411");
@@ -278,26 +303,30 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
         inspecState.setAcceptAckCode(DocConstants.DOC_ASK_MODE);
         inspecState.setReceiverId("EMR");
         inspecState.setSenderId("LIS");
-        inspecState.setBarcode("12121212121");
-        inspecState.setHealthCareCardNo("123123123");
-        inspecState.setIdNumber("513029199009244594");
-        inspecState.setOperationTime(DateUtil.formatDate(new Date(), DocConstants.DOC_DATE_FORMATTER));
-        inspecState.setOperatorDeptCode("9527");
-        inspecState.setOperatorDeptName("医学检验科");
-        inspecState.setOperatorJobNumber("9528");
-        inspecState.setOperatorName("小灰灰");
-        inspecState.setPatientBirthday("19900924");
-        inspecState.setPatientName("张三");
-        inspecState.setPatientSexCode("1");
-        inspecState.setPatientSexStr("男");
-        inspecState.setPersonInfoId("9999999999999999");
-        inspecState.setReqDescription("不举");
-        inspecState.setReqNo("7410852963");
-        inspecState.setSampleCode("2222");
-        inspecState.setSampleName("尿液");
-        inspecState.setSampleStateCode("4");
-        inspecState.setSampleStateStr("标本接收");
         Document doc = Hl7bean2Xml.parseXmlFile2Document("hl7v3/InspectionState.xml");
         return Hl7bean2Xml.convertBean(inspecState, doc.getRootElement(), false).asXML();
+    }
+
+    /**
+     * @return: void
+     * @author: tangxiaohui
+     * @description: 根据日期排序
+     * @Param list:
+     * @date: 2020/6/23 11:50
+     */
+    private static void ListSort(List<VLisInspecState> list) {
+        list.sort((o1, o2) -> {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                // format.format(o1.getTime()) 表示 date转string类型 如果是string类型就不要转换了
+                Date dt1 = format.parse(format.format(o1.getOperationTime()));
+                Date dt2 = format.parse(format.format(o2.getOperationTime()));
+                // 这是由大向小排序   如果要由小向大转换比较符号就可以
+                return Long.compare(dt2.getTime(), dt1.getTime());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return 0;
+        });
     }
 }

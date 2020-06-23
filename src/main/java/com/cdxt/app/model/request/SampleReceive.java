@@ -7,6 +7,7 @@ import com.cdxt.app.model.XpathCommon;
 import com.cdxt.app.model.request.mults.DoctorAdvice;
 import com.cdxt.app.util.DateUtil;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class SampleReceive extends XpathCommon {
     @Path(path = "controlActProcess/subject/placerGroup/subject/patient/id/item[@root='1.2.156.112698.1.1.2.1.5']", attribute = "extension")

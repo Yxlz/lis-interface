@@ -1,8 +1,12 @@
 package com.cdxt.app.model.request;
 
 import com.cdxt.app.annotation.Path;
+import com.cdxt.app.constants.DocConstants;
 import com.cdxt.app.model.XpathCommon;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.util.Date;
 
 /**
  * @Description: 检验状态文档body
@@ -12,6 +16,7 @@ import lombok.Data;
  * @Company: 成都信通网易医疗科技发展有限公司
  * @Version: 1.0
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class InspectionState extends XpathCommon {
     @Path(path = "controlActProcess/subject/observationReport/id/item", attribute = "extension")
@@ -29,8 +34,8 @@ public class InspectionState extends XpathCommon {
     @Path(path = "controlActProcess/subject/observationReport/specimen/specimen/code/displayName", attribute = "value")
     private String sampleName;//标本类别名称
 
-    @Path(path = "controlActProcess/subject/observationReport/specimen/specimen/subjectOf1/specimenProcessStep/verifier/time", attribute = "value")
-    private String operationTime;//操作时间
+    @Path(path = "controlActProcess/subject/observationReport/specimen/specimen/subjectOf1/specimenProcessStep/verifier/time", attribute = "value", dateformat = DocConstants.DOC_DATE_FORMATTER)
+    private Date operationTime;//操作时间
 
     @Path(path = "controlActProcess/subject/observationReport/specimen/specimen/subjectOf1/specimenProcessStep/verifier/modeCode", attribute = "code")
     private String sampleStateCode;//标本状态代码

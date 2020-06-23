@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdxt.app.dao.chongqing.VLisSampleInfoMapper">
+    <resultMap id="BaseResultMap" type="com.cdxt.app.entity.VLisSampleInfo">
+        <result column="PATIENT_ID" jdbcType="VARCHAR" property="patientId"/>
+        <result column="SAMPLE_IS_REFUSE" jdbcType="CHAR" property="sampleIsRefuse"/>
+        <result column="REGION_ID" jdbcType="VARCHAR" property="regionId"/>
+        <result column="PATIENT_CODE" jdbcType="VARCHAR" property="patientCode"/>
+        <result column="PATIENT_TYPE" jdbcType="VARCHAR" property="patientType"/>
+        <result column="PATIENT_CODE1" jdbcType="VARCHAR" property="patientCode1"/>
+        <result column="ORDER_TIME" jdbcType="TIMESTAMP" property="orderTime"/>
+        <result column="ORDER_DOCTOR_CODE" jdbcType="VARCHAR" property="orderDoctorCode"/>
+        <result column="ORDER_DOCTOR_NAME" jdbcType="VARCHAR" property="orderDoctorName"/>
+        <result column="ORDER_DEPT_CODE" jdbcType="VARCHAR" property="orderDeptCode"/>
+        <result column="ORDER_DEPT_NAME" jdbcType="VARCHAR" property="orderDeptName"/>
+        <result column="TIME_RECEIVE_STARTING" jdbcType="TIMESTAMP" property="timeReceiveStarting"/>
+        <result column="TIME_RECEIVE_LIMIT" jdbcType="TIMESTAMP" property="timeReceiveLimit"/>
+        <result column="RECEIVER_JOB_NO" jdbcType="VARCHAR" property="receiverJobNo"/>
+        <result column="RECEIVER_NAME" jdbcType="VARCHAR" property="receiverName"/>
+        <result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime"/>
+        <result column="THE_CONFIRM_CODE" jdbcType="VARCHAR" property="theConfirmCode"/>
+        <result column="THE_CONFIRM_NAME" jdbcType="VARCHAR" property="theConfirmName"/>
+        <result column="REQUEST_NO" jdbcType="VARCHAR" property="requestNo"/>
+        <result column="INSPEC_NAME_CODE" jdbcType="VARCHAR" property="inspecNameCode"/>
+        <result column="INSPEC_NAME" jdbcType="VARCHAR" property="inspecName"/>
+        <result column="REQ_DATE" jdbcType="TIMESTAMP" property="reqDate"/>
+    </resultMap>
+    <select id="selectByBarcodeAndType" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select *
+        from V_LIS_SAMPLE_INFO
+        where PATIENT_CODE = #{barcode,jdbcType=VARCHAR}
+        and SAMPLE_IS_REFUSE = #{sampleIsRefuse,jdbcType=VARCHAR}
+    </select>
+</mapper>

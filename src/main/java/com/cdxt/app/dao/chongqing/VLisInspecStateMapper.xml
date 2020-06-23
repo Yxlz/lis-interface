@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cdxt.app.dao.chongqing.VLisInspecStateMapper">
+  <resultMap id="BaseResultMap" type="com.cdxt.app.entity.VLisInspecState">
+    <result column="REQ_NO" jdbcType="VARCHAR" property="reqNo" />
+    <result column="REQ_DESCRIPTION" jdbcType="VARCHAR" property="reqDescription" />
+    <result column="BARCODE" jdbcType="VARCHAR" property="barcode" />
+    <result column="SAMPLE_CODE" jdbcType="VARCHAR" property="sampleCode" />
+    <result column="SAMPLE_NAME" jdbcType="VARCHAR" property="sampleName" />
+    <result column="OPERATION_TIME" jdbcType="TIMESTAMP" property="operationTime" />
+    <result column="SAMPLE_STATE_CODE" jdbcType="VARCHAR" property="sampleStateCode" />
+    <result column="SAMPLE_STATE_STR" jdbcType="VARCHAR" property="sampleStateStr" />
+    <result column="SAMPLE_REFUSE_REASON" jdbcType="VARCHAR" property="sampleRefuseReason" />
+    <result column="OPERATOR_JOB_NUMBER" jdbcType="VARCHAR" property="operatorJobNumber" />
+    <result column="OPERATOR_NAME" jdbcType="VARCHAR" property="operatorName" />
+    <result column="OPERATOR_DEPT_CODE" jdbcType="VARCHAR" property="operatorDeptCode" />
+    <result column="OPERATOR_DEPT_NAME" jdbcType="VARCHAR" property="operatorDeptName" />
+    <result column="PERSON_INFO_ID" jdbcType="VARCHAR" property="personInfoId" />
+    <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+    <result column="HEALTH_CARE_CARD_NO" jdbcType="VARCHAR" property="healthCareCardNo" />
+    <result column="PATIENT_NAME" jdbcType="VARCHAR" property="patientName" />
+    <result column="PATIENT_SEX_CODE" jdbcType="VARCHAR" property="patientSexCode" />
+    <result column="PATIENT_SEX_STR" jdbcType="VARCHAR" property="patientSexStr" />
+    <result column="PATIENT_BIRTHDAY" jdbcType="VARCHAR" property="patientBirthday" />
+  </resultMap>
+  <select id="selectByBarcode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from V_LIS_INSPEC_STATE
+    where BARCODE = #{barcode,jdbcType=VARCHAR}
+  </select>
+</mapper>
