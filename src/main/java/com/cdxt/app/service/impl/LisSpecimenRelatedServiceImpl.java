@@ -286,7 +286,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
     @Override
     public String updateInspectionState(LisRequestionXml requestionXml) throws Exception {
         List<VLisInspecState> vLisInspecStateList = vLisInspecStateMapper.selectByBarcode(requestionXml.getBarCode());
-        if (vLisInspecStateList == null) {
+        if (vLisInspecStateList == null || vLisInspecStateList.size() == 0) {
             log.error("数据库没查询到此数据:{}", requestionXml);
             return "";
         }
