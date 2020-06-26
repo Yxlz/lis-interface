@@ -32,7 +32,7 @@ public class SwitchDataSourceAspect implements Ordered {
     }
 
     @After("@annotation(switchDataSource)")
-    public void afterSwitchDataSource(JoinPoint joinPoint, SwitchDataSource switchDataSource){
+    public void afterSwitchDataSource(SwitchDataSource switchDataSource){
         DynamicDataSourceContextHolder.clearDataSourceType();
     }
 
