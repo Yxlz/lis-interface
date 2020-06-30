@@ -175,6 +175,7 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
                     }
                     inspecResult.setResultValue(SendReportUtil.transferMeaning(liri.getInspecValue()));
                     inspecResult.setReferenceRange(SendReportUtil.transferMeaning(liri.getHighLowGap()));
+                    inspecResult.setResultUnit(liri.getUnit());
                     inspecResults.add(inspecResult);
                 }
             }

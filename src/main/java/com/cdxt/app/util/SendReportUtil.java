@@ -59,16 +59,15 @@ public class SendReportUtil {
      * @Param toTransferStr:  待转义字符串
      * @date: 2020/6/5 9:53
      */
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static String transferMeaning(String toTransferStr){
         if(StringUtils.isBlank(toTransferStr)){
             return null;
         }else{
-            toTransferStr.replace("<", "&lt;");
-            toTransferStr.replace(">", "&gt;");
-            toTransferStr.replace("&", "&amp;");
-            toTransferStr.replace("’", "&apos;");
-            toTransferStr.replace("\"", "&quot;");
+            toTransferStr = toTransferStr.replace("<", "&lt;");
+            toTransferStr = toTransferStr.replace(">", "&gt;");
+            //toTransferStr.replace("&", "&amp;");
+            toTransferStr = toTransferStr.replace("’", "&apos;");
+            toTransferStr = toTransferStr.replace("\"", "&quot;");
             return toTransferStr;
         }
     }
