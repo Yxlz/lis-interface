@@ -1,5 +1,6 @@
 package com.cdxt.app.service.impl;
 
+import app.entity.LisInspecDevInfo;
 import app.entity.LisInspecGeneralInfo;
 import app.entity.LisInspecResultIntraday;
 import app.entity.add.LisMicroCultureResult;
@@ -32,7 +33,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @Description: 标本相关接口实现
@@ -70,16 +73,25 @@ public class LisSpecimenRelatedServiceImpl implements LisSpecimenRelatedService 
      */
     @Override
     public String sendInspectionReport(LisRequestionXml message) throws Exception {
-        VLisReportInfo vLisReportInfo = vLisReportInfoMapper.selectByParam(message.getBarCode(), message.getInspecNo(), message.getInputDate());
+        /*LIS中审核走表的话message中devCode是设备代码，走视图则为设备ID了*/
+        List<LisInspecDevInfo> devInfos = lisService.getInspecDevInfoByDevCode(message.getDevCode());
+        VLisReportInfo vLisReportInfo;
+        if (devInfos != null && devInfos.size() > 0){
+            vLisReportInfo = vLisReportInfoMapper.selectByParam(message.getBarCode(), message.getInspecNo(), message.getInputDate(), devInfos.get(0).getId());
+        } else {
+            vLisReportInfo = vLisReportInfoMapper.selectByParam(message.getBarCode(), message.getInspecNo(), message.getInputDate(), message.getDevCode());
+        }
         if (vLisReportInfo == null) {
             log.error("数据库没查询到此数据:{}", message);
             return "";
         }
+
         InspectionReport inspectionReport = new InspectionReport();
         //注册一个日期空值转换器
         ConvertUtils.register(new DateConverter(null), java.util.Date.class);
         BeanUtils.copyProperties(inspectionReport, vLisReportInfo);
         inspectionReport.setDocumentCreateTime(new Date());
+        inspectionReport.setReportId(vLisReportInfo.getId());//用于区分同一个条码多次上机  标本表lis_inspec_general_info表id
 
         Object obj = lisService.getLisGeneralInfos(message.getDevCode(), message.getInputDate(), message.getInspecNo());
         /*医嘱从属信息*/

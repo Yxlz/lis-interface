@@ -38,6 +38,8 @@ public class InspectionReport {
     private String specimenNo;//检验标本编号
     @Path(path = "recordTarget/patientRole/id[@root='1.2.156.112636.1.1.2.2.1.4']", attribute = "extension")
     private String tjNo;//体检号
+    @Path(path = "recordTarget/patientRole/id[@root='1.2.156.112636.1.1.2.2.1.26']", attribute = "extension")
+    private String reportId;//用于区分同一个条码多次上机  标本表lis_inspec_general_info表id  重庆的没得
     @Path(path = "recordTarget/patientRole/lengthOfStayQuantity", attribute = "value")
     private String timesOfVisit;//就诊次数
     @Path(path = "recordTarget/patientRole/patientType/patienttypeCode", attribute = "code")

@@ -5,7 +5,9 @@ import org.springframework.util.StringUtils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * @Description: 日期工具类
@@ -121,6 +123,22 @@ public class DateUtil {
     }
 
     /**
+     * 将某种格式的日期转成指定格式字符串
+     */
+    public static String getAnotherDateString(String dateStr, String dateStrFormater, String targetDateStrFormater) {
+        SimpleDateFormat sdf = new SimpleDateFormat(dateStrFormater);
+        SimpleDateFormat df = new SimpleDateFormat(targetDateStrFormater);
+        Date date = null;
+        try {
+            date = sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (date == null) return "";
+        return df.format(date);
+    }
+
+    /**
      * 通过身份证号 获取出生日期
      */
     public static String getBirthDayByIdCard(String idcard) {
@@ -199,7 +217,7 @@ public class DateUtil {
     }
 
     /**
-     * @return:  com.cdxt.inter.util.BirthAge
+     * @return: com.cdxt.inter.util.BirthAge
      * @description: 根据生日获取年龄
      * @Param birthDay:
      * @date: 2020/5/30 0030 11:04

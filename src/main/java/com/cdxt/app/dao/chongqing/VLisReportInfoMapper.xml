@@ -89,5 +89,6 @@
     where BARCODE = #{barcode,jdbcType=VARCHAR}
         and INSPEC_NO = #{inspecNo,jdbcType=VARCHAR}
         and INPUT_DATE = #{inputDate,jdbcType=VARCHAR}
+        and DEV_ID = #{devId,jdbcType=VARCHAR}
   </select>
 </mapper>

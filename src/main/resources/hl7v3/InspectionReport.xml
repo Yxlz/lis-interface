@@ -21,6 +21,7 @@
             <id root="1.2.156.112636.1.1.2.2.1.20" extension=""/>
             <id root="1.2.156.112636.1.1.2.2.1.25" extension=""/>
             <id root="1.2.156.112636.1.1.2.2.1.4" extension=""/>
+            <id root="1.2.156.112636.1.1.2.2.1.26" extension=""/>
             <lengthOfStayQuantity unit="次" value=""/>
             <patientType>
                 <patienttypeCode code="" codeSystem="1.2.156.112636.1.1.2.1.4.10" codeSystemName="患者就诊类型代码表"
