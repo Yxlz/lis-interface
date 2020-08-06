@@ -1,16 +1,16 @@
-package com.cdxt.app.service.impl;
+package com.cdxt.app.service.chongqing.impl;
 
 import com.cdxt.app.constants.DocConstants;
 import com.cdxt.app.dao.chongqing.LisExchangePatientInfoMapper;
 import com.cdxt.app.dao.chongqing.LisExchangePatientItemMapper;
 import com.cdxt.app.entity.LisExchangePatientInfo;
 import com.cdxt.app.entity.LisExchangePatientItem;
-import com.cdxt.app.model.*;
-import com.cdxt.app.model.response.CheckResult;
+import com.cdxt.app.model.XmlMessage;
 import com.cdxt.app.model.request.InspecRequisitionInfo;
 import com.cdxt.app.model.request.mults.RequisitionItemInfo;
+import com.cdxt.app.model.response.CheckResult;
 import com.cdxt.app.model.response.InspecReqResponse;
-import com.cdxt.app.service.LisRequisitionRelatedService;
+import com.cdxt.app.service.chongqing.LisRequisitionRelatedService;
 import com.cdxt.app.util.DateUtil;
 import com.cdxt.app.util.UUIDGenerator;
 import com.cdxt.app.util.dom4j.Hl7bean2Xml;
@@ -42,6 +42,138 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
     private LisExchangePatientInfoMapper lisExchangePatientInfoMapper;
     @Resource
     private LisExchangePatientItemMapper lisExchangePatientItemMapper;
+
+//    /**
+//     * @param applicationXml
+//     * @return: java.lang.String
+//     * @author: tangxiaohui
+//     * @description: 保存或更新申请单(信通医共体平台)
+//     * @Param applicationXml:
+//     * @date: 2020/7/14 9:54
+//     */
+//    @Override
+//    public String saveOrUpdateRequisitionOfHip(String applicationXml) {
+//        try {
+//            /*解析XML  开始---------------------------------------*/
+//            Document doc = Hl7xml2Bean.parseXml2Document(applicationXml);
+//            HipXmlMessage<HipInspecRequisition> mainInfo = (HipXmlMessage<HipInspecRequisition>) Hl7xml2Bean.parseXml(doc.getRootElement(), HipXmlMessage.class, false);
+//            HipInspecRequisition reqInfo = (HipInspecRequisition) Hl7xml2Bean.parseXml_controlActProcess(doc.getRootElement(), HipInspecRequisition.class);
+//            mainInfo.setSubject(reqInfo);
+//            /*解析XML  结束---------------------------------------*/
+//
+//            assert reqInfo != null;
+//            String barcode = reqInfo.getBarCode();//条码号
+//            String serviceCode = mainInfo.getServiceCode();//服务事件
+//            LisExchangePatientInfo patient = lisExchangePatientInfoMapper.selectByPatientId(barcode);
+//            if (serviceCode.equals("XT11002")) {// 新增更新申請單
+//                List<HipRequisitionItem> itemInfos = reqInfo.getItems();
+//                LisExchangePatientItem item = new LisExchangePatientItem();
+//                if (patient != null) { //更新
+//                    patient = new LisExchangePatientInfo();
+//                    //获取id
+//                    patient.setId(UUIDGenerator.getUUID());
+//                    //科室编码
+//                    patient.setDeptId(reqInfo.getOrderDeptCode() == null ? "" : reqInfo.getOrderDeptCode());
+//                    //科室名称
+//                    patient.setDeptName(reqInfo.getOrderDeptName() == null ? "" : reqInfo.getOrderDeptName());
+//                    //申请机构id
+//                    patient.setHospitalId(reqInfo.getReqHospitalCode());
+//                    //申请机构名称
+//                    patient.setHospitalName(reqInfo.getReqHospitalName());
+//                    // 条码号
+//                    patient.setPatientId(reqInfo.getBarCode());
+//                    // patientId号类
+//                    patient.setPatientIdType("1");//平台条码
+//                    patient.setPatientType(reqInfo.getPatientType());
+//                    // 病人姓名
+//                    patient.setPatientName(reqInfo.getPatientName());
+//                    // 申请医生姓名
+//                    patient.setDoctorName(reqInfo.getOrderDocName() == null ? "" : reqInfo.getOrderDocName());
+//                    patient.setDoctorNameId(reqInfo.getOrderDocCode() == null ? "" : reqInfo.getOrderDocCode());
+//                    //开单科室名称
+//                    patient.setSectionName(reqInfo.getOrderDeptName());
+//                    //开单科室编码
+//                    patient.setSectionNameId(reqInfo.getOrderDeptCode());
+//                    //病人号
+//                    //门急诊号
+//                    String patientMzCode = reqInfo.getOpcNo();
+//                    //住院号
+//                    String patientZyCode = reqInfo.getOpcNo();
+//                    //体检号
+//                    String patientTjCode = reqInfo.getMctNo();
+//                    if (StringUtils.isNotBlank(patientMzCode)) {
+//                        patient.setPatientCode(patientMzCode);// 门诊
+//                    } else if (StringUtils.isNotBlank(patientZyCode)) {
+//                        patient.setPatientCode(patientZyCode);// 住院
+//                    } else if (StringUtils.isNotBlank(patientTjCode)) {
+//                        patient.setPatientCode(patientTjCode);// 体检
+//                    }
+//                    // 病人唯一号
+//                    patient.setPersonInfoId(reqInfo.getPersonInfoId() == null ? "" : reqInfo.getPersonInfoId());
+//                    // 联系号码
+//                    patient.setPhoneNum(reqInfo.getTelephone() == null ? "" : reqInfo.getTelephone());
+//                    //健康卡号
+//                    patient.setHealthCardNumber(reqInfo.getMedicalInsuranceCard() == null ? "" : reqInfo.getMedicalInsuranceCard());
+//                    // 申请单号
+//                    patient.setRequestNo(reqInfo.getReqNo());
+//
+//                    lisExchangePatientInfoMapper.insertSelective(patient);
+//                } else {// 新增
+//                    //科室编码
+//                    patient.setDeptId(reqInfo.getOrderDeptCode() == null ? "" : reqInfo.getOrderDeptCode());
+//                    //科室名称
+//                    patient.setDeptName(reqInfo.getOrderDeptName() == null ? "" : reqInfo.getOrderDeptName());
+//                    //申请机构id
+//                    patient.setHospitalId(reqInfo.getReqHospitalCode());
+//                    //申请机构名称
+//                    patient.setHospitalName(reqInfo.getReqHospitalName());
+//                    // 条码号
+//                    patient.setPatientId(reqInfo.getBarCode());
+//                    // patientId号类
+//                    patient.setPatientIdType("1");//平台条码
+//                    patient.setPatientType(reqInfo.getPatientType());
+//                    // 病人姓名
+//                    patient.setPatientName(reqInfo.getPatientName());
+//                    // 申请医生姓名
+//                    patient.setDoctorName(reqInfo.getOrderDocName() == null ? "" : reqInfo.getOrderDocName());
+//                    patient.setDoctorNameId(reqInfo.getOrderDocCode() == null ? "" : reqInfo.getOrderDocCode());
+//                    //开单科室名称
+//                    patient.setSectionName(reqInfo.getOrderDeptName());
+//                    //开单科室编码
+//                    patient.setSectionNameId(reqInfo.getOrderDeptCode());
+//                    //病人号
+//                    //门急诊号
+//                    String patientMzCode = reqInfo.getOpcNo();
+//                    //住院号
+//                    String patientZyCode = reqInfo.getOpcNo();
+//                    //体检号
+//                    String patientTjCode = reqInfo.getMctNo();
+//                    if (StringUtils.isNotBlank(patientMzCode)) {
+//                        patient.setPatientCode(patientMzCode);// 门诊
+//                    } else if (StringUtils.isNotBlank(patientZyCode)) {
+//                        patient.setPatientCode(patientZyCode);// 住院
+//                    } else if (StringUtils.isNotBlank(patientTjCode)) {
+//                        patient.setPatientCode(patientTjCode);// 体检
+//                    }
+//                    // 病人唯一号
+//                    patient.setPersonInfoId(reqInfo.getPersonInfoId() == null ? "" : reqInfo.getPersonInfoId());
+//                    // 联系号码
+//                    patient.setPhoneNum(reqInfo.getTelephone() == null ? "" : reqInfo.getTelephone());
+//                    //健康卡号
+//                    patient.setHealthCardNumber(reqInfo.getMedicalInsuranceCard() == null ? "" : reqInfo.getMedicalInsuranceCard());
+//                    // 申请单号
+//                    patient.setRequestNo(reqInfo.getReqNo());
+//                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+//                }
+//                //return responseXml(mainInfo, result);
+//            }
+//            return "";
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            log.error(e.getMessage());
+//            return DocConstants.CMD_FAIL_XML;
+//        }
+//    }
 
     /**
      * @return: java.lang.String
@@ -81,7 +213,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
                     lisExchangePatientInfoMapper.cancelByPatientId(patientInfo.getPatientId());
                     return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_SUCCESS, "取消成功"));
                 } else {
-                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "取消成功,LIS中沒有查询到此申请单"));
+                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "取消失败,LIS中沒有查询到此申请单"));
                 }
             } else {
                 return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "无此服务接口"));

@@ -1,4 +1,4 @@
-package com.cdxt.app.service;
+package com.cdxt.app.service.chongqing;
 
 /**
  * @Description: 申请单接口
@@ -17,5 +17,6 @@ public interface LisRequisitionRelatedService {
      * @Param reqXml:
      * @date: 2020/5/30 0030 13:24
      */
-    public String saveOrUpdateRequisition(String reqXml);
+    String saveOrUpdateRequisition(String reqXml);
+
 }

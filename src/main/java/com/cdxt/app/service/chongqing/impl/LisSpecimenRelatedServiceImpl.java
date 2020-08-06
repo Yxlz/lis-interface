@@ -1,4 +1,4 @@
-package com.cdxt.app.service.impl;
+package com.cdxt.app.service.chongqing.impl;
 
 import app.entity.LisInspecDevInfo;
 import app.entity.LisInspecGeneralInfo;
@@ -20,7 +20,7 @@ import com.cdxt.app.entity.VLisReportInfo;
 import com.cdxt.app.entity.VLisSampleInfo;
 import com.cdxt.app.model.request.*;
 import com.cdxt.app.model.request.mults.*;
-import com.cdxt.app.service.LisSpecimenRelatedService;
+import com.cdxt.app.service.chongqing.LisSpecimenRelatedService;
 import com.cdxt.app.util.SendReportUtil;
 import com.cdxt.app.util.UUIDGenerator;
 import com.cdxt.app.util.dom4j.Hl7bean2Xml;

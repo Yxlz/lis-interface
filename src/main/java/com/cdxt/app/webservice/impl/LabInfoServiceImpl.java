@@ -1,8 +1,8 @@
 package com.cdxt.app.webservice.impl;
 
 import com.cdxt.app.model.request.LisRequestionXml;
-import com.cdxt.app.service.LisRequisitionRelatedService;
-import com.cdxt.app.service.LisSpecimenRelatedService;
+import com.cdxt.app.service.chongqing.LisRequisitionRelatedService;
+import com.cdxt.app.service.chongqing.LisSpecimenRelatedService;
 import com.cdxt.app.util.InvokeWebserviceUtil;
 import com.cdxt.app.util.XStreamXmlUtil;
 import com.cdxt.app.webservice.LabInfoService;
@@ -35,10 +35,10 @@ import java.util.Map;
 public class LabInfoServiceImpl implements LabInfoService {
 
     @Value("${Jh_ServiceUrl}")
-    private String jhServiceUrl;
+    private String serviceUrl;//平台地址
 
     @Value("${Jh_Hospital}")
-    private String hospital;
+    private String hospital;//医院
 
     @Resource
     private LisSpecimenRelatedService lisSpecimenRelatedService;
@@ -96,7 +96,7 @@ public class LabInfoServiceImpl implements LabInfoService {
                     return null;
                 }
                 paramMap.put(JhIfConst.PARAMITER_NAME_CQ, paramXml);
-                return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JhIfConst.NAMESPACE_URI_CQ, JhIfConst.LOCAL_PART_CQ, paramMap);
+                return InvokeWebserviceUtil.invokeByAxis(serviceUrl, JhIfConst.NAMESPACE_URI_CQ, JhIfConst.LOCAL_PART_CQ, paramMap);
             } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) { //自贡大安
                 if (action.equals(WsConst.ACTION_SEND_REPORT)) {
                     paramXml = lisSpecimenRelatedService.sendInspectionReport(xml);
@@ -104,7 +104,7 @@ public class LabInfoServiceImpl implements LabInfoService {
                         return null;
                     }
                     paramMap.put(JhIfConst.PARAMITER_NAME_ZG, paramXml);
-                    return InvokeWebserviceUtil.invokeByAxis(jhServiceUrl, JhIfConst.NAMESPACE_URI_ZG, JhIfConst.LOCAL_PART_ZG, paramMap);
+                    return InvokeWebserviceUtil.invokeByAxis(serviceUrl, JhIfConst.NAMESPACE_URI_ZG, JhIfConst.LOCAL_PART_ZG, paramMap);
                 } else {
                     return null;
                 }
@@ -124,6 +124,6 @@ public class LabInfoServiceImpl implements LabInfoService {
      * @date: 2020/5/28 11:44
      */
     private void dealWsdlUrl(String action) {
-        jhServiceUrl += new String(WsConst.ACTION_REQ_MAP.get(action).getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
+        serviceUrl += new String(WsConst.ACTION_REQ_MAP.get(action).getBytes(StandardCharsets.UTF_8), StandardCharsets.ISO_8859_1);
     }
 }

@@ -1,4 +1,4 @@
-package com.cdxt.app.service;
+package com.cdxt.app.service.chongqing;
 
 import com.cdxt.app.model.request.LisRequestionXml;
 

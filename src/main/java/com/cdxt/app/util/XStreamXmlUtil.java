@@ -22,8 +22,7 @@ public class XStreamXmlUtil {
         //处理注解
         xStream.processAnnotations(clazz);
         //将XML字符串转为bean对象
-        T t = (T)xStream.fromXML(xml);
-        return t;
+        return (T)xStream.fromXML(xml);
     }
 
     public static String fromBean2Xml(Object obj) {

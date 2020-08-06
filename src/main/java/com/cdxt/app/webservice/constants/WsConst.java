@@ -28,6 +28,11 @@ public class WsConst {
      */
     public static final String HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY = "ChongQingShiYuBeiQuRenMinYY";
 
+    /**
+     * 信通医共体
+     */
+    public static final String Yi_Gong_Ti = "YiGongTi";
+
     /*-----------------------------------------LIS调用的操作代码----------------------------------------------*/
 
     public static final String ACTION_SEND_REPORT = "SendReport";
