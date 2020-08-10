@@ -1,6 +1,7 @@
 package com.cdxt.app.model.request;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.Data;
 
 /**
@@ -12,17 +13,17 @@ import lombok.Data;
  * @Version: 1.0
  */
 @Data
-@XStreamAlias("request")
+@JacksonXmlRootElement(localName = "request")
 public class LisRequestionXml {
 
-    @XStreamAlias("inputDate")
+    @JacksonXmlProperty(localName = "inputDate")
     private String inputDate;
-    @XStreamAlias("devCode")
+    @JacksonXmlProperty(localName = "devCode")
     private String devCode;
-    @XStreamAlias("inspecNo")
+    @JacksonXmlProperty(localName = "inspecNo")
     private String inspecNo;
-    @XStreamAlias("barCode")
+    @JacksonXmlProperty(localName = "barCode")
     private String barCode;
-    @XStreamAlias("hospid")
+    @JacksonXmlProperty(localName = "hospid")
     private String hospid;
 }

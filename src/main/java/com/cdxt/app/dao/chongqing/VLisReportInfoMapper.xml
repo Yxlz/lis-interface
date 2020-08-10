@@ -91,4 +91,11 @@
         and INPUT_DATE = #{inputDate,jdbcType=VARCHAR}
         and DEV_ID = #{devId,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByTime" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from V_LIS_REPORT_INFO
+    where TIME_REPORT between to_date(#{fromDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+        and to_date(#{endDate,jdbcType=VARCHAR},'yyyy-mm-dd hh24:mi:ss')
+  </select>
 </mapper>
