@@ -4,7 +4,7 @@ import com.cdxt.app.model.request.LisRequestionXml;
 import com.cdxt.app.service.LisRequisitionRelatedService;
 import com.cdxt.app.service.LisSpecimenRelatedService;
 import com.cdxt.app.util.InvokeWebserviceUtil;
-import com.cdxt.app.util.XStreamXmlUtil;
+import com.cdxt.app.util.XmlUtil;
 import com.cdxt.app.webservice.LabInfoService;
 import com.cdxt.app.webservice.constants.JhIfConst;
 import com.cdxt.app.webservice.constants.WsConst;
@@ -68,7 +68,7 @@ public class LabInfoServiceImpl implements LabInfoService {
     @Override
     public String SpecimenRelated(String action, String message) {
         try {
-            LisRequestionXml xml = XStreamXmlUtil.fromXml2Bean(LisRequestionXml.class, message);
+            LisRequestionXml xml = XmlUtil.convertXmlToBean(LisRequestionXml.class, message);
             Map<String, String> paramMap = new HashMap<>();
             String paramXml;
             if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆

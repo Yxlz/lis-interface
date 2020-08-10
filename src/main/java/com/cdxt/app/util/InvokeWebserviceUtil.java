@@ -81,11 +81,11 @@ public class InvokeWebserviceUtil {
             call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);
             // 远程调用
             String result = (String) call.invoke(objects.toArray());
-            log.info(result);
+            log.info("webservice接口调用结果：{}",result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();
-            log.error(e.getMessage());
+            log.error("webservice接口调用异常：{}",e.getMessage());
             return "Axis远程调用报错";
         }
     }
