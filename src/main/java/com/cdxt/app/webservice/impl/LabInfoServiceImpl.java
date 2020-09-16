@@ -54,7 +54,12 @@ public class LabInfoServiceImpl implements LabInfoService {
      */
     @Override
     public String InspectionRequisitionRelated(String applicationXml) {
-        return lisRequisitionRelatedService.saveOrUpdateRequisition(applicationXml);
+        if (hospital.equals(WsConst.HOSPITAL_CHONGQINGSHI_YUBEIQU_RENMINYY)) {//重庆
+            return lisRequisitionRelatedService.saveOrUpdateRequisition(applicationXml);
+        } else if (hospital.equals(WsConst.HOSPITAL_ZIGONGSHI_DAANQU_RENMINYY)) { //自贡大安
+            return lisRequisitionRelatedService.saveOrUpdateRequisitionDaAn(applicationXml);
+        }
+        return null;
     }
 
     /**

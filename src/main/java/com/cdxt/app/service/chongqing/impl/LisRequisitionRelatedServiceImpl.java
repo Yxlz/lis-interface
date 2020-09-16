@@ -6,7 +6,9 @@ import com.cdxt.app.dao.chongqing.LisExchangePatientItemMapper;
 import com.cdxt.app.entity.LisExchangePatientInfo;
 import com.cdxt.app.entity.LisExchangePatientItem;
 import com.cdxt.app.model.XmlMessage;
+import com.cdxt.app.model.request.InspecReqInfoDaAn;
 import com.cdxt.app.model.request.InspecRequisitionInfo;
+import com.cdxt.app.model.request.mults.ReqItemInfoDaAn;
 import com.cdxt.app.model.request.mults.RequisitionItemInfo;
 import com.cdxt.app.model.response.CheckResult;
 import com.cdxt.app.model.response.InspecReqResponse;
@@ -16,15 +18,17 @@ import com.cdxt.app.util.UUIDGenerator;
 import com.cdxt.app.util.dom4j.Hl7bean2Xml;
 import com.cdxt.app.util.dom4j.Hl7xml2Bean;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.beanutils.converters.DateConverter;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @Description: 检验申请单相关服务接口实现类（主要重庆渝北区嘉禾平台开单子）
@@ -43,137 +47,175 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
     @Resource
     private LisExchangePatientItemMapper lisExchangePatientItemMapper;
 
-//    /**
-//     * @param applicationXml
-//     * @return: java.lang.String
-//     * @author: tangxiaohui
-//     * @description: 保存或更新申请单(信通医共体平台)
-//     * @Param applicationXml:
-//     * @date: 2020/7/14 9:54
-//     */
-//    @Override
-//    public String saveOrUpdateRequisitionOfHip(String applicationXml) {
-//        try {
-//            /*解析XML  开始---------------------------------------*/
-//            Document doc = Hl7xml2Bean.parseXml2Document(applicationXml);
-//            HipXmlMessage<HipInspecRequisition> mainInfo = (HipXmlMessage<HipInspecRequisition>) Hl7xml2Bean.parseXml(doc.getRootElement(), HipXmlMessage.class, false);
-//            HipInspecRequisition reqInfo = (HipInspecRequisition) Hl7xml2Bean.parseXml_controlActProcess(doc.getRootElement(), HipInspecRequisition.class);
-//            mainInfo.setSubject(reqInfo);
-//            /*解析XML  结束---------------------------------------*/
-//
-//            assert reqInfo != null;
-//            String barcode = reqInfo.getBarCode();//条码号
-//            String serviceCode = mainInfo.getServiceCode();//服务事件
-//            LisExchangePatientInfo patient = lisExchangePatientInfoMapper.selectByPatientId(barcode);
-//            if (serviceCode.equals("XT11002")) {// 新增更新申請單
-//                List<HipRequisitionItem> itemInfos = reqInfo.getItems();
-//                LisExchangePatientItem item = new LisExchangePatientItem();
-//                if (patient != null) { //更新
-//                    patient = new LisExchangePatientInfo();
-//                    //获取id
-//                    patient.setId(UUIDGenerator.getUUID());
-//                    //科室编码
-//                    patient.setDeptId(reqInfo.getOrderDeptCode() == null ? "" : reqInfo.getOrderDeptCode());
-//                    //科室名称
-//                    patient.setDeptName(reqInfo.getOrderDeptName() == null ? "" : reqInfo.getOrderDeptName());
-//                    //申请机构id
-//                    patient.setHospitalId(reqInfo.getReqHospitalCode());
-//                    //申请机构名称
-//                    patient.setHospitalName(reqInfo.getReqHospitalName());
-//                    // 条码号
-//                    patient.setPatientId(reqInfo.getBarCode());
-//                    // patientId号类
-//                    patient.setPatientIdType("1");//平台条码
-//                    patient.setPatientType(reqInfo.getPatientType());
-//                    // 病人姓名
-//                    patient.setPatientName(reqInfo.getPatientName());
-//                    // 申请医生姓名
-//                    patient.setDoctorName(reqInfo.getOrderDocName() == null ? "" : reqInfo.getOrderDocName());
-//                    patient.setDoctorNameId(reqInfo.getOrderDocCode() == null ? "" : reqInfo.getOrderDocCode());
-//                    //开单科室名称
-//                    patient.setSectionName(reqInfo.getOrderDeptName());
-//                    //开单科室编码
-//                    patient.setSectionNameId(reqInfo.getOrderDeptCode());
-//                    //病人号
-//                    //门急诊号
-//                    String patientMzCode = reqInfo.getOpcNo();
-//                    //住院号
-//                    String patientZyCode = reqInfo.getOpcNo();
-//                    //体检号
-//                    String patientTjCode = reqInfo.getMctNo();
-//                    if (StringUtils.isNotBlank(patientMzCode)) {
-//                        patient.setPatientCode(patientMzCode);// 门诊
-//                    } else if (StringUtils.isNotBlank(patientZyCode)) {
-//                        patient.setPatientCode(patientZyCode);// 住院
-//                    } else if (StringUtils.isNotBlank(patientTjCode)) {
-//                        patient.setPatientCode(patientTjCode);// 体检
-//                    }
-//                    // 病人唯一号
-//                    patient.setPersonInfoId(reqInfo.getPersonInfoId() == null ? "" : reqInfo.getPersonInfoId());
-//                    // 联系号码
-//                    patient.setPhoneNum(reqInfo.getTelephone() == null ? "" : reqInfo.getTelephone());
-//                    //健康卡号
-//                    patient.setHealthCardNumber(reqInfo.getMedicalInsuranceCard() == null ? "" : reqInfo.getMedicalInsuranceCard());
-//                    // 申请单号
-//                    patient.setRequestNo(reqInfo.getReqNo());
-//
-//                    lisExchangePatientInfoMapper.insertSelective(patient);
-//                } else {// 新增
-//                    //科室编码
-//                    patient.setDeptId(reqInfo.getOrderDeptCode() == null ? "" : reqInfo.getOrderDeptCode());
-//                    //科室名称
-//                    patient.setDeptName(reqInfo.getOrderDeptName() == null ? "" : reqInfo.getOrderDeptName());
-//                    //申请机构id
-//                    patient.setHospitalId(reqInfo.getReqHospitalCode());
-//                    //申请机构名称
-//                    patient.setHospitalName(reqInfo.getReqHospitalName());
-//                    // 条码号
-//                    patient.setPatientId(reqInfo.getBarCode());
-//                    // patientId号类
-//                    patient.setPatientIdType("1");//平台条码
-//                    patient.setPatientType(reqInfo.getPatientType());
-//                    // 病人姓名
-//                    patient.setPatientName(reqInfo.getPatientName());
-//                    // 申请医生姓名
-//                    patient.setDoctorName(reqInfo.getOrderDocName() == null ? "" : reqInfo.getOrderDocName());
-//                    patient.setDoctorNameId(reqInfo.getOrderDocCode() == null ? "" : reqInfo.getOrderDocCode());
-//                    //开单科室名称
-//                    patient.setSectionName(reqInfo.getOrderDeptName());
-//                    //开单科室编码
-//                    patient.setSectionNameId(reqInfo.getOrderDeptCode());
-//                    //病人号
-//                    //门急诊号
-//                    String patientMzCode = reqInfo.getOpcNo();
-//                    //住院号
-//                    String patientZyCode = reqInfo.getOpcNo();
-//                    //体检号
-//                    String patientTjCode = reqInfo.getMctNo();
-//                    if (StringUtils.isNotBlank(patientMzCode)) {
-//                        patient.setPatientCode(patientMzCode);// 门诊
-//                    } else if (StringUtils.isNotBlank(patientZyCode)) {
-//                        patient.setPatientCode(patientZyCode);// 住院
-//                    } else if (StringUtils.isNotBlank(patientTjCode)) {
-//                        patient.setPatientCode(patientTjCode);// 体检
-//                    }
-//                    // 病人唯一号
-//                    patient.setPersonInfoId(reqInfo.getPersonInfoId() == null ? "" : reqInfo.getPersonInfoId());
-//                    // 联系号码
-//                    patient.setPhoneNum(reqInfo.getTelephone() == null ? "" : reqInfo.getTelephone());
-//                    //健康卡号
-//                    patient.setHealthCardNumber(reqInfo.getMedicalInsuranceCard() == null ? "" : reqInfo.getMedicalInsuranceCard());
-//                    // 申请单号
-//                    patient.setRequestNo(reqInfo.getReqNo());
-//                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
-//                }
-//                //return responseXml(mainInfo, result);
-//            }
-//            return "";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            log.error(e.getMessage());
-//            return DocConstants.CMD_FAIL_XML;
-//        }
-//    }
+    /**
+     * @param applicationXml
+     * @return: java.lang.String
+     * @author: tangxiaohui
+     * @description: 保存或更新申请单(自贡大安)
+     * @Param applicationXml:
+     * @date: 2020/9/16 11:23
+     */
+    @Override
+    public String saveOrUpdateRequisitionDaAn(String applicationXml) {
+        try {
+            /*解析XML  开始---------------------------------------*/
+            Document doc = Hl7xml2Bean.parseXml2Document(applicationXml);
+            XmlMessage<InspecReqInfoDaAn> mainInfo = (XmlMessage<InspecReqInfoDaAn>) Hl7xml2Bean.parseXml(doc.getRootElement(), XmlMessage.class, false);
+            InspecReqInfoDaAn reqInfo = (InspecReqInfoDaAn) Hl7xml2Bean.parseXml_controlActProcess(doc.getRootElement(), InspecReqInfoDaAn.class);
+            mainInfo.setSubject(reqInfo);
+            /*解析XML  结束---------------------------------------*/
+            assert reqInfo != null;
+            CheckResult result = checkExchangePatientInfo(reqInfo);
+            if (!result.isFlag()){
+                return result.getResultMsg();
+            }
+
+            /*解析这个申请单有几个标本*/
+            List<ReqItemInfoDaAn> itemInfos = reqInfo.getItems();
+            Map<String, List<ReqItemInfoDaAn>> map = new HashMap<>();
+            for (ReqItemInfoDaAn itemInfoDaAn : itemInfos) {
+                if (itemInfoDaAn.getPid() == null) {
+                    return "<LIS>条码号为空，请核对</LIS>";
+                }
+                if (map.get(itemInfoDaAn.getPid()) != null) {
+                    List<ReqItemInfoDaAn> list = map.get(itemInfoDaAn.getPid());
+                    list.add(itemInfoDaAn);
+                    map.put(itemInfoDaAn.getPid(), list);
+                } else {
+                    List<ReqItemInfoDaAn> list = new ArrayList<>();
+                    list.add(itemInfoDaAn);
+                    map.put(itemInfoDaAn.getPid(), list);
+                }
+            }
+
+            /*循环标本 保存数据*/
+            Set<String> keySet = map.keySet();
+            for (String key : keySet) { //key即为条码号
+                List<ReqItemInfoDaAn> items = map.get(key);
+                LisExchangePatientInfo patient = lisExchangePatientInfoMapper.selectByPatientId(key);
+                LisExchangePatientItem item = new LisExchangePatientItem();
+                ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+                if (patient == null) { //新增
+                    patient = new LisExchangePatientInfo();
+                    BeanUtils.copyProperties(patient, reqInfo);
+                    //获取id
+                    patient.setId(UUIDGenerator.getUUID());
+                    patient.setPatientId(items.get(0).getPid());
+                    patient.setSampleCode(items.get(0).getSampleCode());
+                    patient.setSampleName(items.get(0).getSampleName());
+                    patient.setCancelled("0");
+                    patient.setContainer(items.get(0).getContainer());
+                    patient.setExecuteSection("检验科");
+                    patient.setInsertTime(DateUtil.getNowDate());
+                    patient.setPatientJzbs("0");
+                    patient.setPatientIdType("1");
+                    lisExchangePatientInfoMapper.insertSelective(patient);
+                    patient.setTotalCharge(insertPatientItems(patient, reqInfo, items, item));
+                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+                } else {  //修改
+                    BeanUtils.copyProperties(patient, reqInfo);
+                    patient.setPatientId(items.get(0).getPid());
+                    patient.setSampleCode(items.get(0).getSampleCode());
+                    patient.setSampleName(items.get(0).getSampleName());
+                    patient.setCancelled("0");
+                    patient.setContainer(items.get(0).getContainer());
+                    patient.setExecuteSection("检验科");
+                    patient.setInsertTime(DateUtil.getNowDate());
+                    patient.setPatientJzbs("0");
+                    patient.setPatientIdType("1");
+                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+                    lisExchangePatientItemMapper.deleteByPatientId(patient.getId());
+                    patient.setTotalCharge(insertPatientItems(patient, reqInfo, items, item));
+                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+                }
+            }
+            return "<LIS>你成功了！</LIS>";
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(e.getMessage());
+            return DocConstants.CMD_FAIL_XML;
+        }
+    }
+    /**
+     * @return:  com.cdxt.app.model.response.CheckResult
+     * @author: tangxiaohui
+     * @description: 校验申请单非空信息（自贡大安）
+     * @Param requisitionInfo:
+     * @date: 2020/9/16 15:29
+     */
+    private CheckResult checkExchangePatientInfo(InspecReqInfoDaAn requisitionInfo) {
+        if (StringUtils.isBlank(requisitionInfo.getHospitalId())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请机构ID为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getHospitalName())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请机构为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getPatientType())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人类型（门诊或住院或体检等）为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getPatientName())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人姓名为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getPatientCode())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>住院号，门诊号，体检号都为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getSectionName())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请科室为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getSectionNameId())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请科室ID为空</LIS>");
+        }
+        if (requisitionInfo.getReqDate() == null) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请时间为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getRequestNo())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请单号为空</LIS>");
+        }
+        if (StringUtils.isBlank(requisitionInfo.getPersonInfoId())) {
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人唯一ID为空</LIS>");
+        }
+        return new CheckResult(true, DocConstants.CMD_EXE_SUCCESS, "成功");
+    }
+
+    /**
+     * @return: java.math.BigDecimal
+     * @author: tangxiaohui
+     * @description: 保存申请项目 计算总价格(自贡大安)
+     * @Param patient:
+     * @Param info:
+     * @Param items:
+     * @Param item:
+     * @date: 2020/9/16 15:12
+     */
+    private BigDecimal insertPatientItems(LisExchangePatientInfo patient, InspecReqInfoDaAn info, List<ReqItemInfoDaAn> items, LisExchangePatientItem item) throws InvocationTargetException, IllegalAccessException {
+        BigDecimal tbd = new BigDecimal("0.00");
+        // 检验项目信息 循环
+        for (ReqItemInfoDaAn requisitionItemInfo : items) {
+            //获取id
+            item.setId(UUIDGenerator.getUUID());
+            item.setReqOrderNo(info.getRequestNo());
+            ConvertUtils.register(new DateConverter(null), java.util.Date.class);
+            BeanUtils.copyProperties(item, requisitionItemInfo);
+            //项目中文名称
+            item.setReqItemCname(nullStr(requisitionItemInfo.getReqItemName()));
+            // REQ_ITEM_FEE;//项目价格
+            BigDecimal bd = new BigDecimal(requisitionItemInfo.getCost() == null ? "0" : requisitionItemInfo.getCost());
+            tbd = tbd.add(bd);
+            //设置小数位数，第一个变量是小数位数，第二个变量是取舍方法(四舍五入)
+            bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+            item.setReqItemFee(bd);
+            //项目类型
+            item.setItemType("0");
+            //病人ID
+            item.setPatientId(patient.getId());
+            lisExchangePatientItemMapper.insert(item);
+        }
+        return tbd.setScale(2, BigDecimal.ROUND_HALF_UP);
+    }
+
+    private static String nullStr(String str) {
+        return str == null ? "" : str;
+    }
 
     /**
      * @return: java.lang.String

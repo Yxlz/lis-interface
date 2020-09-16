@@ -19,4 +19,12 @@ public interface LisRequisitionRelatedService {
      */
     String saveOrUpdateRequisition(String reqXml);
 
+    /**
+     * @return:  java.lang.String
+     * @author: tangxiaohui
+     * @description: 保存或更新申请单(自贡大安)
+     * @Param applicationXml:
+     * @date: 2020/9/16 11:23
+     */
+    String saveOrUpdateRequisitionDaAn(String applicationXml);
 }
