@@ -102,6 +102,11 @@
     SAMPLE_COLLECT_METHOD, SAMPLE_COLLECT_PART_CODE, SAMPLE_COLLECT_PART, PRIORITYCODE, 
     PRIORITYNAME, MEDICAL_ORDER_FREQUENCY_CODE, MEDICAL_ORDER_FREQUENCY, VISIT_NUMBER
   </sql>
+  <update id="cancelByRequestNo" parameterType="java.lang.String">
+    update LIS_EXCHANGE_PATIENT_INFO
+    set CANCELLED = '1'
+    where REQUEST_NO = #{requestNo,jdbcType=VARCHAR}
+  </update>
   <update id="cancelByPatientId" parameterType="java.lang.String">
   	update LIS_EXCHANGE_PATIENT_INFO
   	set CANCELLED = '1'

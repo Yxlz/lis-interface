@@ -19,4 +19,6 @@ public interface LisExchangePatientInfoMapper {
     LisExchangePatientInfo selectByPatientId(@Param("patientId") String barcode);
 
     Integer cancelByPatientId(@Param("patientId") String patientId);
+
+    Integer cancelByRequestNo(@Param("requestNo") String requestNo);
 }

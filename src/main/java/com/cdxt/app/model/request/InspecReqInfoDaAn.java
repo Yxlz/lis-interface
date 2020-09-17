@@ -20,6 +20,8 @@ import java.util.List;
 @Data
 @Path(path = "//controlActProcess")
 public class InspecReqInfoDaAn {
+    @Path(path = "code", attribute = "code")
+    private String serviceType;// 消息交互类型 @code: 新增 :new 删除：delete 修改：update
     @Path(path = "subject/placerGroup/subject/patient/id/item[@root='1.2.156.112698.1.1.2.1.5']", attribute = "extension")
     private String patientType;// 域ID 门诊: 01 住院：02 体检：03
     @Path(path = "subject/placerGroup/subject/patient/id/item[@root='1.2.156.112698.1.1.2.1.6']", attribute = "extension")
@@ -73,6 +75,8 @@ public class InspecReqInfoDaAn {
     /*申请单信息Begin*/
     @Path(path = "subject/placerGroup/component2/observationRequest/id/item[@root='1.2.156.112698.1.1.2.1.20']", attribute = "extension")
     private String requestNo;// 申请单号
+    @Path(path = "subject/placerGroup/component2/observationRequest/id/item[@root='1.2.156.112713.1.1.2.1.20']", attribute = "extension")
+    private String requestNoCancel;// 申请单号撤销时使用
     @Path(path = "subject/placerGroup/component2/observationRequest/code", attribute = "code")
     private String inspecNameCode;// 检验医嘱类型编码
     @Path(path = "subject/placerGroup/component2/observationRequest/code/displayName", attribute = "value")
