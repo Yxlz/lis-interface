@@ -67,7 +67,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
             assert reqInfo != null;
             CheckResult result = checkExchangePatientInfo(reqInfo);
             if (!result.isFlag()){
-                return result.getResultMsg();
+                return responseXml(mainInfo, result);
             }
 
             /*解析这个申请单有几个标本*/
@@ -75,7 +75,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
             Map<String, List<ReqItemInfoDaAn>> map = new HashMap<>();
             for (ReqItemInfoDaAn itemInfoDaAn : itemInfos) {
                 if (itemInfoDaAn.getPid() == null) {
-                    return "<LIS>条码号为空，请核对</LIS>";
+                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "条码号为空，请核对"));
                 }
                 if (map.get(itemInfoDaAn.getPid()) != null) {
                     List<ReqItemInfoDaAn> list = map.get(itemInfoDaAn.getPid());
@@ -129,7 +129,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
                     lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
                 }
             }
-            return "<LIS>你成功了！</LIS>";
+            return responseXml(mainInfo, result);
         } catch (Exception e) {
             e.printStackTrace();
             log.error(e.getMessage());
@@ -145,34 +145,34 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
      */
     private CheckResult checkExchangePatientInfo(InspecReqInfoDaAn requisitionInfo) {
         if (StringUtils.isBlank(requisitionInfo.getHospitalId())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请机构ID为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请机构ID为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getHospitalName())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请机构为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请机构为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPatientType())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人类型（门诊或住院或体检等）为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人类型（门诊或住院或体检等）为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPatientName())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人姓名为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人姓名为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPatientCode())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>住院号，门诊号，体检号都为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "住院号，门诊号，体检号都为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getSectionName())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请科室为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请科室为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getSectionNameId())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请科室ID为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请科室ID为空");
         }
         if (requisitionInfo.getReqDate() == null) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请时间为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请时间为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getRequestNo())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>申请单号为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "申请单号为空");
         }
         if (StringUtils.isBlank(requisitionInfo.getPersonInfoId())) {
-            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "<LIS>病人唯一ID为空</LIS>");
+            return new CheckResult(false, DocConstants.CMD_EXE_FAIL, "病人唯一ID为空");
         }
         return new CheckResult(true, DocConstants.CMD_EXE_SUCCESS, "成功");
     }
@@ -542,7 +542,7 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
      * @Param CheckResult:结果信息
      * @date: 2020/5/30 0030 17:54
      */
-    private String responseXml(XmlMessage<InspecRequisitionInfo> mainInfo, CheckResult result) throws Exception {
+    private String responseXml(XmlMessage mainInfo, CheckResult result) throws Exception {
         InspecReqResponse response = new InspecReqResponse();
         response.setMessageId(UUID.randomUUID().toString());
         response.setCreationTime(new Date());
