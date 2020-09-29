@@ -17,4 +17,6 @@ public interface LisExchangePatientItemMapper {
     int updateByPrimaryKey(LisExchangePatientItem record);
 
     void deleteByPatientId(@Param("PATIENT_ID") String id);
+
+    void deleteByPatientIdAndItemCode(LisExchangePatientItem item);
 }

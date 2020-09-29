@@ -39,6 +39,13 @@
     from LIS_EXCHANGE_PATIENT_ITEMS
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <delete id="deleteByPatientIdAndItemCode" parameterType="com.cdxt.app.entity.LisExchangePatientItem">
+    delete from LIS_EXCHANGE_PATIENT_ITEMS
+    where PATIENT_ID =
+          #{patientId,jdbcType=VARCHAR}
+      and REQ_ITEM_NO =
+          #{reqItemNo,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByPatientId" parameterType="String">
 		delete from LIS_EXCHANGE_PATIENT_ITEMS
 		where PATIENT_ID =
