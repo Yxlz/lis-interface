@@ -70,6 +70,22 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
             CheckResult result;
             if (reqInfo.getServiceType().equals("delete")){ //如果是删除项目不校验必须项（删除的文档和新增不一样）
                 result = new CheckResult(true, DocConstants.CMD_EXE_SUCCESS, "成功");
+            } else if (reqInfo.getServiceType().equals("update")) { //如果是修改申请单不校验必须项（修改的文档没有传项目，只传了个人信息,不用解析项目了）
+                List<LisExchangePatientInfo> patientList = lisExchangePatientInfoMapper.selectByPatientCode(reqInfo.getPatientCode());
+                if (patientList == null) {
+                    return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "体检号" + reqInfo.getPatientCode() + "在数据库中无记录，无法修改，请核对"));
+                }
+                for (LisExchangePatientInfo patient : patientList) {
+                    BeanUtils.copyProperties(patient, reqInfo);
+                    patient.setCancelled("0");
+                    patient.setExecuteSection("检验科");
+                    patient.setInsertTime(DateUtil.getNowDate());
+                    patient.setPatientJzbs("0");
+                    patient.setPatientIdType("1");
+                    patient.setPatientType("2");
+                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+                }
+                return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_SUCCESS, "更新成功"));
             } else {
                 result = checkExchangePatientInfo(reqInfo);
                 if (!result.isFlag()) {
@@ -132,24 +148,24 @@ public class LisRequisitionRelatedServiceImpl implements LisRequisitionRelatedSe
                     }
                     return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_SUCCESS, "新增成功"));
                 } else if (reqInfo.getServiceType().equals("update")) {  //修改
-                    if (patient == null) {
-                        return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "条码" + key + "在数据库中无记录，无法修改，请核对"));
-                    }
-                    BeanUtils.copyProperties(patient, reqInfo);
-                    patient.setPatientId(items.get(0).getPid());
-                    patient.setSampleCode(items.get(0).getSampleCode());
-                    patient.setSampleName(items.get(0).getSampleName());
-                    patient.setCancelled("0");
-                    patient.setContainer(items.get(0).getContainer());
-                    patient.setExecuteSection("检验科");
-                    patient.setInsertTime(DateUtil.getNowDate());
-                    patient.setPatientJzbs("0");
-                    patient.setPatientIdType("1");
-                    patient.setPatientType("2");
-                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
-                    lisExchangePatientItemMapper.deleteByPatientId(patient.getId());
-                    patient.setTotalCharge(insertPatientItems(patient, reqInfo, items, item));
-                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+//                    if (patient == null) {
+//                        return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_FAIL, "条码" + key + "在数据库中无记录，无法修改，请核对"));
+//                    }
+//                    BeanUtils.copyProperties(patient, reqInfo);
+////                    patient.setPatientId(items.get(0).getPid());
+////                    patient.setSampleCode(items.get(0).getSampleCode());
+////                    patient.setSampleName(items.get(0).getSampleName());
+//                    patient.setCancelled("0");
+////                    patient.setContainer(items.get(0).getContainer());
+//                    patient.setExecuteSection("检验科");
+//                    patient.setInsertTime(DateUtil.getNowDate());
+//                    patient.setPatientJzbs("0");
+//                    patient.setPatientIdType("1");
+//                    patient.setPatientType("2");
+//                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
+////                    lisExchangePatientItemMapper.deleteByPatientId(patient.getId());
+////                    patient.setTotalCharge(insertPatientItems(patient, reqInfo, items, item));
+////                    lisExchangePatientInfoMapper.updateByPrimaryKey(patient);
                     return responseXml(mainInfo, new CheckResult(DocConstants.CMD_EXE_SUCCESS, "更新成功"));
                 } else if (reqInfo.getServiceType().equals("delete")) { //删除项目
                     if (patient == null) {

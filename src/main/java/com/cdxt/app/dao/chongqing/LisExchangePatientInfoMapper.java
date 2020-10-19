@@ -3,6 +3,8 @@ package com.cdxt.app.dao.chongqing;
 import com.cdxt.app.entity.LisExchangePatientInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface LisExchangePatientInfoMapper {
     int deleteByPrimaryKey(String id);
 
@@ -21,4 +23,6 @@ public interface LisExchangePatientInfoMapper {
     Integer cancelByPatientId(@Param("patientId") String patientId);
 
     Integer cancelByRequestNo(@Param("requestNo") String requestNo);
+
+    List<LisExchangePatientInfo> selectByPatientCode(@Param("patientCode") String patientCode);
 }

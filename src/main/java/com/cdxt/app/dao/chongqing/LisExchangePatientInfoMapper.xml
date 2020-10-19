@@ -112,6 +112,12 @@
   	set CANCELLED = '1'
   	where PATIENT_ID = #{patientId,jdbcType=VARCHAR}
   </update>
+  <select id="selectByPatientCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from LIS_EXCHANGE_PATIENT_INFO
+    where PATIENT_CODE = #{patientCode,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
