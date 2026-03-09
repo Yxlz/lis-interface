@@ -264,7 +264,7 @@
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>3.7.5</version>
+            <version>7.0.4</version>
             <exclusions>
                 <exclusion>
                     <groupId>commons-logging</groupId>
